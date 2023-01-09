@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { variablesTheme } from "./theme";
+import { media } from "./theme";
 
 const GlobalStyles = createGlobalStyle`
     @font-face {
@@ -67,6 +68,21 @@ const GlobalStyles = createGlobalStyle`
     table {
         border-collapse: collapse;
         border-spacing: 0;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+        height: inherit;
+
+        @media (min-width: ${media.desktop}px){
+            padding: 0 4.444444%;
+        }
+
+        @media (min-width: ${media.large}px){
+            max-width: 1312px;
+        }
     }
 `
 

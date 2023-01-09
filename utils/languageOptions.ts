@@ -1,4 +1,4 @@
-export const languageOptions = {
+export default {
     POLISH: 'PL',
     ENGLISH: 'ENG'
 }

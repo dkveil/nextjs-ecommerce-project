@@ -1,9 +1,30 @@
 export const lightThemePallete = {
-    color: 'yellow'
+    color: {
+        body: {
+            primary: 'white',
+            secondary: '#f5f5f5'
+        },
+        text: {
+            primary: 'black'
+        }
+    }
 }
 
 export const darkThemePallete = {
-    color: 'gray'
+    color: {
+        body: {
+            primary: 'black',
+            secondary: '#111111'
+        },
+        text: {
+            primary: 'white'
+        }
+    }
+}
+
+export const media = {
+    desktop: 992,
+    large: 1440
 }
 
 export const variablesTheme = {
@@ -14,5 +35,10 @@ export const variablesTheme = {
             normal: 400,
             bold: 700,
         }
-    }
+    },
+    mq: {
+        desktop: `@media (min-width: ${media.desktop}px)`,
+        large: `@media (min-width: ${media.large}px)`
+    },
+    themeTrainsition: 'color .2s, background-color .2s'
 }
