@@ -8,13 +8,13 @@ import ChangeThemeButton from '../Button/ChangeThemeButton';
 import HamburgerButton from '../Button/HamburgerButton';
 import { useRouter } from 'next/router';
 
-interface IWebsiteMenu extends IHeader {
+type WebsiteMenuTypes = {
     currentLanguage: string;
     languageList: ILanguageListItem[];
     setCurrentLanguage: React.Dispatch<React.SetStateAction<string>>;
-}
+} & Omit<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
-const WebsiteMenu = ({ currentLanguage, languageList, setCurrentLanguage, websiteTheme, handleChangeTheme }: IWebsiteMenu) => (
+const WebsiteMenu = ({ currentLanguage, languageList, setCurrentLanguage, websiteTheme, handleChangeTheme }: WebsiteMenuTypes) => (
     <div className="websitemenu">
         <div className="container">
             <div className="inner-websitemenu">
@@ -44,13 +44,14 @@ const WebsiteMenu = ({ currentLanguage, languageList, setCurrentLanguage, websit
     </div>
 );
 
-interface IUserNav {
+type UserNavTypes = {
     currentLanguage: string;
     handleToggleOpenNav: () => void;
     activeNav: boolean;
-}
+    openLoginModal: () => void;
+} & Pick<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
-const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav }: IUserNav) => {
+const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
     const shoppingCartItems = 14;
 
     return (
@@ -60,7 +61,7 @@ const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav }: IUserNav) 
                     <div className="left-col">
                         <ul>
                             <ListItem>
-                                <button className="menu-button__clear search">
+                                <button className="menu-button__clear search" onClick={openSearchPanel}>
                                     <span>{texts[currentLanguage].search}</span>
                                     <CiSearch />
                                 </button>
@@ -73,19 +74,19 @@ const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav }: IUserNav) 
                             </ListItem>
                         </ul>
                     </div>
-                    <Link href="" className="logo">
+                    <Link href="/" className="logo">
                         NGSENIX
                     </Link>
                     <div className="right-col">
                         <ul>
                             <ListItem>
-                                <button className="menu-button__clear login">
+                                <button className="menu-button__clear login" onClick={openLoginModal}>
                                     <span>{texts[currentLanguage].login}</span>
                                     <CiUser />
                                 </button>
                             </ListItem>
                             <ListItem>
-                                <button className="menu-button__clear cart">
+                                <button className="menu-button__clear cart" onClick={openShoppingCart}>
                                     <span>{texts[currentLanguage].cart}</span>
                                     <CiShoppingCart />
                                     <i>{shoppingCartItems}</i>
@@ -103,11 +104,6 @@ const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav }: IUserNav) 
         </div>
     );
 };
-
-interface IHeader {
-    websiteTheme: 'light theme' | 'dark theme';
-    handleChangeTheme: () => void;
-}
 
 const navItems = [
     {
@@ -128,19 +124,26 @@ const navItems = [
     },
 ];
 
-interface IMainNavigation extends IHeader {
+type MainNavigationTypes = {
     openNavigation: boolean;
     currentLanguage: string;
     handleToggleOpenNav: () => void;
-}
+} & Omit<IHeader, 'openShoppingCart' | 'openSearchPanel'>;
 
-const MainNavigation = ({ openNavigation, currentLanguage, websiteTheme, handleChangeTheme, handleToggleOpenNav }: IMainNavigation) => (
+const MainNavigation = ({
+    openNavigation,
+    currentLanguage,
+    websiteTheme,
+    handleChangeTheme,
+    handleToggleOpenNav,
+    openLoginModal,
+}: MainNavigationTypes) => (
     <MainNavigationContainer className="mainnavigation" isOpen={openNavigation}>
         <div className="container">
             <nav className="inner-mainnavigation">
                 <ul className="navlist">
                     {navItems.map((item) => (
-                        <MainNavigationItem active={item.path === useRouter().pathname} onClick={handleToggleOpenNav}>
+                        <MainNavigationItem key={item.id} active={item.path === useRouter().pathname} onClick={handleToggleOpenNav}>
                             <Link href={item.path}>{texts[currentLanguage][item.id]}</Link>
                         </MainNavigationItem>
                     ))}
@@ -152,14 +155,22 @@ const MainNavigation = ({ openNavigation, currentLanguage, websiteTheme, handleC
                 </ChangeThemeButton>
             </nav>
         </div>
-        <button className="loginbutton">
+        <button className="loginbutton" onClick={openLoginModal}>
             <CiUser />
             <span>{texts[currentLanguage].login}</span>
         </button>
     </MainNavigationContainer>
 );
 
-const Header = ({ websiteTheme, handleChangeTheme }: IHeader) => {
+interface IHeader {
+    websiteTheme: 'light theme' | 'dark theme';
+    handleChangeTheme: () => void;
+    openLoginModal: () => void;
+    openShoppingCart: () => void;
+    openSearchPanel: () => void;
+}
+
+const Header = ({ websiteTheme, handleChangeTheme, openLoginModal, openShoppingCart, openSearchPanel }: IHeader) => {
     const { currentLanguage, languageList, setCurrentLanguage } = useLanguageContext();
 
     const [openNavigation, setOpenNavigation] = React.useState<boolean>(true);
@@ -175,13 +186,21 @@ const Header = ({ websiteTheme, handleChangeTheme }: IHeader) => {
                 websiteTheme={websiteTheme}
                 handleChangeTheme={handleChangeTheme}
             />
-            <UserNav currentLanguage={currentLanguage} activeNav={openNavigation} handleToggleOpenNav={handleToggleOpenNav} />
+            <UserNav
+                currentLanguage={currentLanguage}
+                activeNav={openNavigation}
+                handleToggleOpenNav={handleToggleOpenNav}
+                openLoginModal={openLoginModal}
+                openShoppingCart={openShoppingCart}
+                openSearchPanel={openSearchPanel}
+            />
             <MainNavigation
                 openNavigation={openNavigation}
                 currentLanguage={currentLanguage}
                 websiteTheme={websiteTheme}
                 handleChangeTheme={handleChangeTheme}
                 handleToggleOpenNav={handleToggleOpenNav}
+                openLoginModal={openLoginModal}
             />
         </HeaderContainer>
     );

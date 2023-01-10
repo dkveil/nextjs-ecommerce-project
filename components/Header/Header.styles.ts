@@ -192,7 +192,7 @@ export const MainNavigationContainer = styled.div<{isOpen: boolean}>`
     flex-direction: column;
     justify-content: flex-end;
     position: fixed;
-    width: 100vw;
+    width: 100%;
     transform: translateX(${({isOpen}) => isOpen ? 0 : '-100%'});
     transition: .2s .2s transform, .2s background-color .2s;
     height: calc(100% - 59px);
@@ -223,6 +223,7 @@ export const MainNavigationContainer = styled.div<{isOpen: boolean}>`
         height: auto;
         transform: unset;
         transition: unset;
+        background-color: transparent;
     }
 
     .inner-mainnavigation{
