@@ -25,6 +25,7 @@ export const darkThemePallete = {
 }
 
 export const media = {
+    tablet: 768,
     desktop: 992,
     large: 1440
 }
@@ -39,6 +40,7 @@ export const variablesTheme = {
         }
     },
     mq: {
+        tablet: `@media (min-width: ${media.tablet}px)`,
         desktop: `@media (min-width: ${media.desktop}px)`,
         large: `@media (min-width: ${media.large}px)`
     },

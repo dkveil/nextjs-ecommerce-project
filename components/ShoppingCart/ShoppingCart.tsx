@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ShoppingCartContainer } from './ShoppingCart.styles';
 import PopupOverlay from '../PopupOverlay/PopupOverlay';
-import { useLanguageContext } from '../../context/LanguageContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import texts from './texts';
 import { IoIosClose } from 'react-icons/io';
 
@@ -15,12 +15,15 @@ interface IShoppingCart {
 const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
     const [isBrowser, setIsBrowser] = React.useState<boolean>(false);
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
-    const { currentLanguage } = useLanguageContext();
+    const { currentLanguage } = useGlobalContext();
 
     React.useEffect(() => {
         setIsBrowser(true);
 
-        return () => setIsBrowser(false);
+        return () => {
+            setIsBrowser(false);
+            setCloseAnimation(false);
+        };
     }, []);
 
     const handleClose = () => {

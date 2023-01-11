@@ -13,14 +13,21 @@ export default <ILangOptions> {
         loginbutton: 'Login',
         registerbutton: 'Register',
         noacc: "Don't have an account?",
+        alreadyacc: 'Already have account?',
         noaccbutton: 'Create one',
+        alreadyaccbutton: 'Login here',
         emailplaceholder: 'Email address',
         passwordplaceholder: 'Password',
         confirmpasswordplaceholder: 'Confirm password',
         requiredfield: 'Field is required',
         invalidemail: 'Invalid email format',
         min6passwordcharacters: 'Password must be at least 6 characters long',
-        matchpassword: "Passwords don't match"
+        matchpassword: "Passwords don't match",
+        emailalreadyexists: 'This email already exists',
+        registersuccess: 'Register success!',
+        loginsuccess: 'Login success!',
+        unknowerror: 'Something went wrong...',
+        incorectdata: "Incorect email or password"
     },
     [langOptions.POLISH]: {
         welcomelogin: 'Witaj',
@@ -30,13 +37,20 @@ export default <ILangOptions> {
         loginbutton: 'Zaloguj',
         registerbutton: 'Zarejestruj',
         noacc: 'Nie masz jeszcze konta?',
+        alreadyacc: 'Already have account?',
         noaccbutton: 'Zarejestruj się',
+        alreadyaccbutton: 'Zaloguj się',
         emailplaceholder: 'Adres email',
         passwordplaceholder: 'Hasło',
         confirmpasswordplaceholder: 'Potwierdź hasło',
         requiredfield: 'Pole jest wymagane',
         invalidemail: 'Niepoprawny format emaila',
         min6passwordcharacters: 'Hasło musi mieć minimum 6 znaków',
-        matchpassword: 'Hasła nie pasują do siebie'
+        matchpassword: 'Hasła nie pasują do siebie',
+        emailalreadyexists: 'Istnieje już konto z podanym emailem',
+        registersuccess: 'Zarejestrowano pomyślnie!',
+        loginsuccess: 'Zalogowano pomyślnie!',
+        unknowerror: 'Coś poszło nie tak...',
+        incorectdata: 'Nieprawidłowy email lub hasło'
     }
 }

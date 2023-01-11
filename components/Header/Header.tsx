@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { HeaderContainer, ListItem, LangItem, MainNavigationContainer, MainNavigationItem } from './Header.styles';
 import { CiSearch, CiHeart, CiUser, CiShoppingCart, CiSun, CiCloudMoon } from 'react-icons/ci';
-import { useLanguageContext, ILanguageListItem } from '../../context/LanguageContext';
+import { useGlobalContext, ILanguageListItem } from '../../context/GlobalContext';
 import texts from './texts';
 import ChangeThemeButton from '../Button/ChangeThemeButton';
 import HamburgerButton from '../Button/HamburgerButton';
@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 type WebsiteMenuTypes = {
     currentLanguage: string;
     languageList: ILanguageListItem[];
-    setCurrentLanguage: React.Dispatch<React.SetStateAction<string>>;
+    setCurrentLanguage: (lang: string) => void;
 } & Omit<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
 const WebsiteMenu = ({ currentLanguage, languageList, setCurrentLanguage, websiteTheme, handleChangeTheme }: WebsiteMenuTypes) => (
@@ -53,6 +53,7 @@ type UserNavTypes = {
 
 const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
     const shoppingCartItems = 14;
+    const { user } = useGlobalContext();
 
     return (
         <div className="usernav">
@@ -80,10 +81,17 @@ const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav, openLoginMod
                     <div className="right-col">
                         <ul>
                             <ListItem>
-                                <button className="menu-button__clear login" onClick={openLoginModal}>
-                                    <span>{texts[currentLanguage].login}</span>
-                                    <CiUser />
-                                </button>
+                                {user ? (
+                                    <Link href="/">
+                                        <span>{texts[currentLanguage].myaccount}</span>
+                                        <CiUser />
+                                    </Link>
+                                ) : (
+                                    <button className="menu-button__clear login" onClick={openLoginModal}>
+                                        <span>{texts[currentLanguage].login}</span>
+                                        <CiUser />
+                                    </button>
+                                )}
                             </ListItem>
                             <ListItem>
                                 <button className="menu-button__clear cart" onClick={openShoppingCart}>
@@ -137,30 +145,41 @@ const MainNavigation = ({
     handleChangeTheme,
     handleToggleOpenNav,
     openLoginModal,
-}: MainNavigationTypes) => (
-    <MainNavigationContainer className="mainnavigation" isOpen={openNavigation}>
-        <div className="container">
-            <nav className="inner-mainnavigation">
-                <ul className="navlist">
-                    {navItems.map((item) => (
-                        <MainNavigationItem key={item.id} active={item.path === useRouter().pathname} onClick={handleToggleOpenNav}>
-                            <Link href={item.path}>{texts[currentLanguage][item.id]}</Link>
-                        </MainNavigationItem>
-                    ))}
-                </ul>
-                <ChangeThemeButton activeTheme={websiteTheme} onClick={handleChangeTheme}>
-                    <CiSun className="sun" />
-                    <CiCloudMoon className="moon" />
-                    <span />
-                </ChangeThemeButton>
-            </nav>
-        </div>
-        <button className="loginbutton" onClick={openLoginModal}>
-            <CiUser />
-            <span>{texts[currentLanguage].login}</span>
-        </button>
-    </MainNavigationContainer>
-);
+}: MainNavigationTypes) => {
+    const { user } = useGlobalContext();
+
+    return (
+        <MainNavigationContainer className="mainnavigation" isOpen={openNavigation}>
+            <div className="container">
+                <nav className="inner-mainnavigation">
+                    <ul className="navlist">
+                        {navItems.map((item) => (
+                            <MainNavigationItem key={item.id} active={item.path === useRouter().pathname} onClick={handleToggleOpenNav}>
+                                <Link href={item.path}>{texts[currentLanguage][item.id]}</Link>
+                            </MainNavigationItem>
+                        ))}
+                    </ul>
+                    <ChangeThemeButton activeTheme={websiteTheme} onClick={handleChangeTheme}>
+                        <CiSun className="sun" />
+                        <CiCloudMoon className="moon" />
+                        <span />
+                    </ChangeThemeButton>
+                </nav>
+            </div>
+            {user ? (
+                <Link href="/" className="loginbutton">
+                    <CiUser />
+                    <span>{texts[currentLanguage].myaccount}</span>
+                </Link>
+            ) : (
+                <button className="loginbutton" onClick={openLoginModal}>
+                    <CiUser />
+                    <span>{texts[currentLanguage].login}</span>
+                </button>
+            )}
+        </MainNavigationContainer>
+    );
+};
 
 interface IHeader {
     websiteTheme: 'light theme' | 'dark theme';
@@ -171,9 +190,9 @@ interface IHeader {
 }
 
 const Header = ({ websiteTheme, handleChangeTheme, openLoginModal, openShoppingCart, openSearchPanel }: IHeader) => {
-    const { currentLanguage, languageList, setCurrentLanguage } = useLanguageContext();
+    const { currentLanguage, languageList, setCurrentLanguage } = useGlobalContext();
 
-    const [openNavigation, setOpenNavigation] = React.useState<boolean>(true);
+    const [openNavigation, setOpenNavigation] = React.useState<boolean>(false);
 
     const handleToggleOpenNav = () => setOpenNavigation((prev) => !prev);
 

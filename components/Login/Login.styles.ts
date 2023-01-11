@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const LoginContainer = styled.form`
+export const LoginContainer = styled.form<{isLoading: boolean | undefined}>`
     width: 100%;
     max-width: 512px;
     color: ${({theme}) => theme.color.text.primary};
@@ -38,12 +38,14 @@ export const LoginContainer = styled.form`
         text-transform: uppercase;
         font-size: 14px;
         border: none;
-        cursor: pointer;
 
-        ${({theme}) => css`
+        ${({theme, isLoading}) => css`
             color: ${theme.color.body.primary};
-            background-color: ${theme.color.text.primary};
+            background-color: ${isLoading ? theme.color.body.accent : theme.color.text.primary};
             font-weight: ${theme.font.weight.bold};
+            cursor: ${isLoading ? 'default' : 'pointer'};
+            pointer-events: ;
+            pointer-events: ${isLoading ? 'none' : 'fill'};
         `}
     }
 

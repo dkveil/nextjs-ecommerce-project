@@ -3,11 +3,12 @@ import GlobalStyles from '../styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { darkThemePallete, lightThemePallete, variablesTheme } from '../styles/theme';
 import Header from '../components/Header/Header';
-import { LanguageContextProvider } from '../context/LanguageContext';
+import { GlobalContextProvider } from '../context/GlobalContext';
 import Modal from '../components/Modal/Modal';
 import Login from '../components/Login/Login';
 import SearchPanel from '../components/SearchPanel/SearchPanel';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
+import Notify from '../components/Notify/Notify';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const [websiteTheme, setWebsiteTheme] = React.useState<'light theme' | 'dark theme'>('light theme');
@@ -18,7 +19,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const handleChangeTheme = () => setWebsiteTheme(websiteTheme === 'light theme' ? 'dark theme' : 'light theme');
 
     return (
-        <LanguageContextProvider>
+        <GlobalContextProvider>
             <ThemeProvider theme={Object.assign(websiteTheme === 'light theme' ? lightThemePallete : darkThemePallete, variablesTheme)}>
                 <GlobalStyles />
                 <Header
@@ -30,12 +31,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 />
                 <main>{children}</main>
                 <Modal show={openLoginModal} closeModal={() => setOpenLoginModal(false)} websiteTheme={websiteTheme}>
-                    <Login type="login" />
+                    <Login type="login" closeLoginForm={() => setOpenLoginModal(false)} />
                 </Modal>
                 <ShoppingCart open={openShoppingCart} websiteTheme={websiteTheme} closeCart={() => setOpenShoppingCart(false)} />
                 <SearchPanel open={openSearchPanel} websiteTheme={websiteTheme} closePanel={() => setOpenSearchPanel(false)} />
+                <Notify websiteTheme={websiteTheme} />
             </ThemeProvider>
-        </LanguageContextProvider>
+        </GlobalContextProvider>
     );
 };
 

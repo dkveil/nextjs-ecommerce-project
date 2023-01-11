@@ -239,6 +239,7 @@ export const MainNavigationContainer = styled.div<{isOpen: boolean}>`
     }
 
     .loginbutton{
+        text-decoration: none;
         text-transform: uppercase;
         width: 100%;
         height: 80px;

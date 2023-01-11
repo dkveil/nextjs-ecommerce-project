@@ -40,6 +40,7 @@ export default class MyDocument extends Document {
                     <NextScript />
                     <div id="modal-root" />
                     <div id="popup" />
+                    <div id="notify" />
                 </body>
             </Html>
         );

@@ -1,9 +1,12 @@
 import React from 'react';
 import texts from './texts';
 import { LoginContainer, InputWrapper } from './Login.styles';
-import { useLanguageContext } from '../../context/LanguageContext';
+import { IUser, useGlobalContext } from '../../context/GlobalContext';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { postData } from '../../utils/fetchData';
+import LoadingSpinner from '../Loading/Loading';
+import Cookie from 'js-cookie';
 
 interface FormModel {
     email: string;
@@ -11,12 +14,13 @@ interface FormModel {
     confirmPassword?: string;
 }
 
-const Login = ({ type }: { type: 'login' | 'register' }) => {
-    const { currentLanguage } = useLanguageContext();
+const Login = ({ type, closeLoginForm }: { type: 'login' | 'register'; closeLoginForm: () => void }) => {
+    const { currentLanguage, setNotify, handleLogin, user } = useGlobalContext();
     const [formType, setFormType] = React.useState<'login' | 'register'>(type);
+    const [loading, setLoading] = React.useState<boolean>(false);
 
     const validateSchema = {
-        login: Yup.string().email(texts[currentLanguage].invalidemail).required(texts[currentLanguage].requiredfield),
+        email: Yup.string().email(texts[currentLanguage].invalidemail).required(texts[currentLanguage].requiredfield),
         password: Yup.string().min(6, texts[currentLanguage].min6passwordcharacters).required(texts[currentLanguage].requiredfield),
     };
 
@@ -32,8 +36,40 @@ const Login = ({ type }: { type: 'login' | 'register' }) => {
             password: '',
             confirmPassword: '',
         },
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            if (loading) return null;
+
+            setLoading(true);
+
+            const userData = {
+                email: values.email,
+                password: values.password,
+            };
+
+            try {
+                const res = await postData(formType === 'register' ? 'auth/register' : 'auth/login', userData);
+
+                setNotify(texts[currentLanguage][res.messageid]);
+
+                const { accessToken, refreshToken, data } = res;
+
+                handleLogin({
+                    accessToken,
+                    data,
+                });
+
+                Cookie.set('refreshToken', refreshToken, {
+                    path: 'api/auth/accessToken',
+                    expires: 7,
+                });
+
+                localStorage.setItem('firstLogin', 'true');
+                closeLoginForm();
+            } catch (error) {
+                setNotify(texts[currentLanguage].unknowerror);
+            } finally {
+                setLoading(false);
+            }
         },
         validationSchema: Yup.object().shape(formType === 'login' ? validateSchema : Object.assign(validateSchema, confirmPasswordSchema)),
         validateOnBlur: false,
@@ -46,7 +82,7 @@ const Login = ({ type }: { type: 'login' | 'register' }) => {
     const { handleSubmit, values, handleChange, errors } = formik;
 
     return (
-        <LoginContainer onSubmit={handleSubmit}>
+        <LoginContainer onSubmit={handleSubmit} isLoading={loading ? loading : undefined}>
             <div className="inner-form">
                 <h2 className="title">
                     {formType === 'login' ? texts[currentLanguage].welcomelogin : texts[currentLanguage].welcomeregister}
@@ -89,13 +125,19 @@ const Login = ({ type }: { type: 'login' | 'register' }) => {
                     ) : null}
                 </div>
                 <button type="submit">
-                    {formType === 'login' ? texts[currentLanguage].loginbutton : texts[currentLanguage].registerbutton}
+                    {loading ? (
+                        <LoadingSpinner />
+                    ) : formType === 'login' ? (
+                        texts[currentLanguage].loginbutton
+                    ) : (
+                        texts[currentLanguage].registerbutton
+                    )}
                 </button>
             </div>
             <div className="form-footer">
-                {texts[currentLanguage].noacc}
+                {formType === 'login' ? texts[currentLanguage].noacc : texts[currentLanguage].alreadyacc}
                 <a href="#" onClick={handleChangeFormType}>
-                    {texts[currentLanguage].noaccbutton}
+                    {formType === 'login' ? texts[currentLanguage].noaccbutton : texts[currentLanguage].alreadyaccbutton}
                 </a>
             </div>
         </LoginContainer>

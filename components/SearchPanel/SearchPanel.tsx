@@ -24,7 +24,10 @@ const SearchPanel = ({ open, websiteTheme, closePanel }: ISearchPanel) => {
     React.useEffect(() => {
         setIsBrowser(true);
 
-        return () => setIsBrowser(false);
+        return () => {
+            setIsBrowser(false);
+            setCloseAnimation(false);
+        };
     }, []);
 
     const handleClose = () => {
