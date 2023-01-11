@@ -44,5 +44,10 @@ export const variablesTheme = {
         desktop: `@media (min-width: ${media.desktop}px)`,
         large: `@media (min-width: ${media.large}px)`
     },
-    themeTrainsition: 'color .2s, background-color .2s'
+    themeTrainsition: 'color .2s, background-color .2s',
+    zindex: {
+        header: 999,
+        overlay: 9999,
+        usercarts: 99999
+    }
 }

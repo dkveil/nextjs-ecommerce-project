@@ -22,6 +22,7 @@ export const SearchPanelContainer = styled.div<{closeAnimation: boolean}>`
     transform: ${({closeAnimation}) => closeAnimation ? 'translateX(-100%)' : 'translateX(0)'};
     transition: transform .2s;
     padding: 60px 20px 20px;
+    z-index: ${({theme}) => theme.zindex.usercarts};
 
     ${({theme}) => theme.mq.desktop}{
         width: 33.3333%;
@@ -90,6 +91,7 @@ export const SearchInputWrapper = styled.div`
         border: none;
         outline: none;
         border-bottom: 1px solid ${({theme}) => theme.color.body.accent};
+        background-color: transparent;
     }
 
     button {

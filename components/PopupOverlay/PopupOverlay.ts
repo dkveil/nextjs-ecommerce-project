@@ -20,4 +20,5 @@ export default styled.div<{websiteTheme: 'dark theme' | 'light theme', closeAnim
     background-color: ${({closeAnimation, websiteTheme}) => closeAnimation ? 'transparent' : websiteTheme === 'light theme' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)'};;
     animation: .2s ${({websiteTheme}) => showPopupOverlay(websiteTheme)};
     transition: ${({closeAnimation}) => closeAnimation ? '.2s .2s background-color' : '.2s background-color'};
+    z-index: ${({theme}) => theme.zindex.overlay};
 `

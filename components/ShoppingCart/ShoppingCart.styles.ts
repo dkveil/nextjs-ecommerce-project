@@ -22,6 +22,7 @@ export const ShoppingCartContainer = styled.div<{closeAnimation: boolean}>`
     transform: ${({closeAnimation}) => closeAnimation ? 'translateY(-100%)' : 'translateX(0)'};
     transition: transform .2s;
     padding: 60px 20px 20px;
+    z-index: ${({theme}) => theme.zindex.usercarts};
 
     .inner-shoppingcart{
         display: flex;

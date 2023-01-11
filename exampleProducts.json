@@ -1,0 +1,147 @@
+[
+    {
+        "title": {
+            "ENG": "Nike Air Force 1",
+            "PL": "Nike Air Force 1"
+        },
+        "price": {
+            "ENG": 100,
+            "PL": 549.49
+        },
+        "predescription": {
+            "ENG": "The brilliance of the classic basketball model does not go out. The reimagining of the familiar connection model is comfortable on the court with an off-sport look and stands out with its 80s-inspired, bold details and basketball style in a new version.",
+            "PL": "Blask klasycznego koszykarskiego modelu nie gaśnie. Nowa odsłona znanego modelu łączący wygodę niezbędną na parkiecie z pozasportowym wyglądem oraz odznacza się konstrukcją inspirowaną latami 80., wyrazistymi detalami i koszykarskim stylem w nowym wydaniu."
+        },
+        "description": {
+            "ENG": "The AF1 made its debut in 1982 - it was the first basketball shoe with the Nike Air system, thanks to which it revolutionized the game and gained fans around the world. Today, the Air Force 1 stays true to its roots and still builds on the soft, springy cushioning that changed sneaker history.",
+            "PL": "AF1 zadebiutowały w 1982 roku – były to pierwsze buty do koszykówki z systemem Nike Air, dzięki czemu zrewolucjonizowały grę i zyskały miłośników na całym świecie. Dziś buty Air Force 1 są wierne swoim korzeniom i wciąż bazują na miękkiej, sprężystej amortyzacji, która odmieniła historię sneakersów."
+        },
+        "categoryid": "shoes",
+        "images": [
+            "https://images.pexels.com/photos/4313481/pexels-photo-4313481.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/4313484/pexels-photo-4313484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        ],
+        "options": [
+            {
+                "title": "EU 41",
+                "inStock": 22
+            },
+            {
+                "title": " EU 42",
+                "inStock": 12
+            },
+            {
+                "title": "EU 43",
+                "inStock": 14
+            }
+        ],
+        "sold": 520,
+        "createdAt": "2023-01-03T23:54:38.183+00:00",
+        "updatedAt": "2023-01-03T23:54:38.183+00:00"
+    },
+    {
+        "title": {
+            "ENG": "Nike Sportswear Club",
+            "PL": "Nike Sportswear Club"
+        },
+        "price": {
+            "ENG": 20,
+            "PL": 99.99
+        },
+        "predescription": {
+            "ENG": "The brilliance of the classic basketball model does not go out. The reimagining of the familiar connection model is comfortable on the court with an off-sport look and stands out with its 80s-inspired, bold details and basketball style in a new version.",
+            "PL": "Blask klasycznego koszykarskiego modelu nie gaśnie. Nowa odsłona znanego modelu łączący wygodę niezbędną na parkiecie z pozasportowym wyglądem oraz odznacza się konstrukcją inspirowaną latami 80., wyrazistymi detalami i koszykarskim stylem w nowym wydaniu."
+        },
+        "categoryid": "tshirt",
+        "images": [
+            "https://images.pexels.com/photos/4378960/pexels-photo-4378960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/4378874/pexels-photo-4378874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        ],
+        "options": [
+            {
+                "title": "XS",
+                "inStock": 12
+            },
+            {
+                "title": "S",
+                "inStock": 22
+            },
+            {
+                "title": "XM",
+                "inStock": 34
+            },
+            {
+                "title": "M",
+                "inStock": 12
+            },
+            {
+                "title": "L",
+                "inStock": 12
+            },
+            {
+                "title": "XL",
+                "inStock": 22
+            },
+            {
+                "title": "XXL",
+                "inStock": 12
+            }
+        ],
+        "sold": 1240,
+        "createdAt": "2023-01-09T23:54:38.183+00:00",
+        "updatedAt": "2023-01-09T23:54:38.183+00:00"
+    },
+    {
+        "title": {
+            "ENG": "Nike Sportswear",
+            "PL": "Nike Sportswear"
+        },
+        "price": {
+            "ENG": 49.99,
+            "PL": 229.99
+        },
+        "predescription": {
+            "ENG": "The brilliance of the classic basketball model does not go out. The reimagining of the familiar connection model is comfortable on the court with an off-sport look and stands out with its 80s-inspired, bold details and basketball style in a new version.",
+            "PL": "Blask klasycznego koszykarskiego modelu nie gaśnie. Nowa odsłona znanego modelu łączący wygodę niezbędną na parkiecie z pozasportowym wyglądem oraz odznacza się konstrukcją inspirowaną latami 80., wyrazistymi detalami i koszykarskim stylem w nowym wydaniu."
+        },
+        "categoryid": "tshirt",
+        "images": [
+            "https://images.pexels.com/photos/3287160/pexels-photo-3287160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/4100664/pexels-photo-4100664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "https://images.pexels.com/photos/4100674/pexels-photo-4100674.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        ],
+        "options": [
+            {
+                "title": "XS",
+                "inStock": 12
+            },
+            {
+                "title": "S",
+                "inStock": 0
+            },
+            {
+                "title": "XM",
+                "inStock": 0
+            },
+            {
+                "title": "M",
+                "inStock": 0
+            },
+            {
+                "title": "L",
+                "inStock": 12
+            },
+            {
+                "title": "XL",
+                "inStock": 22
+            },
+            {
+                "title": "XXL",
+                "inStock": 12
+            }
+        ],
+        "sold": 830,
+        "createdAt": "2023-01-10T23:54:38.183+00:00",
+        "updatedAt": "2023-01-10T23:54:38.183+00:00"
+    }
+]

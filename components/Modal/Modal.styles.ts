@@ -27,6 +27,7 @@ export const ModalContainer = styled.div<{closeAnimation: boolean, websiteTheme:
     min-width: 100%;
     top: 0;
     left: 0;
+    z-index: ${({theme}) => theme.zindex.usercarts};
 
     .modal-overlay{
         position: absolute;
@@ -37,6 +38,7 @@ export const ModalContainer = styled.div<{closeAnimation: boolean, websiteTheme:
         background-color: ${({closeAnimation, websiteTheme}) => closeAnimation ? 'transparent' : websiteTheme === 'light theme' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)'};
         animation: .2s ${({websiteTheme}) => showOverlay(websiteTheme)};
         transition: .2s background-color;
+        z-index: ${({theme}) => theme.zindex.overlay};
     }
 
     .modal-content{
@@ -55,6 +57,7 @@ export const ModalContainer = styled.div<{closeAnimation: boolean, websiteTheme:
         z-index: 99;
         max-height: calc(100% - 30px);
         overflow-y: auto;
+        z-index: ${({theme}) => theme.zindex.usercarts};
     }
 
     .modal-header{

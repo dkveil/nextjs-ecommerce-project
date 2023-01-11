@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 const iconsize = '28px';
 
 export const HeaderContainer = styled.header`
+    position: relative;
+    z-index: ${({theme}) => theme.zindex.header};
 
     ${({theme}) => css`
         border-bottom: 1px solid ${theme.color.text.primary};
@@ -198,6 +200,7 @@ export const MainNavigationContainer = styled.div<{isOpen: boolean}>`
     height: calc(100% - 59px);
     background-color: ${({theme}) => theme.color.body.primary};
     text-transform: uppercase;
+
 
     ::after{
         content: '';

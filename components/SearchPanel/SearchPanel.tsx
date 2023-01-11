@@ -5,7 +5,7 @@ import { SearchInputWrapper, SearchPanelContainer } from './SearchPanel.styles';
 import { IoIosClose } from 'react-icons/io';
 import { CiSearch } from 'react-icons/ci';
 import texts from './texts';
-import { useLanguageContext } from '../../context/LanguageContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import { BsArrowRight } from 'react-icons/bs';
 
 interface ISearchPanel {
@@ -19,7 +19,7 @@ const SearchPanel = ({ open, websiteTheme, closePanel }: ISearchPanel) => {
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const { currentLanguage } = useLanguageContext();
+    const { currentLanguage } = useGlobalContext();
 
     React.useEffect(() => {
         setIsBrowser(true);
