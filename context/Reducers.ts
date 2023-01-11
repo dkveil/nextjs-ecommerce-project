@@ -40,4 +40,8 @@ type UserActionTypes = {
     payload: null
 }
 
-export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes;
+type LogoutActionTypes = {
+    type: 'LOGOUT USER'
+}
+
+export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes | LogoutActionTypes;

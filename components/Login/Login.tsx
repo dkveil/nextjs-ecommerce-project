@@ -16,6 +16,9 @@ interface FormModel {
 
 const Login = ({ type, closeLoginForm }: { type: 'login' | 'register'; closeLoginForm: () => void }) => {
     const { currentLanguage, setNotify, handleLogin, user } = useGlobalContext();
+
+    if (user) return null;
+
     const [formType, setFormType] = React.useState<'login' | 'register'>(type);
     const [loading, setLoading] = React.useState<boolean>(false);
 

@@ -5,6 +5,7 @@ import reducers from './Reducers';
 import { languageList } from '../helpers/languageList';
 import { getData } from '../utils/fetchData';
 import texts from './texts';
+import Cookie from 'js-cookie';
 
 export interface IUser {
     accessToken?: String;
@@ -29,6 +30,7 @@ interface IGlobalContext {
     setNotify: (message: string | null) => void;
     user: IUser | null;
     handleLogin: (userdata: IUser) => void;
+    handleLogout: () => void;
 }
 
 const GlobalContext = React.createContext({} as IGlobalContext);
@@ -64,6 +66,13 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.USER, payload: userdata });
     };
 
+    const handleLogout = () => {
+        Cookie.remove('refreshToken', { path: '/api/auth/accessToken' });
+        localStorage.removieItem('firstLogin');
+        dispatch({ type: ACTIONS.LOGOUT_USER });
+        setNotify(texts[state.currentLanguage].logout);
+    };
+
     React.useEffect(() => {
         if (localStorage.getItem('firstLogin') === 'true') {
             getData('auth/accessToken').then((res) => {
@@ -90,6 +99,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 setNotify,
                 user: state.user,
                 handleLogin,
+                handleLogout,
             }}
         >
             {children}

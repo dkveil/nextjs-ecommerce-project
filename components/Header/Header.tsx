@@ -82,7 +82,7 @@ const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav, openLoginMod
                         <ul>
                             <ListItem>
                                 {user ? (
-                                    <Link href="/">
+                                    <Link href="/" className="login">
                                         <span>{texts[currentLanguage].myaccount}</span>
                                         <CiUser />
                                     </Link>
