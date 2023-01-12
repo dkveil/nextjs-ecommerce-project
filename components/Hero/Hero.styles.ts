@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 
-export const HeroContainer = styled.div`
+export const HeroContainer = styled.div<{showButtons: boolean}>`
     position: relative;
     height: 320px;
     z-index: 0;
 
     ${({theme}) => theme.mq.desktop}{
-        height: 520px;
+        height: 720px;
     }
 
     ::after{
@@ -86,11 +86,15 @@ export const HeroContainer = styled.div`
         border: none;
         cursor: pointer;
 
-        ${({theme}) => css`
+        ${({theme, showButtons}) => css`
             background-color: ${theme.color.text.primary};
             svg{
                 fill: ${theme.color.body.primary};
                 font-size: 32px;
+            }
+
+            ${theme.mq.desktop}{
+                display: ${showButtons ? 'grid' : 'none'};
             }
         `}
     }

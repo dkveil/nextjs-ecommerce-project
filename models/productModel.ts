@@ -17,7 +17,6 @@ const ProductSchema = new mongoose.Schema({
         [langOptions.ENGLISH]: {
             type: Number,
             required: true,
-            trim: true
         },
         [langOptions.POLISH]: {
             type: Number,

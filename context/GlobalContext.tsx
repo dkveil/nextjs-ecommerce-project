@@ -6,16 +6,7 @@ import { languageList } from '../helpers/languageList';
 import { getData } from '../utils/fetchData';
 import texts from './texts';
 import Cookie from 'js-cookie';
-
-export interface IUser {
-    accessToken?: String;
-    data: {
-        email: string;
-        wishlist: string[];
-        role: string;
-        root: boolean;
-    };
-}
+import type { IUser } from '../types/User.types';
 
 export interface ILanguageListItem {
     id: string;
@@ -23,7 +14,7 @@ export interface ILanguageListItem {
 }
 
 interface IGlobalContext {
-    currentLanguage: string;
+    currentLanguage: 'ENG' | 'PL';
     setCurrentLanguage: (lang: string) => void;
     languageList: ILanguageListItem[];
     notify: string | null;
@@ -31,6 +22,8 @@ interface IGlobalContext {
     user: IUser | null;
     handleLogin: (userdata: IUser) => void;
     handleLogout: () => void;
+    websiteTheme: 'light theme' | 'dark theme';
+    handleChangeTheme: () => void;
 }
 
 const GlobalContext = React.createContext({} as IGlobalContext);
@@ -38,13 +31,15 @@ const GlobalContext = React.createContext({} as IGlobalContext);
 export const useGlobalContext = () => React.useContext(GlobalContext);
 
 export interface IInitialState {
-    currentLanguage: string;
+    websiteTheme: 'light theme' | 'dark theme';
+    currentLanguage: null | string;
     notify: string | null;
     loading: boolean;
     user: IUser | null;
 }
 
 const initialState: IInitialState = {
+    websiteTheme: 'light theme',
     currentLanguage: langOptions.ENGLISH,
     notify: null,
     loading: false,
@@ -56,6 +51,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
     const setCurrentLanguage = (lang: string) => {
         dispatch({ type: ACTIONS.LANGUAGE, payload: lang });
+        localStorage.setItem('language', lang);
     };
 
     const setNotify = (message: string | null) => {
@@ -72,6 +68,34 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.LOGOUT_USER });
         setNotify(texts[state.currentLanguage].logout);
     };
+
+    const handleChangeTheme = () => {
+        const payload = state.websiteTheme === 'light theme' ? 'dark theme' : 'light theme';
+
+        dispatch({
+            type: ACTIONS.CHANGE_THEME,
+            payload,
+        });
+
+        localStorage.setItem('theme', payload);
+    };
+
+    React.useEffect(() => {
+        if (localStorage.getItem('language')) {
+            setCurrentLanguage(localStorage.getItem('language')!);
+            return;
+        }
+        setCurrentLanguage(langOptions.ENGLISH);
+    }, []);
+
+    React.useEffect(() => {
+        if (localStorage.getItem('theme')) {
+            dispatch({ type: ACTIONS.CHANGE_THEME, payload: localStorage.getItem('theme')! });
+            return;
+        }
+        dispatch({ type: ACTIONS.CHANGE_THEME, payload: 'light theme' });
+        localStorage.setItem('theme', 'light theme');
+    }, []);
 
     React.useEffect(() => {
         if (localStorage.getItem('firstLogin') === 'true') {
@@ -100,6 +124,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 user: state.user,
                 handleLogin,
                 handleLogout,
+                websiteTheme: state.websiteTheme,
+                handleChangeTheme,
             }}
         >
             {children}

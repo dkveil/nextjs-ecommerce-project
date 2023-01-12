@@ -1,5 +1,7 @@
+import { server } from '../config';
+
 export const getData = async (url:string) => {
-    const res = await fetch(`/api/${url}`, {
+    const res = await fetch(`${server}/api/${url}`, {
         method: 'GET',
     })
 
@@ -8,7 +10,7 @@ export const getData = async (url:string) => {
 }
 
 export const postData = async (url:string, post: any) => {
-    const res = await fetch(`/api/${url}`, {
+    const res = await fetch(`${server}/api/${url}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -21,7 +23,7 @@ export const postData = async (url:string, post: any) => {
 }
 
 export const putData = async (url:string, post: any) => {
-    const res = await fetch(`/api/${url}`, {
+    const res = await fetch(`${server}/api/${url}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +36,7 @@ export const putData = async (url:string, post: any) => {
 }
 
 export const deleteData = async (url:string, post: any) => {
-    const res = await fetch(`/api/${url}`, {
+    const res = await fetch(`${server}/api/${url}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

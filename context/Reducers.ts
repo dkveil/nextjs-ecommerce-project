@@ -18,6 +18,11 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
                 ...state,
                 user: action.payload
             }
+        case ACTIONS.CHANGE_THEME:
+            return{
+                ...state,
+                websiteTheme: action.payload
+            }
         default:
             return state
     }

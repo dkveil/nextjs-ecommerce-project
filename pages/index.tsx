@@ -1,20 +1,41 @@
+import React from 'react';
 import { getData } from '../utils/fetchData';
-import products from '../exampleProducts.json';
 import Hero from '../components/Hero/Hero';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useGlobalContext } from '../context/GlobalContext';
+import type { IProduct } from '../types/Product.types';
 
-const Home = () => {
+interface HomeProps {
+    products: IProduct[];
+}
+
+const Home = (props: HomeProps) => {
+    const { products } = props;
+    const { currentLanguage } = useGlobalContext();
+
     return (
         <>
+            <Head>
+                <title>Homepage</title>
+            </Head>
             <Hero />
+            {products.map((product) => (
+                <Link href={`/products/${product._id}`} style={{ display: 'block' }}>
+                    {product.title[currentLanguage]}
+                </Link>
+            ))}
         </>
     );
 };
 
 export const getServerSideProps = async () => {
-    // const res = await getData('product');
+    const res = await getData(`/products`);
 
     return {
-        props: {},
+        props: {
+            products: res.products,
+        },
     };
 };
 

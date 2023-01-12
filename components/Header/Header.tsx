@@ -8,52 +8,49 @@ import ChangeThemeButton from '../Button/ChangeThemeButton';
 import HamburgerButton from '../Button/HamburgerButton';
 import { useRouter } from 'next/router';
 
-type WebsiteMenuTypes = {
-    currentLanguage: string;
-    languageList: ILanguageListItem[];
-    setCurrentLanguage: (lang: string) => void;
-} & Omit<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
+const WebsiteMenu = () => {
+    const { websiteTheme, handleChangeTheme, currentLanguage, setCurrentLanguage, languageList } = useGlobalContext();
 
-const WebsiteMenu = ({ currentLanguage, languageList, setCurrentLanguage, websiteTheme, handleChangeTheme }: WebsiteMenuTypes) => (
-    <div className="websitemenu">
-        <div className="container">
-            <div className="inner-websitemenu">
-                <div className="left-col">
-                    <ul>
-                        {languageList?.map((lang) => (
-                            <LangItem key={lang.id}>
-                                <button
-                                    className={currentLanguage === lang.id ? 'active' : undefined}
-                                    onClick={() => setCurrentLanguage(lang.id)}
-                                >
-                                    {lang.shortcut}
-                                </button>
-                            </LangItem>
-                        ))}
-                    </ul>
-                </div>
-                <div className="right-col">
-                    <ChangeThemeButton activeTheme={websiteTheme} onClick={handleChangeTheme}>
-                        <CiSun className="sun" />
-                        <CiCloudMoon className="moon" />
-                        <span />
-                    </ChangeThemeButton>
+    return (
+        <div className="websitemenu">
+            <div className="container">
+                <div className="inner-websitemenu">
+                    <div className="left-col">
+                        <ul>
+                            {languageList?.map((lang) => (
+                                <LangItem key={lang.id}>
+                                    <button
+                                        className={currentLanguage === lang.id ? 'active' : undefined}
+                                        onClick={() => setCurrentLanguage(lang.id)}
+                                    >
+                                        {lang.shortcut}
+                                    </button>
+                                </LangItem>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="right-col">
+                        <ChangeThemeButton activeTheme={websiteTheme} onClick={handleChangeTheme}>
+                            <CiSun className="sun" />
+                            <CiCloudMoon className="moon" />
+                            <span />
+                        </ChangeThemeButton>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 type UserNavTypes = {
-    currentLanguage: string;
     handleToggleOpenNav: () => void;
     activeNav: boolean;
     openLoginModal: () => void;
 } & Pick<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
-const UserNav = ({ currentLanguage, handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
+const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
     const shoppingCartItems = 14;
-    const { user } = useGlobalContext();
+    const { user, currentLanguage } = useGlobalContext();
 
     return (
         <div className="usernav">
@@ -134,19 +131,11 @@ const navItems = [
 
 type MainNavigationTypes = {
     openNavigation: boolean;
-    currentLanguage: string;
     handleToggleOpenNav: () => void;
 } & Omit<IHeader, 'openShoppingCart' | 'openSearchPanel'>;
 
-const MainNavigation = ({
-    openNavigation,
-    currentLanguage,
-    websiteTheme,
-    handleChangeTheme,
-    handleToggleOpenNav,
-    openLoginModal,
-}: MainNavigationTypes) => {
-    const { user } = useGlobalContext();
+const MainNavigation = ({ openNavigation, handleToggleOpenNav, openLoginModal }: MainNavigationTypes) => {
+    const { user, websiteTheme, handleChangeTheme, currentLanguage } = useGlobalContext();
 
     return (
         <MainNavigationContainer className="mainnavigation" isOpen={openNavigation}>
@@ -182,45 +171,26 @@ const MainNavigation = ({
 };
 
 interface IHeader {
-    websiteTheme: 'light theme' | 'dark theme';
-    handleChangeTheme: () => void;
     openLoginModal: () => void;
     openShoppingCart: () => void;
     openSearchPanel: () => void;
 }
 
-const Header = ({ websiteTheme, handleChangeTheme, openLoginModal, openShoppingCart, openSearchPanel }: IHeader) => {
-    const { currentLanguage, languageList, setCurrentLanguage } = useGlobalContext();
-
+const Header = ({ openLoginModal, openShoppingCart, openSearchPanel }: IHeader) => {
     const [openNavigation, setOpenNavigation] = React.useState<boolean>(false);
-
     const handleToggleOpenNav = () => setOpenNavigation((prev) => !prev);
 
     return (
         <HeaderContainer>
-            <WebsiteMenu
-                currentLanguage={currentLanguage}
-                languageList={languageList}
-                setCurrentLanguage={setCurrentLanguage}
-                websiteTheme={websiteTheme}
-                handleChangeTheme={handleChangeTheme}
-            />
+            <WebsiteMenu />
             <UserNav
-                currentLanguage={currentLanguage}
                 activeNav={openNavigation}
                 handleToggleOpenNav={handleToggleOpenNav}
                 openLoginModal={openLoginModal}
                 openShoppingCart={openShoppingCart}
                 openSearchPanel={openSearchPanel}
             />
-            <MainNavigation
-                openNavigation={openNavigation}
-                currentLanguage={currentLanguage}
-                websiteTheme={websiteTheme}
-                handleChangeTheme={handleChangeTheme}
-                handleToggleOpenNav={handleToggleOpenNav}
-                openLoginModal={openLoginModal}
-            />
+            <MainNavigation openNavigation={openNavigation} handleToggleOpenNav={handleToggleOpenNav} openLoginModal={openLoginModal} />
         </HeaderContainer>
     );
 };

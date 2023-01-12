@@ -17,6 +17,7 @@ const Hero = () => {
     const { currentLanguage } = useGlobalContext();
     const [currentHeroVideo, setCurrentHeroVideo] = React.useState<number>(Math.round(Math.random() * (heroVideosList.length - 1) + 1));
     const [mountedHeroVideos, setMountedHeroVideos] = React.useState<number[]>([]);
+    const [showButtons, setShowButtons] = React.useState<boolean>(false);
 
     const handleMountedVideos = () => {
         setMountedHeroVideos(
@@ -45,7 +46,7 @@ const Hero = () => {
     }, [currentHeroVideo]);
 
     return (
-        <HeroContainer>
+        <HeroContainer showButtons={showButtons} onMouseEnter={() => setShowButtons(true)} onMouseLeave={() => setShowButtons(false)}>
             <div className="container">
                 <div className="inner-hero">
                     <div className="hero-content">

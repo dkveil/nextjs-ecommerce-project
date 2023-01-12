@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import Products from "../../../models/productModel";
+import connectDB from "../../../utils/connectDB";
+
+connectDB()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch(req.method){
@@ -12,6 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 const getProducts = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
         const products = await Products.find()
+
         res.json({
             productsLength: products.length,
             products
