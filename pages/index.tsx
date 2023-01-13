@@ -3,8 +3,8 @@ import { getData } from '../utils/fetchData';
 import Hero from '../components/Hero/Hero';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useGlobalContext } from '../context/GlobalContext';
 import type { IProduct } from '../types/Product.types';
+import slugify from 'slugify';
 
 interface HomeProps {
     products: IProduct[];
@@ -12,7 +12,6 @@ interface HomeProps {
 
 const Home = (props: HomeProps) => {
     const { products } = props;
-    const { currentLanguage } = useGlobalContext();
 
     return (
         <>
@@ -21,8 +20,11 @@ const Home = (props: HomeProps) => {
             </Head>
             <Hero />
             {products.map((product) => (
-                <Link href={`/products/${product._id}`} style={{ display: 'block' }}>
-                    {product.title[currentLanguage]}
+                <Link
+                    href={`/products/${product.categoryid}/${slugify(product.title.ENG).toLocaleLowerCase()}`}
+                    style={{ display: 'block' }}
+                >
+                    {slugify(product.title.ENG).toLocaleLowerCase()}
                 </Link>
             ))}
         </>

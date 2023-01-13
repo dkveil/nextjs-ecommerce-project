@@ -1,28 +1,28 @@
 export interface IProduct {
-    _id: String,
+    _id: string,
     title: {
-        'ENG': String
-        'PL': String,
+        'ENG': string
+        'PL': string,
     },
     price: {
-        'ENG': Number,
-        'PL': Number
+        'ENG': number,
+        'PL': number
     },
     predescription: {
-        'ENG': String,
-        'PL': String,
+        'ENG': string,
+        'PL': string,
     },
     description: {
-        'ENG': String,
-        'PL': String,
+        'ENG': string,
+        'PL': string,
     },
     categoryid: 'tshirt' | 'hoodie' | 'shoes',
-    images: String[],
+    images: string[],
     options: {
-        title: String,
-        inStock: String
-    },
-    sold: Number,
-    createdAt: String,
-    updatedAt: String
+        title: string,
+        inStock: number
+    }[],
+    sold: number,
+    createdAt: string,
+    updatedAt: string
 }

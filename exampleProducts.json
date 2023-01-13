@@ -37,7 +37,8 @@
         ],
         "sold": 520,
         "createdAt": "2023-01-03T23:54:38.183+00:00",
-        "updatedAt": "2023-01-03T23:54:38.183+00:00"
+        "updatedAt": "2023-01-03T23:54:38.183+00:00",
+        "slug": "nike-sportswear"
     },
     {
         "title": {
@@ -52,7 +53,7 @@
             "ENG": "The brilliance of the classic basketball model does not go out. The reimagining of the familiar connection model is comfortable on the court with an off-sport look and stands out with its 80s-inspired, bold details and basketball style in a new version.",
             "PL": "Blask klasycznego koszykarskiego modelu nie gaśnie. Nowa odsłona znanego modelu łączący wygodę niezbędną na parkiecie z pozasportowym wyglądem oraz odznacza się konstrukcją inspirowaną latami 80., wyrazistymi detalami i koszykarskim stylem w nowym wydaniu."
         },
-        "categoryid": "tshirt",
+        "categoryid": "tshirts",
         "images": [
             "https://images.pexels.com/photos/4378960/pexels-photo-4378960.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "https://images.pexels.com/photos/4378874/pexels-photo-4378874.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -89,7 +90,8 @@
         ],
         "sold": 1240,
         "createdAt": "2023-01-09T23:54:38.183+00:00",
-        "updatedAt": "2023-01-09T23:54:38.183+00:00"
+        "updatedAt": "2023-01-09T23:54:38.183+00:00",
+        "slug": "nike-sportswear-club"
     },
     {
         "title": {
@@ -104,7 +106,7 @@
             "ENG": "The brilliance of the classic basketball model does not go out. The reimagining of the familiar connection model is comfortable on the court with an off-sport look and stands out with its 80s-inspired, bold details and basketball style in a new version.",
             "PL": "Blask klasycznego koszykarskiego modelu nie gaśnie. Nowa odsłona znanego modelu łączący wygodę niezbędną na parkiecie z pozasportowym wyglądem oraz odznacza się konstrukcją inspirowaną latami 80., wyrazistymi detalami i koszykarskim stylem w nowym wydaniu."
         },
-        "categoryid": "tshirt",
+        "categoryid": "hoodies",
         "images": [
             "https://images.pexels.com/photos/3287160/pexels-photo-3287160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             "https://images.pexels.com/photos/4100664/pexels-photo-4100664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -142,6 +144,7 @@
         ],
         "sold": 830,
         "createdAt": "2023-01-10T23:54:38.183+00:00",
-        "updatedAt": "2023-01-10T23:54:38.183+00:00"
+        "updatedAt": "2023-01-10T23:54:38.183+00:00",
+        "slug": "nike-air-force-1"
     }
 ]

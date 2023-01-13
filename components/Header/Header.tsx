@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { HeaderContainer, ListItem, LangItem, MainNavigationContainer, MainNavigationItem } from './Header.styles';
 import { CiSearch, CiHeart, CiUser, CiShoppingCart, CiSun, CiCloudMoon } from 'react-icons/ci';
-import { useGlobalContext, ILanguageListItem } from '../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import texts from './texts';
 import ChangeThemeButton from '../Button/ChangeThemeButton';
 import HamburgerButton from '../Button/HamburgerButton';
@@ -117,15 +117,15 @@ const navItems = [
     },
     {
         id: 'tshirts',
-        path: '/tshirts',
+        path: '/products/tshirts',
     },
     {
         id: 'hoodies',
-        path: '/hoodies',
+        path: '/products/hoodies',
     },
     {
         id: 'shoes',
-        path: '/shoes',
+        path: '/products/shoes',
     },
 ];
 

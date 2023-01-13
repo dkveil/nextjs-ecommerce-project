@@ -49,4 +49,8 @@ type LogoutActionTypes = {
     type: 'LOGOUT USER'
 }
 
-export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes | LogoutActionTypes;
+type ChangeThemeActionTypes = {
+    type: 'CHANGE THEME',
+    payload?: 'light theme' | 'change theme'
+}
+export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes | LogoutActionTypes | ChangeThemeActionTypes;

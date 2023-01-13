@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "../../../utils/connectDB";
-import Products from "../../../models/productModel";
+import connectDB from "../../../../utils/connectDB";
+import Products from "../../../../models/productModel";
 
 connectDB();
 
@@ -14,9 +14,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getProduct = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
-        const { id } = req.query;
+        const { category, slug } = req.query;
 
-        const product = await Products.findById(id);
+        const product = await Products.findOne({categoryid: category, slug});
         if(!product) return res.status(400).json({messageid: 'product404'})
 
         res.json({product})

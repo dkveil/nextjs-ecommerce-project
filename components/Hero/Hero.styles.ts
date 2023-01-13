@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const HeroContainer = styled.div<{showButtons: boolean}>`
+export const HeroContainer = styled.div<{showButtons: boolean, websiteTheme: 'light theme' | 'dark theme'}>`
     position: relative;
     height: 320px;
     z-index: 0;
@@ -16,8 +16,9 @@ export const HeroContainer = styled.div<{showButtons: boolean}>`
         left: 0;
         height: 100%;
         width: 100%;
-        background-color: rgba(0,0,0,.3);
+        background-color: ${({websiteTheme}) => websiteTheme === 'light theme' ? 'rgba(0,0,0,.3)' : 'rgba(255,255,255,.15)'};
         z-index: 0;
+        transition: background-color .2s;
     }
 
     .inner-hero {
@@ -30,6 +31,7 @@ export const HeroContainer = styled.div<{showButtons: boolean}>`
         width: 100%;
         transform: translateY(-50%);
         text-transform: uppercase;
+        transition: color .2s;
 
         ${({theme}) => css`
             color: ${theme.color.body.primary};
@@ -61,6 +63,7 @@ export const HeroContainer = styled.div<{showButtons: boolean}>`
             width: fit-content;
             margin: 0 auto;
             text-decoration: none;
+            transition: color .2s, background-color .2s;
 
             ${({theme}) => css`
                 color: ${theme.color.body.primary};
@@ -85,6 +88,7 @@ export const HeroContainer = styled.div<{showButtons: boolean}>`
         transform: translateY(-50%);
         border: none;
         cursor: pointer;
+        transition: fill .2s, background-color .2s;
 
         ${({theme, showButtons}) => css`
             background-color: ${theme.color.text.primary};
