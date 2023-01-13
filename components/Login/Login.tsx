@@ -1,7 +1,7 @@
 import React from 'react';
 import texts from './texts';
 import { LoginContainer, InputWrapper } from './Login.styles';
-import { IUser, useGlobalContext } from '../../context/GlobalContext';
+import { useGlobalContext } from '../../context/GlobalContext';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { postData } from '../../utils/fetchData';
