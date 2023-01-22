@@ -48,6 +48,7 @@ export const variablesTheme = {
     zindex: {
         header: 999,
         overlay: 9999,
-        usercarts: 99999
+        usercarts: 99999,
+        filterscart: 999999
     }
 }

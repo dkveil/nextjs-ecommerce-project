@@ -57,7 +57,7 @@ const Hero = () => {
                     <div className="hero-content">
                         <h1 className="hero-heading">{texts[currentLanguage].heading}</h1>
                         <p className="hero-paragraph">{texts[currentLanguage].paragraph}</p>
-                        <Link href="/" className="hero-link-button">
+                        <Link href="/products" className="hero-link-button">
                             {texts[currentLanguage].button}
                         </Link>
                     </div>

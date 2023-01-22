@@ -17,6 +17,16 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
     const { websiteTheme } = useGlobalContext();
 
+    React.useEffect(() => {
+        if (websiteTheme === 'light theme') {
+            document.body.style.backgroundColor = lightThemePallete.color.body.primary;
+            document.body.style.color = lightThemePallete.color.text.primary;
+        } else {
+            document.body.style.backgroundColor = darkThemePallete.color.body.primary;
+            document.body.style.color = darkThemePallete.color.text.primary;
+        }
+    }, [websiteTheme]);
+
     return (
         <ThemeProvider theme={Object.assign(websiteTheme === 'light theme' ? lightThemePallete : darkThemePallete, variablesTheme)}>
             <GlobalStyles />

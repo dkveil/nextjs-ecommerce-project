@@ -116,6 +116,10 @@ const navItems = [
         path: '/',
     },
     {
+        id: 'all',
+        path: '/products',
+    },
+    {
         id: 'tshirts',
         path: '/products/tshirts',
     },
