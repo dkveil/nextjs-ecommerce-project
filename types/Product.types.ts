@@ -24,5 +24,6 @@ export interface IProduct {
     }[],
     sold: number,
     createdAt: string,
-    updatedAt: string
+    updatedAt: string,
+    slug: string;
 }

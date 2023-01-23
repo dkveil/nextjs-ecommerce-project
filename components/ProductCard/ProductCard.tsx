@@ -7,7 +7,6 @@ import texts from '../../containers/productpage/ProductInfo/texts';
 import { CiHeart } from 'react-icons/ci';
 
 interface IProductCard {
-    id: string;
     title: {
         ENG: string;
         PL: string;
@@ -18,9 +17,10 @@ interface IProductCard {
     };
     categoryid: 'tshirt' | 'hoodie' | 'shoes';
     images: string[];
+    slug: string;
 }
 
-const ProductCard = ({ id, title, images, categoryid, price }: IProductCard) => {
+const ProductCard = ({ title, images, categoryid, price, slug }: IProductCard) => {
     const { currentLanguage, setNotify } = useGlobalContext();
 
     const [currentImageId, setCurrentImageId] = React.useState(0);
@@ -33,7 +33,7 @@ const ProductCard = ({ id, title, images, categoryid, price }: IProductCard) => 
 
     return (
         <ProductCardWrapper>
-            <Link href={`/products/${categoryid}/${title.ENG}`} className="product-body">
+            <Link href={`/products/${categoryid}/${slug}`} className="product-body">
                 <div className="image-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={() => setCurrentImageId(0)}>
                     <Image alt={title.ENG} src={images[currentImageId]} fill style={{ objectFit: 'cover' }} />
                 </div>

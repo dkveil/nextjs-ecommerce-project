@@ -23,6 +23,11 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
                 ...state,
                 websiteTheme: action.payload
             }
+        case ACTIONS.SET_SHOPPING_CART:
+            return {
+                ...state,
+                shoppingcart: action.payload
+            }
         default:
             return state
     }
@@ -46,7 +51,8 @@ type UserActionTypes = {
 }
 
 type LogoutActionTypes = {
-    type: 'LOGOUT USER'
+    type: 'LOGOUT USER';
+    payload?: string
 }
 
 type ChangeThemeActionTypes = {

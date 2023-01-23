@@ -3,13 +3,20 @@ import styled, { css } from "styled-components";
 const iconsize = '28px';
 
 export const HeaderContainer = styled.header`
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: ${({theme}) => theme.zindex.header};
 
     ${({theme}) => css`
         border-bottom: 1px solid ${theme.color.text.primary};
         background-color: ${theme.color.body.primary};
         transition: background-color .2s;
+
+        ${theme.mq.desktop}{
+            position: static;
+        }
     `}
 
     .logo{

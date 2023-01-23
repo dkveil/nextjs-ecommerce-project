@@ -49,6 +49,8 @@ export const variablesTheme = {
         header: 999,
         overlay: 9999,
         usercarts: 99999,
-        filterscart: 999999
+        filterscart: 999999,
+        loadingcontainer: 9999999,
+        notify: 99999999,
     }
 }

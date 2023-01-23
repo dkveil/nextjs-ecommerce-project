@@ -11,7 +11,7 @@ const showShoppingCart = keyframes`
     }
 `
 
-export const ShoppingCartContainer = styled.div<{closeAnimation: boolean}>`
+export const ShoppingCartContainer = styled.div<{closeAnimation: boolean, isLoading: boolean}>`
     position: fixed;
     width: 100%;
     height: 100%;
@@ -58,6 +58,16 @@ export const ShoppingCartContainer = styled.div<{closeAnimation: boolean}>`
 
     .shoppingcart-body {
         flex-grow: 1;
+        margin-bottom: 120px;
+        overflow: overlay;
+
+        ${({theme}) => theme.mq.desktop}{
+            margin: 0;
+        }
+
+        .shoppingcart-table{
+            width: 100%;
+        }
     }
 
     .shoppingcart-summary{
@@ -78,13 +88,15 @@ export const ShoppingCartContainer = styled.div<{closeAnimation: boolean}>`
             border: none;
             width: 100%;
             height: 56px;
-            cursor: pointer;
 
-            ${({theme}) => css`
+            ${({theme, isLoading}) => css`
                 color: ${theme.color.body.primary};
-                background-color: ${theme.color.text.primary};
+                background-color: ${isLoading ? theme.color.body.accent : theme.color.text.primary};
                 font-weight: ${theme.font.weight.bold};
+                cursor: ${isLoading ? 'default' : 'pointer'};
+                pointer-events: ${isLoading ? 'none' : 'fill'};
             `}
+
         }
     }
 `

@@ -8,11 +8,19 @@ export default <ILangOptions> {
     [langOptions.ENGLISH]: {
         carttitle: 'Cart',
         checkout: 'Check out',
-        subtotal: 'Sub total'
+        subtotal: 'Sub total',
+        cartempty: 'Your cart is empty',
+        unknowerror: 'Something went wrong...',
+        currency: 'EUR',
+        cartupdated: 'Twój koszyk został zaktulizowany. Prawdopodobnie jeden z Twoich produktów nie jest już dostępny.'
     },
     [langOptions.POLISH]: {
         carttitle: 'Koszyk',
         checkout: 'Zapłać',
-        subtotal: 'Suma do zapłaty'
+        subtotal: 'Suma do zapłaty',
+        cartempty: 'Koszyk jest pusty',
+        unknowerror: 'Coś poszło nie tak...',
+        currency: 'PLN',
+        cartupdated: 'Your cart has been updated. Probably one of your products are no longer available.'
     }
 }

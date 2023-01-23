@@ -18,6 +18,7 @@ export const NotifyWrapper = styled.div<{closeAnimation: boolean, websiteTheme: 
     padding: 30px 20px;
     transition: transform .4s;
     animation: .4s ${showNotify};
+    z-index: ${({theme}) => theme.zindex.notify};
 
     ${({theme, websiteTheme, closeAnimation}) => css`
         transform: ${closeAnimation ? 'translateX(100%)' : 'translateX(0)'};

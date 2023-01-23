@@ -6,9 +6,10 @@ import { useGlobalContext } from '../../../context/GlobalContext';
 import texts from './texts';
 import { CiHeart } from 'react-icons/ci';
 import { BsPlus } from 'react-icons/bs';
+import LoadingSpinner from '../../../components/Loading/Loading';
 
 const ProductInfo = ({ product }: { product: IProduct }) => {
-    const { currentLanguage, user, setNotify } = useGlobalContext();
+    const { currentLanguage, user, setNotify, addShoppingCartItem, shoppingCartLoading } = useGlobalContext();
     const [currentOption, setCurrentOption] = React.useState<{ title: string; inStock: number } | null>();
     const [optionsOpen, setOptionsOpen] = React.useState<boolean>(false);
     const [currentImage, setCurrentImage] = React.useState<number>(0);
@@ -18,6 +19,7 @@ const ProductInfo = ({ product }: { product: IProduct }) => {
             setNotify(texts[currentLanguage].mustbelogged);
             return;
         }
+
         setNotify(texts[currentLanguage].addedtowishlist);
     };
 
@@ -26,12 +28,13 @@ const ProductInfo = ({ product }: { product: IProduct }) => {
         setOptionsOpen(false);
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!currentOption) {
             setNotify(texts[currentLanguage].choosesizefirst);
             return;
         }
-        setNotify(texts[currentLanguage].addedtocart);
+
+        addShoppingCartItem({ _id: product._id, size: currentOption.title });
     };
 
     return (

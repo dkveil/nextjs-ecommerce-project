@@ -49,8 +49,7 @@ type UserNavTypes = {
 } & Pick<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
 const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
-    const shoppingCartItems = 14;
-    const { user, currentLanguage } = useGlobalContext();
+    const { user, currentLanguage, totalShoppingCartItems } = useGlobalContext();
 
     return (
         <div className="usernav">
@@ -94,7 +93,7 @@ const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingC
                                 <button className="menu-button__clear cart" onClick={openShoppingCart}>
                                     <span>{texts[currentLanguage].cart}</span>
                                     <CiShoppingCart />
-                                    <i>{shoppingCartItems}</i>
+                                    {totalShoppingCartItems > 0 && <i>{totalShoppingCartItems}</i>}
                                 </button>
                             </ListItem>
                             <ListItem hamburgerToggler>

@@ -9,13 +9,14 @@ import Login from '../components/Login/Login';
 import SearchPanel from '../components/SearchPanel/SearchPanel';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
 import Notify from '../components/Notify/Notify';
+import LoadingContainer from '../containers/LoadingContainer/LoadingContainer';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const [openLoginModal, setOpenLoginModal] = React.useState<boolean>(false);
     const [openShoppingCart, setOpenShoppingCart] = React.useState<boolean>(false);
     const [openSearchPanel, setOpenSearchPanel] = React.useState<boolean>(false);
 
-    const { websiteTheme } = useGlobalContext();
+    const { websiteTheme, shoppingCartLoading } = useGlobalContext();
 
     React.useEffect(() => {
         if (websiteTheme === 'light theme') {
@@ -42,6 +43,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             <ShoppingCart open={openShoppingCart} websiteTheme={websiteTheme} closeCart={() => setOpenShoppingCart(false)} />
             <SearchPanel open={openSearchPanel} websiteTheme={websiteTheme} closePanel={() => setOpenSearchPanel(false)} />
             <Notify websiteTheme={websiteTheme} />
+            <LoadingContainer open={shoppingCartLoading} />
         </ThemeProvider>
     );
 };
