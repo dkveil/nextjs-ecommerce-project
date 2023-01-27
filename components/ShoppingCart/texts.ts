@@ -12,7 +12,8 @@ export default <ILangOptions> {
         cartempty: 'Your cart is empty',
         unknowerror: 'Something went wrong...',
         currency: 'EUR',
-        cartupdated: 'Twój koszyk został zaktulizowany. Prawdopodobnie jeden z Twoich produktów nie jest już dostępny.'
+        cartupdated: 'Your cart has been updated. Probably one of your products are no longer available.',
+
     },
     [langOptions.POLISH]: {
         carttitle: 'Koszyk',
@@ -21,6 +22,7 @@ export default <ILangOptions> {
         cartempty: 'Koszyk jest pusty',
         unknowerror: 'Coś poszło nie tak...',
         currency: 'PLN',
-        cartupdated: 'Your cart has been updated. Probably one of your products are no longer available.'
+        cartupdated: 'Twój koszyk został zaktulizowany. Prawdopodobnie jeden z Twoich produktów nie jest już dostępny.',
+
     }
 }

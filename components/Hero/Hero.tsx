@@ -55,7 +55,7 @@ const Hero = () => {
             <div className="container">
                 <div className="inner-hero">
                     <div className="hero-content">
-                        <h1 className="hero-heading">{texts[currentLanguage].heading}</h1>
+                        <h1 className="hero-heading">Just be yourself</h1>
                         <p className="hero-paragraph">{texts[currentLanguage].paragraph}</p>
                         <Link href="/products" className="hero-link-button">
                             {texts[currentLanguage].button}

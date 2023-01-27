@@ -95,7 +95,9 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
     const addShoppingCartItem = async (product: { _id: string; size: string }, addingFromShoppingCart?: boolean) => {
         setShoppingCartLoading(true);
-        const productInCart = state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size);
+
+        const productInCart =
+            state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size) || null;
 
         try {
             const res = await getData(`product/${product._id}`);
@@ -109,7 +111,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
             const selectedSize = currentProduct.options.find((option: { title: string }) => option.title === product.size);
 
-            if (selectedSize.inStock === 0) {
+            if (!selectedSize.inStock) {
                 setNotify(texts[state.currentLanguage].size404);
                 removeShoppingCartItem(product);
                 return;
@@ -161,7 +163,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     };
 
     const subShoppingCartItem = async (product: { _id: string; size: string }, decreasingFromShoppingCart?: boolean) => {
-        const productInCart = state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size);
+        const productInCart =
+            state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size) || null;
 
         if (productInCart.quantity === 1) {
             removeShoppingCartItem(product);
@@ -213,7 +216,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
     const removeShoppingCartItem = (product: { _id: string; size: string }) => {
         const newshoppingcartstate = state.shoppingcart.filter(
-            (item: IShoppingCartItem) => item._id !== product.id && item.size !== product.size
+            (item: IShoppingCartItem) => !(product._id === item._id && product.size === item.size)
         );
 
         dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate });
@@ -248,13 +251,14 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
                     return item;
                 } catch (error) {
-                    shoppingCartChanges.push(item._id);
+                    shoppingCartChanges.push(item?._id);
                     return;
                 }
             })
         );
 
         dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: shoppingCartUpdate });
+
         return shoppingCartChanges;
     };
 
@@ -308,7 +312,9 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     }, [state.shoppingcart]);
 
     React.useEffect(() => {
-        updateShoppingCartItems();
+        if (state.shoppingcart.length > 0) {
+            updateShoppingCartItems();
+        }
     }, []);
 
     return (

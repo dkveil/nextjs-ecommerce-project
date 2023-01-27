@@ -37,7 +37,7 @@ export default <ILangOptions> {
         loginbutton: 'Zaloguj',
         registerbutton: 'Zarejestruj',
         noacc: 'Nie masz jeszcze konta?',
-        alreadyacc: 'Already have account?',
+        alreadyacc: 'Masz już u nas konto?',
         noaccbutton: 'Zarejestruj się',
         alreadyaccbutton: 'Zaloguj się',
         emailplaceholder: 'Adres email',

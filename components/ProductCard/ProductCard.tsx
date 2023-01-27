@@ -29,7 +29,11 @@ const ProductCard = ({ title, images, categoryid, price, slug }: IProductCard) =
         setNotify(texts[currentLanguage].addedtowishlist);
     };
 
-    const handleMouseEnter = () => console.log(currentImageId);
+    const handleMouseEnter = () => {
+        if (images.length > 1) {
+            setCurrentImageId(1);
+        }
+    };
 
     return (
         <ProductCardWrapper>

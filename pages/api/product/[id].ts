@@ -16,7 +16,8 @@ const getProduct = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
         const { id } = req.query;
 
-        const product = await Products.findOne({ id });
+        const product = await Products.findOne({ _id: id });
+
         if(!product) return res.status(400).json({messageid: 'product404'})
 
         res.json({product})

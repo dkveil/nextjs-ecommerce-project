@@ -6,7 +6,6 @@ import { useGlobalContext } from '../../../context/GlobalContext';
 import texts from './texts';
 import { CiHeart } from 'react-icons/ci';
 import { BsPlus } from 'react-icons/bs';
-import LoadingSpinner from '../../../components/Loading/Loading';
 
 const ProductInfo = ({ product }: { product: IProduct }) => {
     const { currentLanguage, user, setNotify, addShoppingCartItem, shoppingCartLoading } = useGlobalContext();

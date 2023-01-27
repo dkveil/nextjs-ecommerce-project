@@ -14,7 +14,15 @@ interface FormModel {
     confirmPassword?: string;
 }
 
-const Login = ({ type, closeLoginForm }: { type: 'login' | 'register'; closeLoginForm: () => void }) => {
+const Login = ({
+    type,
+    closeLoginForm,
+    checkoutLogin,
+}: {
+    type: 'login' | 'register';
+    closeLoginForm?: () => void;
+    checkoutLogin?: boolean;
+}) => {
     const { currentLanguage, setNotify, handleLogin, user } = useGlobalContext();
 
     if (user) return null;
@@ -67,7 +75,7 @@ const Login = ({ type, closeLoginForm }: { type: 'login' | 'register'; closeLogi
                 });
 
                 localStorage.setItem('firstLogin', 'true');
-                closeLoginForm();
+                closeLoginForm ? closeLoginForm() : null;
             } catch (error) {
                 setNotify(texts[currentLanguage].unknowerror);
             } finally {
@@ -85,14 +93,18 @@ const Login = ({ type, closeLoginForm }: { type: 'login' | 'register'; closeLogi
     const { handleSubmit, values, handleChange, errors } = formik;
 
     return (
-        <LoginContainer onSubmit={handleSubmit} isLoading={loading ? loading : undefined}>
+        <LoginContainer onSubmit={handleSubmit} isLoading={loading ? loading : undefined} checkoutLogin={checkoutLogin}>
             <div className="inner-form">
-                <h2 className="title">
-                    {formType === 'login' ? texts[currentLanguage].welcomelogin : texts[currentLanguage].welcomeregister}
-                </h2>
-                <p className="form-information">
-                    {formType === 'login' ? texts[currentLanguage].loginusingmail : texts[currentLanguage].registerusingmail}
-                </p>
+                {!checkoutLogin && (
+                    <>
+                        <h2 className="title">
+                            {formType === 'login' ? texts[currentLanguage].welcomelogin : texts[currentLanguage].welcomeregister}
+                        </h2>
+                        <p className="form-information">
+                            {formType === 'login' ? texts[currentLanguage].loginusingmail : texts[currentLanguage].registerusingmail}
+                        </p>
+                    </>
+                )}
                 <div className="inputs-wrapper">
                     <InputWrapper error={Boolean(errors.email)}>
                         <input

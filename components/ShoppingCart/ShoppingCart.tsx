@@ -7,6 +7,7 @@ import texts from './texts';
 import { IoIosClose } from 'react-icons/io';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import LoadingSpinner from '../Loading/Loading';
+import { useRouter } from 'next/router';
 
 interface IShoppingCart {
     open: boolean;
@@ -20,7 +21,9 @@ const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
     const [checkoutLoading, setCheckoutLoading] = React.useState<boolean>(false);
     const { currentLanguage, shoppingcart, totalShoppingCartItems, updateShoppingCartItems, setNotify } = useGlobalContext();
 
-    const totalPrice = shoppingcart.reduce((total, item) => total + item.quantity * item.price[currentLanguage], 0);
+    const router = useRouter();
+
+    const totalPrice = shoppingcart.reduce((total, item) => total + item?.quantity * item?.price[currentLanguage], 0);
 
     React.useEffect(() => {
         setIsBrowser(true);
@@ -40,7 +43,13 @@ const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
     };
 
     const handleClick = async () => {
+        if (shoppingcart.length === 0) {
+            setNotify(texts[currentLanguage].cartempty);
+            return;
+        }
+
         setCheckoutLoading(true);
+
         const cartChanges = await updateShoppingCartItems();
 
         if (cartChanges.length > 0) {
@@ -50,6 +59,10 @@ const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
         }
 
         setCheckoutLoading(false);
+        handleClose();
+        router.push({
+            pathname: '/checkout',
+        });
     };
 
     if (isBrowser && open) {

@@ -10,13 +10,15 @@ export default <ILangOptions> {
         shoes: 'Shoes',
         tshirts: 'T-shirt',
         hoodies: 'Hoodie',
-        size: 'Size'
+        size: 'Size',
+        quantity: 'Quantity'
     },
     [langOptions.POLISH]: {
         currency: 'PLN',
         shoes: 'Buty',
         tshirts: 'Koszulka',
         hoodies: 'Bluza',
-        size: 'Rozmiar'
+        size: 'Rozmiar',
+        quantity: 'Ilość'
     }
 }

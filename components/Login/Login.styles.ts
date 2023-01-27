@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const LoginContainer = styled.form<{isLoading: boolean | undefined}>`
+export const LoginContainer = styled.form<{isLoading: boolean | undefined, checkoutLogin?: boolean}>`
     width: 100%;
     max-width: 512px;
     color: ${({theme}) => theme.color.text.primary};
@@ -44,7 +44,6 @@ export const LoginContainer = styled.form<{isLoading: boolean | undefined}>`
             background-color: ${isLoading ? theme.color.body.accent : theme.color.text.primary};
             font-weight: ${theme.font.weight.bold};
             cursor: ${isLoading ? 'default' : 'pointer'};
-            pointer-events: ;
             pointer-events: ${isLoading ? 'none' : 'fill'};
         `}
     }
@@ -53,7 +52,7 @@ export const LoginContainer = styled.form<{isLoading: boolean | undefined}>`
         text-align: center;
         width: 100%;
         padding: 30px 15px;
-        background-color: ${({theme}) => theme.color.body.secondary};
+        background-color: ${({checkoutLogin, theme}) => !checkoutLogin && theme.color.body.secondary};
 
         a{
             display: block;
