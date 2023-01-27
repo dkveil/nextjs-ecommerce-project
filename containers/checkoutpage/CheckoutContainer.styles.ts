@@ -138,15 +138,15 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
 
         .inner-checkout-content{
             margin: 0 15px;
-            height: 360px;
+            min-height: 360px;
             min-height: fit-content;
             display: flex;
             align-items: center;
+            flex-direction: column;
 
             ${({theme}) => theme.mq.desktop}{
                 display: flex;
                 align-items: center;
-                flex-direction: column;
                 margin: 0 auto;
             }
         }
@@ -154,10 +154,10 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         .checkout-content__header{
             font-size: 32px;
             text-align: center;
+            max-width: 340px;
 
             ${({theme}) => theme.mq.desktop}{
                 margin-bottom: 20px;
-                width: 340px;
             }
         }
     }
