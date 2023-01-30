@@ -6,7 +6,8 @@ export const lightThemePallete = {
             accent: '#cacaca'
         },
         text: {
-            primary: 'black'
+            primary: 'black',
+            secondary: '#666'
         }
     }
 }
@@ -19,7 +20,8 @@ export const darkThemePallete = {
             accent: '#4d4d4d'
         },
         text: {
-            primary: 'white'
+            primary: 'white',
+            secondary: '#bbb'
         }
     }
 }

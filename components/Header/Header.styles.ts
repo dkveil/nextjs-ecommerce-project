@@ -202,7 +202,7 @@ export const MainNavigationContainer = styled.div<{isOpen: boolean}>`
     justify-content: flex-end;
     position: fixed;
     width: 100%;
-    top: 56px;
+    top: 58px;
     left: 0;
     transform: translateX(${({isOpen}) => isOpen ? 0 : '-100%'});
     transition: .2s .2s transform, .2s background-color .2s;

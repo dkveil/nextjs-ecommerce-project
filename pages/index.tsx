@@ -1,17 +1,18 @@
 import React from 'react';
 import { getData } from '../utils/fetchData';
-import Hero from '../components/Hero/Hero';
+import Hero from '../containers/homepage/Hero/Hero';
 import Head from 'next/head';
-import Link from 'next/link';
 import type { IProduct } from '../types/Product.types';
-import slugify from 'slugify';
+import NewestProducts from '../containers/homepage/Newest/NewestProducts';
+import FeaturedProducts from '../containers/homepage/Featured/FeaturedProducts';
 
 interface HomeProps {
-    products: IProduct[];
+    newestproducts: IProduct[];
+    featuredproducts: IProduct[];
 }
 
 const Home = (props: HomeProps) => {
-    const { products } = props;
+    const { newestproducts, featuredproducts } = props;
 
     return (
         <>
@@ -19,24 +20,20 @@ const Home = (props: HomeProps) => {
                 <title>Homepage</title>
             </Head>
             <Hero />
-            {products.map((product) => (
-                <Link
-                    href={`/products/${product.categoryid}/${slugify(product.title.ENG).toLocaleLowerCase()}`}
-                    style={{ display: 'block' }}
-                >
-                    {slugify(product.title.ENG).toLocaleLowerCase()}
-                </Link>
-            ))}
+            <NewestProducts products={newestproducts} />
+            <FeaturedProducts products={featuredproducts} />
         </>
     );
 };
 
 export const getServerSideProps = async () => {
-    const res = await getData(`/products`);
+    const { newestproducts } = await getData(`/products/newest`);
+    const { featuredproducts } = await getData(`/products/mostpopular`);
 
     return {
         props: {
-            products: res.products,
+            newestproducts,
+            featuredproducts,
         },
     };
 };

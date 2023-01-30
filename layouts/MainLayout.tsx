@@ -3,13 +3,14 @@ import GlobalStyles from '../styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { darkThemePallete, lightThemePallete, variablesTheme } from '../styles/theme';
 import Header from '../components/Header/Header';
-import { GlobalContextProvider, useGlobalContext } from '../context/GlobalContext';
+import { useGlobalContext } from '../context/GlobalContext';
 import Modal from '../components/Modal/Modal';
 import Login from '../components/Login/Login';
 import SearchPanel from '../components/SearchPanel/SearchPanel';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
 import Notify from '../components/Notify/Notify';
 import LoadingContainer from '../containers/LoadingContainer/LoadingContainer';
+import Footer from '../components/Footer/Footer';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const [openLoginModal, setOpenLoginModal] = React.useState<boolean>(false);
@@ -37,6 +38,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 openSearchPanel={() => setOpenSearchPanel(true)}
             />
             <main>{children}</main>
+            <Footer />
             <Modal show={openLoginModal} closeModal={() => setOpenLoginModal(false)} websiteTheme={websiteTheme}>
                 <Login type="login" closeLoginForm={() => setOpenLoginModal(false)} />
             </Modal>

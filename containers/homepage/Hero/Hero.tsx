@@ -1,6 +1,6 @@
 import React from 'react';
 import { HeroContainer, HeroVideo } from './Hero.styles';
-import { useGlobalContext } from '../../context/GlobalContext';
+import { useGlobalContext } from '../../../context/GlobalContext';
 import texts from './texts';
 import Link from 'next/link';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';

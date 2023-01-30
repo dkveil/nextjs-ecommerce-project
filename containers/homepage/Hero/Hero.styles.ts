@@ -6,7 +6,7 @@ export const HeroContainer = styled.div<{showButtons: boolean, websiteTheme: 'li
     z-index: 0;
 
     ${({theme}) => theme.mq.desktop}{
-        height: 720px;
+        height: 620px;
     }
 
     ::after{

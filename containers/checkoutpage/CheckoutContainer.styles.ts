@@ -5,6 +5,7 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
     ${({theme}) => theme.mq.desktop}{
         display: flex;
         flex-direction: row-reverse;
+        border-bottom: none;
     }
 
     .checkout__summary{
@@ -45,8 +46,9 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         overflow: hidden;
         background-color: ${({theme}) => theme.color.body.secondary};
         max-height: ${({detailsOpen}) => detailsOpen ? '10000px': '0px'};
-        border-bottom: 1px solid ${({theme}) => theme.color.body.accent};
         transition: max-height .2s;
+        border-bottom: 1px solid ${({theme}) => theme.color.body.accent};
+
 
         ${({theme}) => theme.mq.desktop}{
             max-height: unset;
@@ -54,6 +56,7 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
             min-height: 100%;
             padding: 70px 0;
             border-left: 1px solid ${({theme}) => theme.color.body.accent};
+            border-bottom: none;
         }
 
         ${({theme}) => theme.mq.large}{

@@ -1,4 +1,4 @@
-import langOptions from '../../utils/languageOptions'
+import langOptions from '../../../utils/languageOptions'
 
 interface ILangOptions {
     [id: string]: { [id: string]: string }
