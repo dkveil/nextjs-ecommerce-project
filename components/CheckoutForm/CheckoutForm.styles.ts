@@ -1,35 +1,30 @@
 import styled, { css } from "styled-components";
 
-export const LoginContainer = styled.form<{isLoading: boolean | undefined, checkoutLogin?: boolean}>`
+export const CheckoutFormWrapper = styled.form<{isLoading: boolean}>`
+
     width: 100%;
-    max-width: 512px;
-    color: ${({theme}) => theme.color.text.primary};
-
-    .inner-form{
-        padding: 30px 15px;
-
-        ${({theme}) => theme.mq.desktop}{
-            padding: 30px 40px;
-        }
-    }
+    max-width: 640px;
 
     h2{
-        font-size: 42px;
-        text-align: center;
-        margin-bottom: 10px;
-        line-height: .9;
+        font-size: 32px;
+        margin-bottom: 30px;
     }
 
-    .form-information {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .inputs-wrapper{
+    .form-inputs{
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
+    }
+
+    .inputs-group{
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+
+        ${({theme}) => theme.mq.tablet}{
+            flex-direction: row;
+        }
     }
 
     button{
@@ -49,24 +44,10 @@ export const LoginContainer = styled.form<{isLoading: boolean | undefined, check
         `}
     }
 
-    .form-footer{
-        text-align: center;
-        width: 100%;
-        padding: 30px 15px;
-        background-color: ${({checkoutLogin, theme}) => !checkoutLogin && theme.color.body.secondary};
-
-        a{
-            display: block;
-            color: inherit;
-            width: fit-content;
-            margin: 0 auto;
-            font-weight: ${({theme}) => theme.font.weight.bold};
-        }
-    }
-
 `
 
 export const InputWrapper = styled.div<{error: boolean}>`
+    width: 100%;
     input{
         font-size: 16px;
         padding: 14px 18px;

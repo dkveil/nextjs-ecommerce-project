@@ -7,13 +7,18 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import texts from '../containers/checkoutpage/texts';
 import Login from '../components/Login/Login';
 import CheckoutItem from '../components/CheckoutShoppingCartItem/CheckoutShoppingCartItem';
+import CheckoutForm from '../components/CheckoutForm/CheckoutForm';
+import { postData } from '../utils/fetchData';
+import { IoMdClose } from 'react-icons/io';
 
 const CheckoutPage = () => {
     const router = useRouter();
-    const { shoppingcart, currentLanguage, user } = useGlobalContext();
+    const { shoppingcart, currentLanguage, user, setNotify, setGlobalLoading } = useGlobalContext();
     const totalPrice = shoppingcart.reduce((total, item) => total + item?.quantity * item?.price[currentLanguage], 0);
     const [checkoutDetailsOpen, setChekoutDetailsOpen] = React.useState<boolean>(false);
+    const [checkoutFormType, setCheckoutFormType] = React.useState<'user' | 'guest' | null>(user ? 'user' : null);
     const cuoponInputRef = React.useRef<HTMLInputElement>(null);
+    const [coupon, setCoupon] = React.useState<{ title: string; percentageDiscount: number } | null>(null);
 
     useSkipFirstEffect(() => {
         if (shoppingcart.length === 0) {
@@ -25,12 +30,31 @@ const CheckoutPage = () => {
         return null;
     }
 
-    const handleCuopon = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleCuopon = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(cuoponInputRef.current?.value);
+        setGlobalLoading(true);
+
+        try {
+            const { messageid, coupon } = await postData('coupon', { couponValue: cuoponInputRef?.current?.value });
+
+            if (coupon) {
+                setCoupon(coupon);
+            }
+
+            setNotify(texts[currentLanguage][messageid]);
+        } catch (error) {
+            setNotify(texts[currentLanguage].unknowerror);
+        } finally {
+            setGlobalLoading(false);
+        }
     };
 
-    const handleOrder = () => {};
+    const handleTotalPrice = () => {
+        if (coupon) {
+            return (totalPrice * (100 - coupon.percentageDiscount)) / 100;
+        }
+        return totalPrice;
+    };
 
     return (
         <CheckoutContainer detailsOpen={checkoutDetailsOpen}>
@@ -53,7 +77,7 @@ const CheckoutPage = () => {
                 </div>
                 <div className="checkeout-details__body">
                     <div className="details-body__items">
-                        {shoppingcart.map((item) => (
+                        {shoppingcart?.map((item) => (
                             <CheckoutItem
                                 key={item._id}
                                 img={item.img}
@@ -67,10 +91,23 @@ const CheckoutPage = () => {
                         ))}
                     </div>
                     <div className="details-body__cuopon">
+                        {coupon ? (
+                            <div className="coupon">
+                                <button onClick={() => setCoupon(null)}>
+                                    <IoMdClose />
+                                </button>
+                                <span>
+                                    {texts[currentLanguage].applied}{' '}
+                                    <b>
+                                        {coupon.title} {coupon.percentageDiscount}%
+                                    </b>
+                                </span>
+                            </div>
+                        ) : null}
                         <form onSubmit={handleCuopon}>
                             <div className="coupon-input-wrapper">
                                 <input ref={cuoponInputRef} placeholder={texts[currentLanguage].gotacoupon} />
-                                <button>
+                                <button className="coupon-button">
                                     <span>{texts[currentLanguage].apply}</span>
                                 </button>
                             </div>
@@ -80,7 +117,7 @@ const CheckoutPage = () => {
                         <div className="inner-checkout-body__total">
                             <span className="checkout-body__total-title">{texts[currentLanguage].total}</span>
                             <strong className="checkout-body__total-price">
-                                {texts[currentLanguage].currency} {totalPrice.toFixed(2)}
+                                {texts[currentLanguage].currency} {handleTotalPrice().toFixed(2)}
                             </strong>
                         </div>
                     </div>
@@ -88,11 +125,17 @@ const CheckoutPage = () => {
             </div>
             <div className="checkout__content">
                 <div className="inner-checkout-content">
-                    {user ? (
-                        <CreateOrderButton onClick={handleOrder}>Create order</CreateOrderButton>
+                    {checkoutFormType ? (
+                        <CheckoutForm type={checkoutFormType} totalPrice={handleTotalPrice()} />
                     ) : (
                         <>
-                            <div className="checkout-content__header">{texts[currentLanguage].youneedbelogged}</div>
+                            <div className="checkout-content__header">
+                                <h3>{texts[currentLanguage].logintoyouraccount}</h3>
+                                <span>{texts[currentLanguage].or}</span>
+                                <a href="#" onClick={() => setCheckoutFormType('guest')}>
+                                    {texts[currentLanguage].continueasguest}
+                                </a>
+                            </div>
                             <Login type="login" checkoutLogin />
                         </>
                     )}

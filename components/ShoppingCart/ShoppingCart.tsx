@@ -84,7 +84,7 @@ const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
                             <div className="shoppingcart-body">
                                 <table className="shoppingcart-table">
                                     <tbody>
-                                        {shoppingcart.map((item) => (
+                                        {shoppingcart?.map((item) => (
                                             <ShoppingCartItem
                                                 key={item._id + item.size}
                                                 _id={item._id}

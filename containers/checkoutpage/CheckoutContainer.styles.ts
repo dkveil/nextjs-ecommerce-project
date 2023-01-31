@@ -60,7 +60,7 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         }
 
         ${({theme}) => theme.mq.large}{
-            width: 570px;
+            width: 500px;
         }
 
         .checkout-details__header{
@@ -84,6 +84,27 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         .details-body__cuopon{
             margin: 0 15px;
 
+            .coupon{
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                button {
+                    cursor: pointer;
+                    border: none;
+                    background-color: transparent;
+                    svg{
+                        font-size: 16px;
+                    }
+                }
+                span{
+                    b{
+                        font-weight: ${({theme}) => theme.font.weight.bold};
+                    }
+                }
+            }
+
             .coupon-input-wrapper{
                 display: flex;
                 border: 1px solid ${({theme}) => theme.color.text.primary};
@@ -92,18 +113,18 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
                     font-size: 16px;
                     border: none;
                     background-color: transparent;
-                    flex-grow: 1;
                 }
 
                 input{
+                    flex-grow: 1;
                     padding: 17px;
                     outline: none;
                 }
 
                 button{
                     text-transform: uppercase;
-                    width: fit-content;
                     cursor: pointer;
+                    padding: 16px;
                 }
             }
         }
@@ -155,12 +176,22 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         }
 
         .checkout-content__header{
-            font-size: 32px;
             text-align: center;
             max-width: 340px;
 
-            ${({theme}) => theme.mq.desktop}{
-                margin-bottom: 20px;
+            h3{
+                font-size: 32px;
+                margin-bottom: 5px;
+            }
+            span{
+                display: block;
+                margin-bottom: 10px;
+            }
+            a{
+                color: inherit;
+                text-transform: uppercase;
+                letter-spacing: .1em;
+                font-size: 14px;
             }
         }
     }

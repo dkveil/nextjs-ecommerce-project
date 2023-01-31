@@ -23,6 +23,5 @@ export default <ILangOptions> {
         unknowerror: 'Coś poszło nie tak...',
         currency: 'PLN',
         cartupdated: 'Twój koszyk został zaktulizowany. Prawdopodobnie jeden z Twoich produktów nie jest już dostępny.',
-
     }
 }

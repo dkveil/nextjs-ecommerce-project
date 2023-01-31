@@ -1,5 +1,9 @@
 import { server } from '../config';
 
+const headersConfig = {
+    'Content-Type': 'application/json',
+}
+
 export const getData = async (url:string) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'GET',
@@ -9,12 +13,10 @@ export const getData = async (url:string) => {
     return data;
 }
 
-export const postData = async (url:string, post: any) => {
+export const postData = async <T>(url:string, post: T, token?: string) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,
         body: JSON.stringify(post)
     })
 
@@ -22,7 +24,7 @@ export const postData = async (url:string, post: any) => {
     return data;
 }
 
-export const putData = async (url:string, post: any) => {
+export const putData = async <T>(url:string, post: T) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'PUT',
         headers: {
@@ -35,7 +37,7 @@ export const putData = async (url:string, post: any) => {
     return data;
 }
 
-export const deleteData = async (url:string, post: any) => {
+export const deleteData = async <T>(url:string, post: T) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'DELETE',
         headers: {

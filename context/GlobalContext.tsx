@@ -31,8 +31,10 @@ interface IGlobalContext {
     subShoppingCartItem: (product: { _id: string; size: string }, decreasingFromShoppingCart?: boolean) => void;
     removeShoppingCartItem: (product: { _id: string; size: string }) => void;
     updateShoppingCartItems: () => Promise<string[]>;
+    clearShoppingCart: () => void;
     totalShoppingCartItems: number;
-    shoppingCartLoading: boolean;
+    globalLoading: boolean;
+    setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GlobalContext = React.createContext({} as IGlobalContext);
@@ -59,7 +61,7 @@ const initialState: IInitialState = {
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = React.useReducer(reducers, initialState);
-    const [shoppingCartLoading, setShoppingCartLoading] = React.useState<boolean>(false);
+    const [globalLoading, setGlobalLoading] = React.useState<boolean>(false);
     const totalShoppingCartItems = state.shoppingcart.reduce((total: number, item: IShoppingCartItem) => total + item?.quantity, 0);
 
     const setCurrentLanguage = (lang: string) => {
@@ -94,7 +96,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
     };
 
     const addShoppingCartItem = async (product: { _id: string; size: string }, addingFromShoppingCart?: boolean) => {
-        setShoppingCartLoading(true);
+        setGlobalLoading(true);
 
         const productInCart =
             state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size) || null;
@@ -158,7 +160,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         } catch (error) {
             setNotify(texts[state.currentLanguage].unknownerror);
         } finally {
-            setShoppingCartLoading(false);
+            setGlobalLoading(false);
         }
     };
 
@@ -171,7 +173,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
             return;
         }
 
-        setShoppingCartLoading(true);
+        setGlobalLoading(true);
 
         try {
             const res = await getData(`product/${product._id}`);
@@ -210,7 +212,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         } catch (error) {
             setNotify(texts[state.currentLanguage].unknownerror);
         } finally {
-            setShoppingCartLoading(false);
+            setGlobalLoading(false);
         }
     };
 
@@ -260,6 +262,10 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: shoppingCartUpdate });
 
         return shoppingCartChanges;
+    };
+
+    const clearShoppingCart = () => {
+        dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: [] });
     };
 
     React.useEffect(() => {
@@ -335,8 +341,10 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 subShoppingCartItem,
                 removeShoppingCartItem,
                 totalShoppingCartItems,
-                shoppingCartLoading,
+                globalLoading,
                 updateShoppingCartItems,
+                clearShoppingCart,
+                setGlobalLoading,
             }}
         >
             {children}

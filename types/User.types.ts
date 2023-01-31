@@ -1,5 +1,5 @@
 export interface IUser {
-    accessToken?: String;
+    accessToken?: string;
     data: {
         email: string;
         wishlist: string[];
