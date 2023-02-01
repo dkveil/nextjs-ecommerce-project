@@ -18,6 +18,19 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
                 ...state,
                 user: action.payload
             }
+        case ACTIONS.SET_USER_DETAILS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    data: action.payload
+                }
+            }
+        case ACTIONS.LOGOUT_USER:
+            return {
+                ...state,
+                user: null
+            }
         case ACTIONS.CHANGE_THEME:
             return{
                 ...state,

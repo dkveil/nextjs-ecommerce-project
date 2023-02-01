@@ -49,7 +49,7 @@ type UserNavTypes = {
 } & Pick<IHeader, 'openLoginModal' | 'openShoppingCart' | 'openSearchPanel'>;
 
 const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingCart, openSearchPanel }: UserNavTypes) => {
-    const { user, currentLanguage, totalShoppingCartItems } = useGlobalContext();
+    const { user, currentLanguage, totalShoppingCartItems, setNotify } = useGlobalContext();
 
     return (
         <div className="usernav">
@@ -64,7 +64,10 @@ const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingC
                                 </button>
                             </ListItem>
                             <ListItem>
-                                <Link href="/">
+                                <Link
+                                    href={user ? '/my-account/wishlist' : '#'}
+                                    onClick={user ? undefined : () => setNotify(texts[currentLanguage].youmustloginfirst)}
+                                >
                                     <span>{texts[currentLanguage].wish}</span>
                                     <CiHeart />
                                 </Link>
@@ -78,7 +81,7 @@ const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingC
                         <ul>
                             <ListItem>
                                 {user ? (
-                                    <Link href="/" className="login">
+                                    <Link href="/my-account/orders" className="login">
                                         <span>{texts[currentLanguage].myaccount}</span>
                                         <CiUser />
                                     </Link>
@@ -146,7 +149,7 @@ const MainNavigation = ({ openNavigation, handleToggleOpenNav, openLoginModal }:
                 <nav className="inner-mainnavigation">
                     <ul className="navlist">
                         {navItems.map((item) => (
-                            <MainNavigationItem key={item.id} active={item.path === useRouter().pathname} onClick={handleToggleOpenNav}>
+                            <MainNavigationItem key={item.id} active={item.path === useRouter().asPath} onClick={handleToggleOpenNav}>
                                 <Link href={item.path}>{texts[currentLanguage][item.id]}</Link>
                             </MainNavigationItem>
                         ))}
@@ -159,7 +162,7 @@ const MainNavigation = ({ openNavigation, handleToggleOpenNav, openLoginModal }:
                 </nav>
             </div>
             {user ? (
-                <Link href="/" className="loginbutton">
+                <Link href="/my-account/orders" className="loginbutton" onClick={handleToggleOpenNav}>
                     <CiUser />
                     <span>{texts[currentLanguage].myaccount}</span>
                 </Link>

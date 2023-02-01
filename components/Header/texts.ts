@@ -15,7 +15,8 @@ export default <ILangOptions> {
         all: 'All',
         tshirts: 'T-shirts',
         hoodies: 'Hoodies',
-        shoes: 'Shoes'
+        shoes: 'Shoes',
+        youmustloginfirst: 'You must log in first'
     },
     [langOptions.POLISH]: {
         search: 'Szukaj',
@@ -27,6 +28,7 @@ export default <ILangOptions> {
         all: 'Wszystko',
         tshirts: 'Koszulki',
         hoodies: 'Bluzy',
-        shoes: 'Buty'
+        shoes: 'Buty',
+        youmustloginfirst: 'Musisz się najpierw zalogować'
     }
 }

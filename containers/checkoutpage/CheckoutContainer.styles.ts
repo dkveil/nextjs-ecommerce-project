@@ -196,17 +196,3 @@ export const CheckoutContainer = styled.div<{detailsOpen: boolean}>`
         }
     }
 `
-
-export const CreateOrderButton = styled.button`
-    padding: 16px;
-    border: none;
-    background-color: ${({theme}) => theme.color.text.primary};
-    color: ${({theme}) => theme.color.body.primary};
-    text-transform: uppercase;
-    cursor: pointer;
-    letter-spacing: .1em;
-    width: 100%;
-    max-width: 555px;
-    display: block;
-    margin: auto;
-`

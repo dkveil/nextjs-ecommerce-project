@@ -20,7 +20,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const accessToken = createAccessToken({id: user._id})
         res.json({
             accessToken,
-            data: user
+            data: {
+                email: user.email,
+                wishlist: user.wishlist,
+                role: user.role,
+                root: user.root,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone
+            }
         })
     } catch {
         res.status(500).json({messageid: 'unknowerror'})

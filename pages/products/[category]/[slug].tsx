@@ -22,6 +22,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const res = await getData(`/products/${category}/${slug}`);
 
+    if (!res) {
+        return {
+            notFound: true,
+        };
+    }
+
     return {
         props: {
             product: res.product,

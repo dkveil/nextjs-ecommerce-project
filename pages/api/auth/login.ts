@@ -34,7 +34,10 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
                 email: user.email,
                 wishlist: user.wishlist,
                 role: user.role,
-                root: user.root
+                root: user.root,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone
             }})
     } catch (error) {
         return res.status(500).json({messageid: "unknowerror"})

@@ -93,7 +93,7 @@ const SearchPanel = ({ open, websiteTheme, closePanel }: ISearchPanel) => {
         if (searchResultsOpen && searchValue.length > 0) {
             searchItems();
         }
-    }, [searchResultsOpen, searchValue]);
+    }, [searchResultsOpen, searchValue.length]);
 
     const handleKeyDown = (e: React.KeyboardEvent) => (e.key === 'Enter' ? handleClick() : null);
 

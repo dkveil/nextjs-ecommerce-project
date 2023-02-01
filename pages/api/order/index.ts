@@ -12,10 +12,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const authResult = await auth(req , res) as {id: string, email: string} | undefined;
 
-        const { name, lastName, email, phone, street, city, postcode, shoppingcart, totalPrice, currency, coupon } = req.body;
+        const { name, lastName, email, phone, street, city, postcode, shoppingcart, totalPrice, currency, coupon, isUser } = req.body;
 
         const newOrder = new Orders({
-            user: authResult?.id,
+            user: isUser ? authResult?.id : null,
             name,
             lastName,
             email: authResult?.email || email,

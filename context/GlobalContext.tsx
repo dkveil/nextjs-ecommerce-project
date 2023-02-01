@@ -6,7 +6,7 @@ import { languageList } from '../helpers/languageList';
 import { getData } from '../utils/fetchData';
 import texts from './texts';
 import Cookie from 'js-cookie';
-import type { IUser } from '../types/User.types';
+import type { IUser, IUserDetails } from '../types/User.types';
 import { useSkipFirstEffect } from '../hooks/useSkipFirstEffect.hook';
 import { IShoppingCartItem } from '../types/ShoppingCartItem.types';
 
@@ -23,6 +23,7 @@ interface IGlobalContext {
     setNotify: (message: string | null) => void;
     user: IUser | null;
     handleLogin: (userdata: IUser) => void;
+    setUserDetails: (userdetails: IUserDetails) => void;
     handleLogout: () => void;
     websiteTheme: 'light theme' | 'dark theme';
     handleChangeTheme: () => void;
@@ -77,9 +78,13 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.USER, payload: userdata });
     };
 
+    const setUserDetails = (userdetails: IUserDetails) => {
+        dispatch({ type: ACTIONS.SET_USER_DETAILS, payload: userdetails });
+    };
+
     const handleLogout = () => {
-        Cookie.remove('refreshToken', { path: '/api/auth/accessToken' });
-        localStorage.removieItem('firstLogin');
+        Cookie.remove('refreshToken', { path: 'api/auth/accessToken' });
+        localStorage.removeItem('firstLogin');
         dispatch({ type: ACTIONS.LOGOUT_USER });
         setNotify(texts[state.currentLanguage].logout);
     };
@@ -333,6 +338,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 setNotify,
                 user: state.user,
                 handleLogin,
+                setUserDetails,
                 handleLogout,
                 websiteTheme: state.websiteTheme,
                 handleChangeTheme,

@@ -2,7 +2,7 @@ import React from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
 import { useRouter } from 'next/router';
 import { useSkipFirstEffect } from '../hooks/useSkipFirstEffect.hook';
-import { CheckoutContainer, CreateOrderButton } from '../containers/checkoutpage/CheckoutContainer.styles';
+import { CheckoutContainer } from '../containers/checkoutpage/CheckoutContainer.styles';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import texts from '../containers/checkoutpage/texts';
 import Login from '../components/Login/Login';

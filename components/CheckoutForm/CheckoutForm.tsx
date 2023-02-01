@@ -41,10 +41,10 @@ const CheckoutForm = ({ type, totalPrice }: { type: 'user' | 'guest'; totalPrice
 
     const formik = useFormik<CheckoutFormModel>({
         initialValues: {
-            name: '',
-            lastName: '',
-            email: '',
-            phone: '',
+            name: user?.data.firstName || '',
+            lastName: user?.data.lastName || '',
+            email: user?.data.email || '',
+            phone: user?.data.phone || '',
             street: '',
             city: '',
             postcode: '',
@@ -63,6 +63,7 @@ const CheckoutForm = ({ type, totalPrice }: { type: 'user' | 'guest'; totalPrice
                 shoppingcart,
                 totalPrice,
                 currency: texts[currentLanguage].currency,
+                isUser: Boolean(user),
             };
 
             try {
@@ -150,7 +151,7 @@ const CheckoutForm = ({ type, totalPrice }: { type: 'user' | 'guest'; totalPrice
                         </InputWrapper>
                     </div>
                 </div>
-                <button>{loading ? <LoadingSpinner /> : texts[currentLanguage].createorder}</button>
+                <button type="submit">{loading ? <LoadingSpinner /> : texts[currentLanguage].createorder}</button>
             </CheckoutFormWrapper>
         );
     }

@@ -1,12 +1,14 @@
+import { string } from 'yup';
 import { server } from '../config';
 
 const headersConfig = {
     'Content-Type': 'application/json',
 }
 
-export const getData = async (url:string) => {
+export const getData = async (url:string, token?: string) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'GET',
+        headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,
     })
 
     const data = await res.json();
@@ -24,12 +26,10 @@ export const postData = async <T>(url:string, post: T, token?: string) => {
     return data;
 }
 
-export const putData = async <T>(url:string, post: T) => {
+export const patchData = async<T>(url: string, post: T, token?: string) => {
     const res = await fetch(`${server}/api/${url}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        method: 'PATCH',
+        headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,
         body: JSON.stringify(post)
     })
 
@@ -37,12 +37,21 @@ export const putData = async <T>(url:string, post: T) => {
     return data;
 }
 
-export const deleteData = async <T>(url:string, post: T) => {
+export const putData = async <T>(url:string, post: T, token?: string)  => {
+    const res = await fetch(`${server}/api/${url}`, {
+        method: 'PUT',
+        headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,
+        body: JSON.stringify(post)
+    })
+
+    const data = await res.json();
+    return data;
+}
+
+export const deleteData = async <T>(url:string, post: T, token?: string) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,
         body: JSON.stringify(post)
     })
 
