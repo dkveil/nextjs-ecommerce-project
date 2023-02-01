@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 export const ProductCardWrapper = styled.div`
     position: relative;
@@ -60,5 +61,20 @@ export const ProductCardWrapper = styled.div`
                 fill: ${({theme}) => theme.color.text.primary};
             }
         }
+    }
+`
+
+export const StyledImage = styled(Image)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity .2s ease;
+
+    :hover{
+        opacity: 1;
     }
 `

@@ -20,7 +20,10 @@ export default <ILangOptions> {
         size: 'Size',
         choosesizefirst: 'Select product option before adding this product to your cart.',
         choosesize: 'Choose an size',
-        desc: 'Description'
+        desc: 'Description',
+        youneedbeloggedtoaddwish: 'You need be logged in to add product to wishlist',
+        removedfromwishlist: 'Removed product from wislist',
+        unknowerror: 'Something went wrong...'
     },
     [langOptions.POLISH]: {
         instock: 'Dostępne',
@@ -37,6 +40,9 @@ export default <ILangOptions> {
         size: 'Rozmiar',
         choosesizefirst: 'Wybierz rozmiar przed dodaniem produktu do koszyka.',
         choosesize: 'Wybierz rozmiar',
-        desc: 'Szcegóły produktu'
+        desc: 'Szcegóły produktu',
+        youneedbeloggedtoaddwish: 'Musisz być zalogowany, aby dodać produkt do listy życzeń',
+        removedfromwishlist: 'Usunięto produkt z listy życzeń',
+        unknowerror: 'Coś poszło nie tak...'
     }
 }

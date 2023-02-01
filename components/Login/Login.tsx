@@ -60,10 +60,15 @@ const Login = ({
             try {
                 const res = await postData(formType === 'register' ? 'auth/register' : 'auth/login', userData);
 
+                const { accessToken, refreshToken, data, messageid } = res;
+
                 setNotify(texts[currentLanguage][res.messageid]);
 
-                const { accessToken, refreshToken, data } = res;
+                console.log(res);
 
+                if (messageid === 'emailalreadyexists') {
+                    return;
+                }
                 handleLogin({
                     accessToken,
                     data,

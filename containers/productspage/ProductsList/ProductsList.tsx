@@ -10,6 +10,7 @@ const ProductsList = ({ products }: { products: IProduct[] }) => {
                     {products.map((product) => (
                         <ProductCard
                             key={product._id}
+                            id={product._id}
                             title={product.title}
                             images={product.images}
                             categoryid={product.categoryid}

@@ -5,7 +5,7 @@ export interface IUser {
 
 export interface IUserDetails {
     email: string;
-    wishlist: string[];
+    wishlist: { productId: string, createdAt: string }[];
     firstName: string;
     lastName: string;
     phone: string;

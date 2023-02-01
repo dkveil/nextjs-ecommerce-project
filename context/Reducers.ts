@@ -41,6 +41,17 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
                 ...state,
                 shoppingcart: action.payload
             }
+        case ACTIONS.SET_WISHLIST:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    data: {
+                        ...state.user?.data,
+                        wishlist: action.payload
+                    }
+                }
+            }
         default:
             return state
     }

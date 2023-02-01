@@ -36,6 +36,8 @@ interface IGlobalContext {
     totalShoppingCartItems: number;
     globalLoading: boolean;
     setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    addToWishlist: (wishlistitem: { productId: string; createdAt: string }) => void;
+    removeFromWishlist: (id: string) => void;
 }
 
 const GlobalContext = React.createContext({} as IGlobalContext);
@@ -273,6 +275,24 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: [] });
     };
 
+    const addToWishlist = (wishlistitem: { productId: string; createdAt: string }) => {
+        if (!state.user) {
+            return;
+        }
+
+        const newWishlistState = [...state.user.data.wishlist, wishlistitem];
+
+        dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState });
+    };
+
+    const removeFromWishlist = (id: string) => {
+        if (!state.user) {
+            return;
+        }
+
+        dispatch({ type: ACTIONS.SET_WISHLIST, payload: state.user.data.wishlist.filter((item) => item.productId !== id) });
+    };
+
     React.useEffect(() => {
         if (localStorage.getItem('language')) {
             setCurrentLanguage(localStorage.getItem('language')!);
@@ -351,6 +371,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 updateShoppingCartItems,
                 clearShoppingCart,
                 setGlobalLoading,
+                addToWishlist,
+                removeFromWishlist,
             }}
         >
             {children}
