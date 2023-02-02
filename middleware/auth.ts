@@ -11,7 +11,7 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const user = await Users.findOne({_id: decoded.id})
 
-    return {id: user._id, email: user.email} ;
+    return {id: user._id, email: user.email, role: user.role, root: user.root} ;
 }
 
 export default auth

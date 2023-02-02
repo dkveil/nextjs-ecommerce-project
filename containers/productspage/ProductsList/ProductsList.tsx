@@ -1,8 +1,11 @@
 import { IProduct } from '../../../types/Product.types';
 import { ProductsListWrapper } from './ProductsList.styles';
 import ProductCard from '../../../components/ProductCard/ProductCard';
+import { useGlobalContext } from '../../../context/GlobalContext';
 
 const ProductsList = ({ products }: { products: IProduct[] }) => {
+    const { user, handleWishlist } = useGlobalContext();
+
     return (
         <ProductsListWrapper>
             <div className="container">
@@ -16,6 +19,8 @@ const ProductsList = ({ products }: { products: IProduct[] }) => {
                             categoryid={product.categoryid}
                             price={product.price}
                             slug={product.slug}
+                            isInWishlist={Boolean(user?.data.wishlist.find((item) => item.productId === product._id))}
+                            handleWishlist={handleWishlist}
                         />
                     ))}
                 </div>

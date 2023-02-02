@@ -16,10 +16,10 @@ export const getUserOrders = async (req: NextApiRequest, res: NextApiResponse) =
     try{
         const authResult = await auth(req, res) as {id: string}
 
-        const userOrders = await Orders.find({user: authResult.id})
+        const orders = await Orders.find({user: authResult.id})
 
         res.json({
-            userOrders
+            orders
         })
     } catch (error) {
         res.status(500).json({messageid: 'unknowerror'})

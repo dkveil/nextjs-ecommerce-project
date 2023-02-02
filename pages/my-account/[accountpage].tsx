@@ -7,6 +7,10 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { getData } from '../../utils/fetchData';
 import AccountDetailsForm from '../../components/AccountDetailsForm/AccountDetailsForm';
+import LoadingSpinner from '../../components/Loading/Loading';
+import type { IWishlistItem } from '../../components/WishlistItem/WishlistItem';
+import WishlistItem from '../../components/WishlistItem/WishlistItem';
+import orders from '../api/user/orders';
 
 const userNavItems = [
     {
@@ -27,16 +31,24 @@ const userNavItems = [
     },
 ];
 
-const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
-    const { currentLanguage, handleLogout, user } = useGlobalContext();
+interface IOrderItem {
+    _id: string;
+    createdAt: string;
+    totalPrice: number;
+    currency: string;
+    delivered: boolean;
+}
 
-    if (!user) {
-        return null;
-    }
+const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
+    const [wishlistItems, setWishlistItems] = React.useState<(IWishlistItem | undefined)[]>([]);
+    const [orderItems, setOrderItems] = React.useState<IOrderItem[]>([]);
+    const [loading, setLoading] = React.useState<boolean>(false);
+
+    const { currentLanguage, handleLogout, user, setNotify, handleWishlist } = useGlobalContext();
 
     const router = useRouter();
 
-    const { accountpage } = router.query;
+    const { accountpage } = params;
 
     const handleLogoutClick = () => {
         handleLogout();
@@ -44,18 +56,67 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
     };
 
     const getOrders = async () => {
-        try {
-            const res = await getData('user/orders', user?.accessToken);
+        setLoading(true);
 
-            console.log(res);
-        } catch (error) {}
+        try {
+            const { orders } = await getData('user/orders', user?.accessToken);
+
+            setOrderItems(orders);
+        } catch (error) {
+            setNotify(texts[currentLanguage].unknowerror);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getWishlist = async () => {
+        if (!user?.data.wishlist) {
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const wishlistProducts = await Promise.all(
+                user.data.wishlist.map(async (item) => {
+                    try {
+                        const res = await getData(`product/${item.productId}`);
+
+                        const { product } = res;
+
+                        if (!product) return;
+
+                        return {
+                            id: product._id,
+                            title: product.title,
+                            categoryid: product.categoryid,
+                            img: product.images[0],
+                            price: product.price,
+                            slug: product.slug,
+                            createdAt: item.createdAt,
+                        };
+                    } catch (error) {
+                        return;
+                    }
+                })
+            );
+
+            setWishlistItems(wishlistProducts);
+        } catch (error) {
+            setNotify(texts[currentLanguage].unknowerror);
+        } finally {
+            setLoading(false);
+        }
     };
 
     React.useEffect(() => {
-        if (params.accountpage === 'orders') {
+        if (accountpage === 'orders') {
             getOrders();
         }
-    }, [params.accountpage]);
+        if (accountpage === 'wishlist') {
+            getWishlist();
+        }
+    }, [params.accountpage, user]);
 
     return (
         <MyAccountSection>
@@ -79,7 +140,67 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
                             ))}
                         </ul>
                     </nav>
-                    <div className="my-account__items">{accountpage === 'edit-account' ? <AccountDetailsForm /> : null}</div>
+                    <div className="my-account__items">
+                        {loading && <LoadingSpinner />}
+                        {!loading && accountpage === 'orders' ? (
+                            orderItems?.length > 0 ? (
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>{texts[currentLanguage].orderid}</td>
+                                            <td>{texts[currentLanguage].orderdate}</td>
+                                            <td>{texts[currentLanguage].totalprice}</td>
+                                            <td>{texts[currentLanguage].delivered}</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orderItems.map((item) => (
+                                            <tr key={item._id}>
+                                                <td>{item._id}</td>
+                                                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                                                <td>
+                                                    {item.totalPrice} {item.currency}
+                                                </td>
+                                                <td>{item.delivered ? texts[currentLanguage].yes : texts[currentLanguage].no}</td>
+                                                <td>
+                                                    <Link href={`/orders/${item._id}`}>{texts[currentLanguage].details}</Link>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div>{texts[currentLanguage].youhavenoorders}</div>
+                            )
+                        ) : null}
+                        {!loading && accountpage === 'edit-account' ? <AccountDetailsForm /> : null}
+                        {!loading && accountpage === 'wishlist' ? (
+                            wishlistItems.length > 0 ? (
+                                <ul>
+                                    {wishlistItems.map(
+                                        (item) =>
+                                            item !== undefined && (
+                                                <li key={item.id}>
+                                                    <WishlistItem
+                                                        id={item.id}
+                                                        title={item.title}
+                                                        categoryid={item.categoryid}
+                                                        img={item.img}
+                                                        price={item.price}
+                                                        slug={item.slug}
+                                                        createdAt={item.createdAt}
+                                                        handleWishlist={handleWishlist}
+                                                    />
+                                                </li>
+                                            )
+                                    )}
+                                </ul>
+                            ) : (
+                                <div>{texts[currentLanguage].youhavenoitemsinwishlist}</div>
+                            )
+                        ) : null}
+                    </div>
                 </div>
             </div>
         </MyAccountSection>

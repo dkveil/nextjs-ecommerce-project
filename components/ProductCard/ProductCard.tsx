@@ -6,7 +6,6 @@ import { useGlobalContext } from '../../context/GlobalContext';
 import texts from '../../containers/productpage/ProductInfo/texts';
 import { CiHeart } from 'react-icons/ci';
 import { AiFillHeart } from 'react-icons/ai';
-import { patchData } from '../../utils/fetchData';
 
 interface IProductCard {
     id: string;
@@ -21,41 +20,12 @@ interface IProductCard {
     categoryid: 'tshirt' | 'hoodie' | 'shoes';
     images: string[];
     slug: string;
+    isInWishlist: boolean;
+    handleWishlist: (id: string) => void;
 }
 
-const ProductCard = ({ id, title, images, categoryid, price, slug }: IProductCard) => {
-    const { currentLanguage, setNotify, user, addToWishlist, removeFromWishlist, setGlobalLoading } = useGlobalContext();
-
-    const isInWishlist = user?.data.wishlist.find((item) => item.productId === id);
-
-    const handleAddToWishList = async () => {
-        if (!user) {
-            return setNotify(texts[currentLanguage].youneedbeloggedtoaddwish);
-        }
-
-        setGlobalLoading(true);
-
-        try {
-            const { messageid, wishlistitem } = await patchData(
-                'user/wishlist',
-                { type: isInWishlist ? 'remove' : 'add', id },
-                user?.accessToken
-            );
-
-            if (messageid === 'addedtowishlist') {
-                addToWishlist(wishlistitem);
-            }
-            if (messageid === 'removedfromwishlist') {
-                removeFromWishlist(id);
-            }
-
-            setNotify(texts[currentLanguage][messageid]);
-        } catch (error) {
-            setNotify(texts[currentLanguage].unknowerror);
-        } finally {
-            setGlobalLoading(false);
-        }
-    };
+const ProductCard = ({ id, title, images, categoryid, price, slug, isInWishlist, handleWishlist }: IProductCard) => {
+    const { currentLanguage } = useGlobalContext();
 
     return (
         <ProductCardWrapper>
@@ -71,7 +41,7 @@ const ProductCard = ({ id, title, images, categoryid, price, slug }: IProductCar
                 <span className="price">
                     {texts[currentLanguage].currency} {price[currentLanguage].toFixed(2)}
                 </span>
-                <button className="add-to-wishlist" onClick={handleAddToWishList}>
+                <button className="add-to-wishlist" onClick={() => handleWishlist(id)}>
                     {isInWishlist ? <AiFillHeart /> : <CiHeart />}
                 </button>
             </div>

@@ -26,7 +26,7 @@ export const postData = async <T>(url:string, post: T, token?: string) => {
     return data;
 }
 
-export const patchData = async<T>(url: string, post: T, token?: string) => {
+export const patchData = async <T>(url: string, post: T, token?: string) => {
     const res = await fetch(`${server}/api/${url}`, {
         method: 'PATCH',
         headers: token ? Object.assign(headersConfig, { 'Authorization': token }) : headersConfig,

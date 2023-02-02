@@ -3,7 +3,7 @@ import langOptions from '../utils/languageOptions';
 import ACTIONS from './Actions';
 import reducers from './Reducers';
 import { languageList } from '../helpers/languageList';
-import { getData } from '../utils/fetchData';
+import { getData, patchData } from '../utils/fetchData';
 import texts from './texts';
 import Cookie from 'js-cookie';
 import type { IUser, IUserDetails } from '../types/User.types';
@@ -36,8 +36,8 @@ interface IGlobalContext {
     totalShoppingCartItems: number;
     globalLoading: boolean;
     setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    addToWishlist: (wishlistitem: { productId: string; createdAt: string }) => void;
-    removeFromWishlist: (id: string) => void;
+    handleWishlist: (id: string) => void;
+    setWishlistState: (newWishlistState: { productId: string; createdAt: string }[]) => void;
 }
 
 const GlobalContext = React.createContext({} as IGlobalContext);
@@ -275,22 +275,41 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: [] });
     };
 
-    const addToWishlist = (wishlistitem: { productId: string; createdAt: string }) => {
-        if (!state.user) {
-            return;
-        }
-
-        const newWishlistState = [...state.user.data.wishlist, wishlistitem];
-
+    const setWishlistState = (newWishlistState: { productId: string; createdAt: string }) => {
         dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState });
     };
 
-    const removeFromWishlist = (id: string) => {
+    const handleWishlist = async (id: string) => {
+        const isInWishlist = state.user?.data.wishlist.find((item) => item.productId === id);
+
         if (!state.user) {
-            return;
+            return setNotify(texts[state.currentLanguage].youneedbeloggedtoaddwish);
         }
 
-        dispatch({ type: ACTIONS.SET_WISHLIST, payload: state.user.data.wishlist.filter((item) => item.productId !== id) });
+        setGlobalLoading(true);
+
+        try {
+            const { messageid, wishlistitem } = await patchData(
+                'user/wishlist',
+                { type: isInWishlist ? 'remove' : 'add', id },
+                state.user?.accessToken
+            );
+
+            if (messageid === 'addedtowishlist') {
+                const newWishlistState = [...state.user.data.wishlist, wishlistitem];
+
+                dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState });
+            }
+            if (messageid === 'removedfromwishlist') {
+                dispatch({ type: ACTIONS.SET_WISHLIST, payload: state.user.data.wishlist.filter((item) => item.productId !== id) });
+            }
+
+            setNotify(texts[state.currentLanguage][messageid]);
+        } catch (error) {
+            setNotify(texts[state.currentLanguage].unknowerror);
+        } finally {
+            setGlobalLoading(false);
+        }
     };
 
     React.useEffect(() => {
@@ -371,8 +390,8 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 updateShoppingCartItems,
                 clearShoppingCart,
                 setGlobalLoading,
-                addToWishlist,
-                removeFromWishlist,
+                handleWishlist,
+                setWishlistState,
             }}
         >
             {children}

@@ -19,9 +19,16 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         const { email, password } = req.body;
 
         const user = await Users.findOne({email})
+
+        if(!user){
+            return res.status(400).json({messageid: 'incorectdata'})
+        }
+
         const passwordIsMatch = await bcrypt.compare(password, user?.password)
 
-        if(!user || !passwordIsMatch) return res.status(400).json({messageid: 'incorectdata'})
+        if(!passwordIsMatch){
+            return res.status(400).json({messageid: 'incorectdata'})
+        }
 
         const accessToken = createAccessToken({id: user._id})
         const refreshToken = createRefreshToken({id: user._id})

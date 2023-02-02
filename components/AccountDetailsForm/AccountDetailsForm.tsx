@@ -23,8 +23,6 @@ const AccountDetailsForm = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const { currentLanguage, user, setNotify, setUserDetails } = useGlobalContext();
 
-    console.log(user);
-
     const validationSchema = Yup.object().shape({
         firstName: Yup.string(),
         lastName: Yup.string(),

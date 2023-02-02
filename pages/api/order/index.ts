@@ -5,6 +5,8 @@ import auth from '../../../middleware/auth';
 import { NextApiRequest, NextApiResponse } from "next";
 import { IShoppingCartItem } from "../../../types/ShoppingCartItem.types";
 import Coupons from "../../../models/couponModel";
+import { updateUserWishlist } from "../user/wishlist";
+import Users from "../../../models/userModel";
 
 connectDB();
 
@@ -34,6 +36,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             return updateProduct({id, quantity, size})
         })
+
+        if(isUser && authResult){
+            updateWishlist(authResult.id, shoppingcart)
+        }
 
         if(coupon){
             updateCoupon({title: coupon})
@@ -71,4 +77,12 @@ const updateCoupon = async ({title}: {title: string}) => {
     await Coupons.updateOne({title}, {
         limit: currentCoupon.limit - 1
     })
+}
+
+const updateWishlist = async (id: string, shoppingcart: IShoppingCartItem[]) => {
+    const user = await Users.findOne({_id: id});
+
+    const filteredWishlist = user.wishlist.filter((wishlistItem: {productId: string}) => !shoppingcart.some(item => item._id === wishlistItem.productId));
+
+    await Users.findOneAndUpdate({ _id: id }, { $set: { wishlist: filteredWishlist } })
 }

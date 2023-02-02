@@ -6,21 +6,15 @@ import { useGlobalContext } from '../../../context/GlobalContext';
 import texts from './texts';
 import { CiHeart } from 'react-icons/ci';
 import { BsPlus } from 'react-icons/bs';
+import { AiFillHeart } from 'react-icons/ai';
 
 const ProductInfo = ({ product }: { product: IProduct }) => {
-    const { currentLanguage, user, setNotify, addShoppingCartItem, shoppingCartLoading } = useGlobalContext();
+    const { currentLanguage, user, setNotify, addShoppingCartItem, handleWishlist } = useGlobalContext();
     const [currentOption, setCurrentOption] = React.useState<{ title: string; inStock: number } | null>();
     const [optionsOpen, setOptionsOpen] = React.useState<boolean>(false);
     const [currentImage, setCurrentImage] = React.useState<number>(0);
 
-    const handleAddToWishlist = () => {
-        if (!user) {
-            setNotify(texts[currentLanguage].mustbelogged);
-            return;
-        }
-
-        setNotify(texts[currentLanguage].addedtowishlist);
-    };
+    const isInWishlist = user?.data.wishlist.find((item) => item.productId === product._id);
 
     const handleSetOption = (option: typeof currentOption) => {
         setCurrentOption(option);
@@ -95,9 +89,18 @@ const ProductInfo = ({ product }: { product: IProduct }) => {
                                         </span>
                                     </button>
                                 </ButtonWrapper>
-                                <button className="add-to-wishlist" onClick={handleAddToWishlist}>
-                                    <CiHeart />
-                                    <span>{texts[currentLanguage].addtowishlist}</span>
+                                <button className="add-to-wishlist" onClick={() => handleWishlist(product._id)}>
+                                    {isInWishlist ? (
+                                        <>
+                                            <AiFillHeart />
+                                            <span>{texts[currentLanguage].removefromwishlist}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CiHeart />
+                                            <span>{texts[currentLanguage].addtowishlist}</span>
+                                        </>
+                                    )}
                                 </button>
                             </div>
                             <div className="product-header">

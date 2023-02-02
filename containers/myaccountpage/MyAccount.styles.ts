@@ -51,6 +51,61 @@ export const MyAccountSection = styled.section`
         width: 100%;
         display: flex;
         justify-content: center;
+
+        ul{
+            width: 100%;
+
+            li{
+                border-bottom: 1px solid ${({theme}) => theme.color.body.accent};
+                padding-bottom: 62px;
+                margin-bottom: 62px;
+
+                :last-child{
+                    border-bottom: none;
+                }
+            }
+        }
+
+        table, td, tr{
+            border: 1px solid ${({theme}) => theme.color.text.primary};
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            overflow-x: scroll;
+
+            thead{
+                background-color: ${({theme}) => theme.color.body.secondary};
+                text-transform: uppercase;
+            }
+
+            td{
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                font-size: 14px;
+                padding: 4px;
+
+                :first-child{
+                    text-align: start;
+                    display: none;
+
+                    ${({theme}) => theme.mq.desktop}{
+                        display: table-cell;
+                    }
+                }
+
+                a{
+                    text-decoration: underline;
+                }
+
+                ${({theme}) => theme.mq.desktop}{
+                    padding: 8px;
+                }
+            }
+        }
     }
 
 `

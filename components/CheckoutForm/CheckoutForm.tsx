@@ -20,7 +20,8 @@ export interface CheckoutFormModel {
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const CheckoutForm = ({ type, totalPrice }: { type: 'user' | 'guest'; totalPrice: number }) => {
-    const { user, currentLanguage, shoppingcart, updateShoppingCartItems, clearShoppingCart, setNotify } = useGlobalContext();
+    const { user, currentLanguage, shoppingcart, updateShoppingCartItems, clearShoppingCart, setNotify, setWishlistState } =
+        useGlobalContext();
     const [loading, setLoading] = React.useState<boolean>(false);
 
     const validateSchema = {
@@ -79,6 +80,10 @@ const CheckoutForm = ({ type, totalPrice }: { type: 'user' | 'guest'; totalPrice
                 const { messageid } = await postData('order', orderData, user?.accessToken);
 
                 if (user && messageid === 'success') {
+                    const filteredWishlist = user?.data.wishlist.filter(
+                        (wishlistItem: { productId: string }) => !shoppingcart.some((item) => item._id === wishlistItem.productId)
+                    );
+                    setWishlistState(filteredWishlist);
                     setNotify(texts[currentLanguage].successuser);
                 } else {
                     setNotify(texts[currentLanguage].successguest);

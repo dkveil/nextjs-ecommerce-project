@@ -64,11 +64,18 @@ const Login = ({
 
                 setNotify(texts[currentLanguage][res.messageid]);
 
-                console.log(res);
+                if (messageid === 'unknowerror') {
+                    return;
+                }
 
                 if (messageid === 'emailalreadyexists') {
                     return;
                 }
+
+                if (messageid === 'incorectdata') {
+                    return;
+                }
+
                 handleLogin({
                     accessToken,
                     data,

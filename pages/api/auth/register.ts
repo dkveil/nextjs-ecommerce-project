@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import connectDB from "../../../utils/connectDB";
 import Users from '../../../models/userModel';
 import bcrypt from 'bcrypt'
+import { createAccessToken, createRefreshToken } from '../../../utils/generateToken';
 
 connectDB();
 
@@ -24,7 +25,23 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
         const newUser = new Users({ email, password: passwordHash })
 
         await newUser.save()
-        res.json({messageid: "registersuccess"})
+
+        const accessToken = createAccessToken({id: newUser._id})
+        const refreshToken = createRefreshToken({id: newUser._id})
+
+        res.json({
+            messageid: "registersuccess",
+            refreshToken,
+            accessToken,
+            data: {
+                email: newUser.email,
+                wishlist: newUser.wishlist,
+                role: newUser.role,
+                root: newUser.root,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                phone: newUser.phone
+            }})
 
     } catch (error) {
         return res.status(500).json({messageid: "unknowerror"})

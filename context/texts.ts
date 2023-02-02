@@ -14,7 +14,11 @@ export default <ILangOptions> {
         unknownerror: 'Something went wrong... ',
         qunatityequalinstock: 'Out of stock',
         addtocart: 'Your product has been added to cart!',
-        removefromcart: 'Product has been removed from cart!'
+        removefromcart: 'Product has been removed from cart!',
+        youneedbeloggedtoaddwish: 'You need be logged in to add product to wishlist',
+        removedfromwishlist: 'Removed product from wislist',
+        addedtowishlist: 'Your product has been added to wishlist!',
+
     },
     [langOptions.POLISH]: {
         pleaselogin: 'Zaloguj się ponownie',
@@ -25,6 +29,9 @@ export default <ILangOptions> {
         unknownerror: 'Coś poszło nie tak... ',
         qunatityequalinstock: 'Brak na magazynie',
         addtocart: 'Produkt został dodany do koszyka!',
-        removefromcart: 'Produkt został usunięty z koszyka!'
+        removefromcart: 'Produkt został usunięty z koszyka!',
+        youneedbeloggedtoaddwish: 'Musisz być zalogowany, aby dodać produkt do listy życzeń',
+        removedfromwishlist: 'Usunięto produkt z listy życzeń',
+        addedtowishlist: 'Product został dodany do listy życzeń!',
     }
 }

@@ -25,21 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             await Users.findOneAndUpdate({_id: authResult.id}, {password: newPasswordHash})
         }
 
-        if(firstName) {
-            await Users.findOneAndUpdate({_id: authResult.id}, {firstName})
-        }
-
-        if(lastName){
-            await Users.findOneAndUpdate({_id: authResult.id}, {lastName})
-        }
-
-        if(email){
-            await Users.findOneAndUpdate({_id: authResult.id}, {email})
-        }
-
-        if(phone){
-            await Users.findOneAndUpdate({_id: authResult.id}, {phone})
-        }
+        await Users.findOneAndUpdate({_id: authResult.id}, {firstName, lastName, email, phone})
 
         res.json({
             messageid: 'success',

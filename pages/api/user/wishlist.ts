@@ -22,9 +22,8 @@ export const getWishlistItems = async (req: NextApiRequest, res: NextApiResponse
 
         const { wishlist } = await Users.findOne({_id: authResult.id})
 
-        console.log(wishlist)
-
         res.json({
+            wishlist,
         })
 
     } catch(error) {
