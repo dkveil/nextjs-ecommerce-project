@@ -6,7 +6,7 @@ import texts from './texts';
 import Link from 'next/link';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
-const ShoppingCartItem = ({ _id, size, name, img, categoryid, price, slug, quantity }: IShoppingCartItem) => {
+const ShoppingCartItem = ({ _id, size, name, img, categoryid, price, slug, quantity, orderItem }: IShoppingCartItem) => {
     const { addShoppingCartItem, subShoppingCartItem, removeShoppingCartItem, currentLanguage } = useGlobalContext();
 
     return (
@@ -33,17 +33,23 @@ const ShoppingCartItem = ({ _id, size, name, img, categoryid, price, slug, quant
             </td>
             <td className="cart-item__quantity">
                 <div className="buttons-group">
-                    <button onClick={() => subShoppingCartItem({ _id, size }, true)}>
-                        <BiMinus />
-                    </button>
+                    {!orderItem && (
+                        <button onClick={() => subShoppingCartItem({ _id, size }, true)}>
+                            <BiMinus />
+                        </button>
+                    )}
                     <span>{quantity}</span>
-                    <button onClick={() => addShoppingCartItem({ _id, size }, true)}>
-                        <BiPlus />
-                    </button>
+                    {!orderItem && (
+                        <button onClick={() => addShoppingCartItem({ _id, size }, true)}>
+                            <BiPlus />
+                        </button>
+                    )}
                 </div>
-                <button className="remove-button" onClick={() => removeShoppingCartItem({ _id, size })}>
-                    Remove
-                </button>
+                {!orderItem && (
+                    <button className="remove-button" onClick={() => removeShoppingCartItem({ _id, size })}>
+                        Remove
+                    </button>
+                )}
             </td>
             <td className="cart-item__price">
                 {texts[currentLanguage].currency} {price[currentLanguage].toFixed(2)}

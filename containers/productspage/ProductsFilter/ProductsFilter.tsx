@@ -4,7 +4,7 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { useGlobalContext } from '../../../context/GlobalContext';
 import texts from './texts';
 import { IoIosClose } from 'react-icons/io';
-import type { IFilterValues } from '../../../pages/products';
+import type { IFilterValues } from '../../../templates/ProductsPageTemplate';
 import PopupOverlay from '../../../components/PopupOverlay/PopupOverlay';
 
 const clotheSizes = ['XS', 'S', 'XM', 'M', 'L', 'XL', 'XXL'];
@@ -36,26 +36,30 @@ const filtersOptions: IFilterOption[] = [
 interface IProductsFilter {
     filterValues: IFilterValues;
     handleChangeFilters: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    setPriceFilters: (minPrice: number, maxPrice: number) => void;
     clearFilters: (value?: 'size' | 'maxPrice' | 'minPrice' | 'sortby') => void;
 }
 
-const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IProductsFilter) => {
+const ProductsFilter = ({ filterValues, handleChangeFilters, setPriceFilters, clearFilters }: IProductsFilter) => {
     const [isFiltersCartOpen, setIsFiltersCartOpen] = React.useState<boolean>(false);
-    const { currentLanguage, websiteTheme } = useGlobalContext();
+    const [priceInputsError, setPriceInputsError] = React.useState<boolean>(false);
+    const { currentLanguage, websiteTheme, setNotify } = useGlobalContext();
     const [activeFilterSubmenu, setActiveFilterSubmenu] = React.useState({
         size: false,
         price: false,
         sortby: false,
     });
 
+    const minPriceRef = React.useRef<HTMLInputElement>(null);
+    const maxPriceRef = React.useRef<HTMLInputElement>(null);
+
     const handleCloseFiltersCart = (action?: 'clear filters' | 'set filters') => {
+        if (minPriceRef.current) minPriceRef.current.value = filterValues.minPrice.toString();
+        if (maxPriceRef.current) maxPriceRef.current.value = filterValues.maxPrice.toString();
+
         if (action === 'clear filters') {
             clearFilters();
             return;
-        }
-
-        if (action === 'set filters') {
-            console.log(action);
         }
 
         setIsFiltersCartOpen(false);
@@ -102,6 +106,36 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IPr
         return value && texts[currentLanguage][value];
     };
 
+    const handlePriceFilters = (minPrice: string | undefined, maxPrice: string | undefined) => {
+        setPriceInputsError(false);
+
+        if (minPrice && maxPrice) {
+            if (Number(minPrice) > Number(maxPrice)) {
+                setNotify(texts[currentLanguage].minpricetohigh);
+                setPriceInputsError(true);
+                return;
+            }
+
+            setPriceFilters(Number(minPrice), Number(maxPrice));
+            handleOpenFilterSubmenu('price');
+            return;
+        }
+
+        if (maxPrice) {
+            setPriceFilters(0, Number(maxPrice));
+            handleOpenFilterSubmenu('price');
+            return;
+        }
+
+        if (minPrice) {
+            setPriceFilters(Number(minPrice), 0);
+            handleOpenFilterSubmenu('price');
+            return;
+        }
+
+        setPriceFilters(0, 0);
+    };
+
     const handleOpenFilterSubmenu = (submenuName: 'size' | 'price' | 'sortby') => {
         setActiveFilterSubmenu((prev) => ({
             ...prev,
@@ -134,7 +168,11 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IPr
                     <div className="container">
                         <div className="inner-filters-list">
                             {filtersOptions.map((filteritem) => (
-                                <FilterItem submenuOpen={activeFilterSubmenu[filteritem.name]} key={filteritem.name}>
+                                <FilterItem
+                                    submenuOpen={activeFilterSubmenu[filteritem.name]}
+                                    key={filteritem.name}
+                                    error={priceInputsError}
+                                >
                                     <p className="filter-title">{texts[currentLanguage][filteritem.name]}</p>
                                     {filteritem.name === 'price' ? (
                                         <>
@@ -147,12 +185,9 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IPr
                                                     <input
                                                         id={filteritem.name}
                                                         name="minPrice"
-                                                        value={filterValues.minPrice || ''}
                                                         inputMode="numeric"
-                                                        onChange={handleChangeFilters}
                                                         placeholder={texts[currentLanguage].from}
-                                                        min={0}
-                                                        max={filterValues.maxPrice}
+                                                        ref={minPriceRef}
                                                     />
                                                     <span>{texts[currentLanguage].currency}</span>
                                                 </div>
@@ -161,15 +196,20 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IPr
                                                     <input
                                                         id={filteritem.name}
                                                         name="maxPrice"
-                                                        value={filterValues.maxPrice || ''}
                                                         inputMode="numeric"
-                                                        onChange={handleChangeFilters}
                                                         placeholder={texts[currentLanguage].to}
-                                                        min={filterValues.minPrice}
-                                                        max={9999}
+                                                        ref={maxPriceRef}
                                                     />
                                                     <span>{texts[currentLanguage].currency}</span>
                                                 </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        handlePriceFilters(minPriceRef.current?.value, maxPriceRef.current?.value);
+                                                    }}
+                                                >
+                                                    Set prices
+                                                </button>
                                             </div>
                                         </>
                                     ) : (
@@ -206,7 +246,13 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, clearFilters }: IPr
                                     <button
                                         type="button"
                                         className="clear-filter-button"
-                                        onClick={() => clearFilters(filteritem.name === 'price' ? 'minPrice' : filteritem.name)}
+                                        onClick={() => {
+                                            if (filteritem.name === 'price') {
+                                                if (minPriceRef.current) minPriceRef.current.value = '';
+                                                if (maxPriceRef.current) maxPriceRef.current.value = '';
+                                            }
+                                            clearFilters(filteritem.name === 'price' ? 'minPrice' : filteritem.name);
+                                        }}
                                     >
                                         {texts[currentLanguage].clear}
                                     </button>

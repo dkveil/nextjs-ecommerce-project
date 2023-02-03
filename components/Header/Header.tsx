@@ -149,7 +149,11 @@ const MainNavigation = ({ openNavigation, handleToggleOpenNav, openLoginModal }:
                 <nav className="inner-mainnavigation">
                     <ul className="navlist">
                         {navItems.map((item) => (
-                            <MainNavigationItem key={item.id} active={item.path === useRouter().asPath} onClick={handleToggleOpenNav}>
+                            <MainNavigationItem
+                                key={item.id}
+                                active={item.path === useRouter().asPath.split('?')[0]}
+                                onClick={handleToggleOpenNav}
+                            >
                                 <Link href={item.path}>{texts[currentLanguage][item.id]}</Link>
                             </MainNavigationItem>
                         ))}

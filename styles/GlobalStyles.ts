@@ -5,19 +5,19 @@ import { media } from "./theme";
 const GlobalStyles = createGlobalStyle`
     @font-face {
         font-family: 'proxima';
-        src: url('/fonts/ProximaNovaThin.otf');
+        src: url('/fonts/ProximaNovaThin.woff2');
         font-weight:  ${variablesTheme.font.weight.thin};
         font-style: normal;
     }
     @font-face {
         font-family: 'proxima';
-        src: url('/fonts/ProximaNovaRegular.otf');
+        src: url('/fonts/ProximaNovaRegular.woff2');
         font-weight: ${variablesTheme.font.weight.normal};
         font-style: normal;
     }
     @font-face {
         font-family: 'proxima';
-        src: url('/fonts/ProximaNovaBold.otf');
+        src: url('/fonts/ProximaNovaBold.woff2');
         font-weight: ${variablesTheme.font.weight.bold};
         font-style: normal;
     }

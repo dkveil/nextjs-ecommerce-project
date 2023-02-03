@@ -23,7 +23,9 @@ export default <ILangOptions> {
         from: 'From',
         to: 'To',
         currency: 'EUR',
-        clear: 'Clear'
+        clear: 'Clear',
+        minpricetohigh: 'The minimum price cannot be higher than the maximum',
+        maxpricetolow: 'The maximum price cannot be lower than the minimum'
     },
     [langOptions.POLISH]: {
         clearfilters: 'Wyczyść filtry',
@@ -43,6 +45,8 @@ export default <ILangOptions> {
         from: 'Od',
         to: 'Do',
         currency: 'PLN',
-        clear: 'Wyczyść'
+        clear: 'Wyczyść',
+        minpricetohigh: 'Minimalna cena nie może być większa od maksymalnej',
+        maxpricetolow: 'Maksymalna cena nie może być mniejsza od minimalnej'
     }
 }

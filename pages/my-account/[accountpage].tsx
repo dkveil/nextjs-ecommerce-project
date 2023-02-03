@@ -33,6 +33,7 @@ const userNavItems = [
 
 interface IOrderItem {
     _id: string;
+    orderNumber: number;
     createdAt: string;
     totalPrice: number;
     currency: string;
@@ -147,7 +148,7 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <td>{texts[currentLanguage].orderid}</td>
+                                            <td>{texts[currentLanguage].ordernumber}</td>
                                             <td>{texts[currentLanguage].orderdate}</td>
                                             <td>{texts[currentLanguage].totalprice}</td>
                                             <td>{texts[currentLanguage].delivered}</td>
@@ -157,7 +158,7 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
                                     <tbody>
                                         {orderItems.map((item) => (
                                             <tr key={item._id}>
-                                                <td>{item._id}</td>
+                                                <td>Nr {item.orderNumber}</td>
                                                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                                                 <td>
                                                     {item.totalPrice} {item.currency}

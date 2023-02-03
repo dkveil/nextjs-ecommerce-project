@@ -1,5 +1,5 @@
 import connectDB from "../../../utils/connectDB";
-import Orders from "../../../models/oderModel";
+import Orders from "../../../models/orderModel";
 import Products from '../../../models/productModel'
 import auth from '../../../middleware/auth';
 import { NextApiRequest, NextApiResponse } from "next";

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import connectDB from "../../../utils/connectDB";
 import auth from "../../../middleware/auth";
-import Orders from "../../../models/oderModel";
+import Orders from "../../../models/orderModel";
 
 connectDB()
 
@@ -16,7 +16,7 @@ export const getUserOrders = async (req: NextApiRequest, res: NextApiResponse) =
     try{
         const authResult = await auth(req, res) as {id: string}
 
-        const orders = await Orders.find({user: authResult.id})
+        const orders = await Orders.find({user: authResult.id}).sort({_id: -1})
 
         res.json({
             orders

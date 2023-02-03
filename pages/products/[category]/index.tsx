@@ -1,23 +1,24 @@
 import { GetServerSideProps } from 'next';
 import { getData } from '../../../utils/fetchData';
-import { ParsedUrlQuery } from 'querystring';
 import type { IProduct } from '../../../types/Product.types';
+import ProductsPageTemplate from '../../../templates/ProductsPageTemplate';
 
-const CategoryPage = ({ products }: { products: IProduct[] }) => {
-    return <></>;
+const CategoryPage = ({ products, categoryParam }: { products: IProduct[]; categoryParam: string }) => {
+    return <ProductsPageTemplate header={categoryParam} products={products} categoryParam={categoryParam} />;
 };
 
-interface IParams extends ParsedUrlQuery {
-    category: 'tshirts' | 'hoodies' | 'shoes';
-}
+export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
+    const { category } = params as { category: string };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { category } = context.params as IParams;
-
-    const res = await getData(`/products/${category}`);
+    const res = await getData(
+        `/products/${category}/?${query.sortby ? `sortby=${query.sortby}&` : ''}${query.size ? `size=${query.size}&` : ''}${
+            query.minPrice ? `minPrice=${query.minPrice}&` : ''
+        }${query.maxPrice ? `maxPrice=${query.maxPrice}&` : ''}${query.lang ? `lang=${query.lang}` : ''}`
+    );
 
     return {
         props: {
+            categoryParam: category,
             products: res.products,
         },
     };

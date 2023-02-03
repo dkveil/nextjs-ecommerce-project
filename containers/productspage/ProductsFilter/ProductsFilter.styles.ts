@@ -137,7 +137,7 @@ export const ProductsFilterSection = styled.section<{isOpen: boolean}>`
     }
 `
 
-export const FilterItem = styled.div<{submenuOpen: boolean}>`
+export const FilterItem = styled.div<{submenuOpen: boolean, error?: boolean}>`
     position: relative;
 
     ${({theme}) => theme.mq.desktop}{
@@ -221,9 +221,21 @@ export const FilterItem = styled.div<{submenuOpen: boolean}>`
         input[inputmode=numeric]{
             width: 80px;
             background-color: transparent;
-            border: 1px solid ${({theme}) => theme.color.body.accent};
+            border: 1px solid ${({theme, error}) => error ? '#dc3545' : theme.color.body.accent};
             border-radius: 5px;
             padding: 4px 30px 4px 10px;
+        }
+
+        button{
+            font-size: 12px;
+            cursor: pointer;
+            background-color: ${({theme}) => theme.color.body.accent};
+            color: ${({theme}) => theme.color.text.primary};
+            border: none;
+            padding: 4px 12px 4px 12px;
+            text-align: center;
+            text-transform: uppercase;
+            border-radius: 5px;
         }
 
     }
