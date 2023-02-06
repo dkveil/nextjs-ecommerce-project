@@ -1,9 +1,11 @@
-export const imageUpload = async (images: File[]) => {
+export const imageUpload = async (images: { image: File, prio: number }[]) => {
     let imagesData = [];
+
+    console.log(images)
 
     for(const item of images){
         const formData = new FormData()
-        formData.append('file', item)
+        formData.append('file', item.image)
         formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPDATE_PRESET)
         formData.append('cloud_name', process.env.NEXT_PUBLIC_CLOUDINARY_NAME)
 
@@ -13,7 +15,9 @@ export const imageUpload = async (images: File[]) => {
         })
 
         const data = await res.json()
-        imagesData.push(data.secure_url)
+
+        console.log(data)
+        imagesData.push({url: data.secure_url, prio: item.prio})
     }
 
     return imagesData;

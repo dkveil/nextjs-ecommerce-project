@@ -96,6 +96,7 @@ export const SearchInputWrapper = styled.div`
         outline: none;
         border-bottom: 1px solid ${({theme}) => theme.color.body.accent};
         background-color: transparent;
+        color: ${({theme}) => theme.color.text.primary};
     }
 
     button {

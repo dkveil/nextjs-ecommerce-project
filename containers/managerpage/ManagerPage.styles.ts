@@ -289,6 +289,7 @@ export const InputFileWrapper = styled.div<{error: boolean}>`
 
 
                     svg{
+                        fill: ${({theme}) => theme.color.text.primary};
                         width: 100%;
                         height: 100%;
                     }

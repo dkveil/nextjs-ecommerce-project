@@ -66,7 +66,7 @@ const UserNav = ({ handleToggleOpenNav, activeNav, openLoginModal, openShoppingC
                             <ListItem>
                                 <Link
                                     href={user ? '/my-account/wishlist' : '#'}
-                                    onClick={user ? undefined : () => setNotify(texts[currentLanguage].youmustloginfirst)}
+                                    onClick={user ? handleToggleOpenNav : () => setNotify(texts[currentLanguage].youmustloginfirst)}
                                 >
                                     <span>{texts[currentLanguage].wish}</span>
                                     <CiHeart />

@@ -127,8 +127,6 @@ const ProductActionPageTemplate = ({ action, product }: IProductActionPageTempla
     const fileInputRef = React.useRef<HTMLInputElement>(null);
     const { currentLanguage, user, setNotify, setGlobalLoading } = useGlobalContext();
 
-    console.log(sortCategoryPrio);
-
     const router = useRouter();
 
     const validationSchema = Yup.object().shape({
@@ -162,20 +160,24 @@ const ProductActionPageTemplate = ({ action, product }: IProductActionPageTempla
         onSubmit: async (values) => {
             setGlobalLoading(true);
             try {
-                const imagesWithPriority = values.images.map((image, index) => ({ ...image, prio: index })) as (
-                    | (File & { prio: number })
-                    | (IImage & { prio: number })
-                )[];
+                const imagesWithPriority = values.images.map((image, index) => ({ image, prio: index })) as {
+                    image: File | IImage;
+                    prio: number;
+                }[];
 
-                const imagesUploaded = imagesWithPriority.filter((image: File | IImage) => (image as IImage).url);
-                const imagesToUpload = imagesWithPriority.filter((image: File | IImage) => !(image as IImage).url);
+                const imagesUploaded = imagesWithPriority.filter(
+                    (object: { image: File | IImage; prio: number }) => (object.image as IImage).url
+                );
+                const imagesToUpload = imagesWithPriority.filter(
+                    (object: { image: File | IImage; prio: number }) => !(object.image as IImage).url
+                );
 
-                const oldImages = imagesUploaded.map((image: (File & { prio: number }) | (IImage & { prio: number })) => ({
-                    url: (image as IImage).url,
-                    prio: image.prio,
+                const oldImages = imagesUploaded.map((obj) => ({
+                    url: (obj.image as IImage).url,
+                    prio: obj.prio,
                 }));
 
-                const newImages = await imageUpload(imagesToUpload as File[]);
+                const newImages = await imageUpload(imagesToUpload as { image: File; prio: number }[]);
 
                 const images = [...oldImages, ...newImages]
                     .sort((a, b) => {
