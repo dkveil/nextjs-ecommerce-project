@@ -146,6 +146,7 @@ export const ManagerSection = styled.section`
                 cursor: pointer;
                 text-transform: uppercase;
                 font-weight: ${({theme}) => theme.font.weight.bold};
+                color: ${({theme}) => theme.color.text.primary};
 
                 :hover{
                     text-decoration: underline;

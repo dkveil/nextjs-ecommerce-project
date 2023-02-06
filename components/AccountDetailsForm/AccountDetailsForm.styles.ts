@@ -67,8 +67,14 @@ export const AccountDetailsFormWrapper = styled.form<{isLoading: boolean}>`
 
 export const InputWrapper = styled.div<{error: boolean}>`
     width: 100%;
+
     input, textarea, select {
         border: 1px solid ${({theme, error}) => error ? '#dc3545' : theme.color.body.accent}!important;
+    }
+
+    option {
+        background-color: ${({theme}) => theme.color.body.primary};
+        color: ${({theme}) => theme.color.text.primary};
     }
 
     .error-message{
