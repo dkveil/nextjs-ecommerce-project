@@ -3,7 +3,9 @@ import Image from "next/image";
 
 export const ProductCardWrapper = styled.div`
     position: relative;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     ::after{
         content: '';
@@ -34,9 +36,9 @@ export const ProductCardWrapper = styled.div`
         }
 
         .product-title{
+            display: -webkit-box;
             text-overflow: ellipsis;
             overflow: hidden;
-            white-space: nowrap;
             font-size: 16px;
             margin-bottom: 20px;
         }

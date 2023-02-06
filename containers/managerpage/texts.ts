@@ -8,6 +8,8 @@ export default <ILangOptions> {
     [langOptions.ENGLISH]: {
         productsheader: 'Products list',
         addproduct: 'Add product',
+        updateproduct: 'Update product',
+        editproduct: 'Edit product',
         createproduct: 'Create new product',
         inpolish: 'In Polish',
         inenglish: 'In English',
@@ -38,8 +40,6 @@ export default <ILangOptions> {
         eurrequired: 'The product price in EUR is required',
         polpredescrequired: 'An initial product description in Polish is required',
         engpredescrequired: 'An initial product description in English is required',
-        poldescrequired: 'A full product description in Polish is required',
-        engdescrequired: 'A full product description in English is required',
         sizerequired: 'You must enter at least one size for the product',
         soldrequired: 'You need to complete the product sales number',
         invalidformat: 'Invalid format',
@@ -52,11 +52,16 @@ export default <ILangOptions> {
         unknowerror: 'Something went wrong...',
         nopermissions: 'Brak uprawnień do tej akcji',
         addproductsuccess: 'Product added successfully',
-        productalreadyexists: 'Product with this name and category already exists'
+        productalreadyexists: 'Product with this name and category already exists',
+        deleteproductalert: 'Are you sure you want to delete this product?',
+        deleteproductsuccess: 'Product deleted successfully',
+        updateproductsuccess: 'Product updated successfully'
     },
     [langOptions.POLISH]: {
         productsheader: 'Lista produktów',
         addproduct: 'Dodaj produkt',
+        updateproduct: 'Aktulizuj produkt',
+        editproduct: 'Edytuj produkt',
         createproduct: 'Dodaj nowy produkt',
         inpolish: 'W języku Polskim',
         inenglish: 'W języku Angielskim',
@@ -88,8 +93,6 @@ export default <ILangOptions> {
         eurrequired: 'Cena produktu w walucie EUR jest wymagana',
         polpredescrequired: 'Wstępny opis produktu w języku polskim jest wymagany',
         engpredescrequired: 'Wstępny opis produktu w języku angielskim jest wymagany',
-        poldescrequired: 'Pełny opis produktu w języku polskim jest wymagany',
-        engdescrequired: 'Pełny opis produktu w języku angielskim jest wymagany',
         sizerequired: 'Musisz wprowadzić chociaż jeden rozmiar dla produktu',
         soldrequired: 'Musisz uzupełnić liczbę sprzedaży produktu',
         invalidformat: 'Nieprawidłowy format',
@@ -102,6 +105,9 @@ export default <ILangOptions> {
         unknowerror: 'Coś poszło nie tak...',
         nopermissions: 'Brak uprawnień do tej akcji',
         addproductsuccess: 'Dodawanie produktu zakończone sukcesem',
-        productalreadyexists: 'Produkt o takiej nazwie i kategorii już istnieje'
+        productalreadyexists: 'Produkt o takiej nazwie i kategorii już istnieje',
+        deleteproductalert: 'Jesteś pewny, że chcesz usunąć ten produkt?',
+        deleteproductsuccess: 'Usuwanie produktu zakończone sukcesem',
+        updateproductsuccess: 'Zaaktulizowano produkt'
     }
 }

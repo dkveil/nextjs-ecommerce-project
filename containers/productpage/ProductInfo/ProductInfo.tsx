@@ -109,7 +109,7 @@ const ProductInfo = ({ product }: { product: IProduct }) => {
                                 <p>{product.predescription[currentLanguage]}</p>
                             </div>
                         </div>
-                        {product.description ? (
+                        {product.description.ENG.length > 0 && product.description.PL.length ? (
                             <div className="product-details">
                                 <details>
                                     <summary>

@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 const getNewestProducts = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const featuredproducts = await Products.find().sort({sold: -1});
+        const featuredproducts = await Products.find().sort({sold: -1}).limit(5);
 
         res.json({
             featuredproducts,

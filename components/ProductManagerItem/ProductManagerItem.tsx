@@ -17,7 +17,7 @@ interface IProductManagerItem {
 }
 
 const ProductManagerItem = ({ id, title, categoryid, img, handleDeleteProduct }: IProductManagerItem) => {
-    const { currentLanguage } = useGlobalContext();
+    const { currentLanguage, user } = useGlobalContext();
 
     return (
         <ProductManagerItemWrapper>
@@ -30,7 +30,17 @@ const ProductManagerItem = ({ id, title, categoryid, img, handleDeleteProduct }:
                     <p>{texts[currentLanguage][categoryid]}</p>
                 </div>
                 <div className="product-body__buttons">
-                    <Link href={`/admin/products/edit/${id}`}>{texts[currentLanguage].edit}</Link>
+                    <Link
+                        href={{
+                            pathname: `/admin/products/edit/${id}`,
+                            query: {
+                                id: id,
+                                accessToken: user?.accessToken,
+                            },
+                        }}
+                    >
+                        {texts[currentLanguage].edit}
+                    </Link>
                     <button onClick={() => handleDeleteProduct(id)}>{texts[currentLanguage].delete}</button>
                 </div>
             </div>

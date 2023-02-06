@@ -4,18 +4,37 @@ import texts from '../../../containers/managerpage/texts';
 import { useGlobalContext } from '../../../context/GlobalContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getData } from '../../../utils/fetchData';
+import { getData, deleteData } from '../../../utils/fetchData';
 import type { IProduct } from '../../../types/Product.types';
 import ProductManagerItem from '../../../components/ProductManagerItem/ProductManagerItem';
 import { GetServerSideProps } from 'next';
 
-const ProductsManagerPage = ({ products, status }: { products: IProduct[]; status: string }) => {
-    const { currentLanguage, user } = useGlobalContext();
+const ProductsManagerPage = ({ products: initialProducts, status }: { products: IProduct[]; status: string }) => {
+    const [products, setProducts] = React.useState(initialProducts);
+
+    const { currentLanguage, user, setGlobalLoading, setNotify } = useGlobalContext();
 
     const router = useRouter();
 
-    const handleDeleteProduct = (id: string) => {
-        alert(id);
+    const handleDeleteProduct = async (id: string) => {
+        let isExecuted = confirm(texts[currentLanguage].deleteproductalert);
+
+        if (isExecuted) {
+            setGlobalLoading(true);
+            try {
+                const { messageid } = await deleteData(`product/${id}`, undefined, user?.accessToken);
+
+                setNotify(texts[currentLanguage][messageid]);
+
+                if (messageid === 'deleteproductsuccess') {
+                    setProducts(products.filter((product) => product._id !== id));
+                }
+            } catch (error) {
+                setNotify(texts[currentLanguage].unknowerror);
+            } finally {
+                setGlobalLoading(false);
+            }
+        }
     };
 
     React.useEffect(() => {

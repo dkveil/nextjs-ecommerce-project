@@ -9,6 +9,7 @@ export const ProductsListWrapper = styled.section`
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 30px;
         grid-row-gap: 20px;
+        width: 100%;
 
         ${({theme}) => theme.mq.tablet}{
             grid-template-columns: 1fr 1fr 1fr;

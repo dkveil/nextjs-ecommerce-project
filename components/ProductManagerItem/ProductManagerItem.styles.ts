@@ -6,7 +6,8 @@ export const ProductManagerItemWrapper = styled.div`
 
     .image-wrapper{
         position: relative;
-        width: 80px;
+        min-width: 80px;
+        height: 80px;
         aspect-ratio: 1/1;
         margin-right: 15px;
 

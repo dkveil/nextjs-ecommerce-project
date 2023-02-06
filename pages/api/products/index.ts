@@ -58,7 +58,7 @@ export const addProducts = async (req: NextApiRequest, res: NextApiResponse) => 
             })
         }
 
-        const { title, price, predescription, description, categoryid, images, options, slug } = req.body;
+        const { title, price, predescription, description, categoryid, images, options, sold, slug } = req.body;
 
         const productExists = await Products.findOne({"title.ENG": title.ENG, slug: slug, categoryid: categoryid})
 
@@ -68,7 +68,7 @@ export const addProducts = async (req: NextApiRequest, res: NextApiResponse) => 
             })
         }
 
-        const newProduct = new Products({title, price, predescription, description, categoryid, images, options, slug});
+        const newProduct = new Products({title, price, predescription, description, categoryid, images, options, sold, slug});
 
         await newProduct.save();
 
