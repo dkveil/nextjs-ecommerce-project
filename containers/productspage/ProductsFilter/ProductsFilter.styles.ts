@@ -247,5 +247,7 @@ export const FilterItem = styled.div<{submenuOpen: boolean, error?: boolean}>`
         text-transform: uppercase;
         cursor: pointer;
         letter-spacing: .1em;
+        background-color: transparent;
+        color: ${({theme}) => theme.color.text.primary};
     }
 `
