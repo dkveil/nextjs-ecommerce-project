@@ -110,7 +110,7 @@ export const MyAccountSection = styled.section`
 
 `
 
-export const NavItem = styled.li<{active: boolean}>`
+export const NavItem = styled.li<{active?: boolean}>`
     display: flex;
     justify-content: center;
 

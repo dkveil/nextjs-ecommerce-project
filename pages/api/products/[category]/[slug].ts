@@ -16,7 +16,13 @@ const getProduct = async (req: NextApiRequest, res: NextApiResponse) => {
     try{
         const { category, slug } = req.query;
 
-        const product = await Products.findOne({categoryid: category, slug});
+        if(!category || !slug){
+            res.json({
+                messageid: 'notfound'
+            })
+        }
+
+        const product = await Products.findOne({categoryid: category, slug: slug});
         if(!product) return res.status(400).json({messageid: 'product404'})
 
         res.json({product})

@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from 'jsonwebtoken';
 import Users from '../models/userModel';
+import connectDB from "../utils/connectDB";
+
+connectDB()
 
 const auth = async (req: NextApiRequest, res: NextApiResponse) => {
     const token = req.headers.authorization;

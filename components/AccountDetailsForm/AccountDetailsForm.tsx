@@ -52,6 +52,10 @@ const AccountDetailsForm = () => {
             confirmNewPassword: '',
         },
         onSubmit: async (values) => {
+            if (user?.data.email === 'admin@root.com') {
+                setNotify(texts[currentLanguage].cantchangedetailsofthisaccount);
+                return;
+            }
             setLoading(true);
 
             try {

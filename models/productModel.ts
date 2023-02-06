@@ -65,6 +65,10 @@ const ProductSchema = new mongoose.Schema({
         }],
         min: 1
     },
+    slug: {
+        type: String,
+        required: true
+    },
     sold: {
         type: Number,
         default: 0

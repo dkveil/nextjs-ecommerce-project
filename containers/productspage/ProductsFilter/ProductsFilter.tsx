@@ -7,8 +7,8 @@ import { IoIosClose } from 'react-icons/io';
 import type { IFilterValues } from '../../../templates/ProductsPageTemplate';
 import PopupOverlay from '../../../components/PopupOverlay/PopupOverlay';
 
-const clotheSizes = ['XS', 'S', 'XM', 'M', 'L', 'XL', 'XXL'];
-const shoesSizes = ['EU 36', 'EU 37', 'EU 38', 'EU 39', 'EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44'];
+export const clotheSizes = ['XS', 'S', 'XM', 'M', 'L', 'XL', 'XXL'];
+export const shoesSizes = ['EU 36', 'EU 37', 'EU 38', 'EU 39', 'EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44'];
 
 interface IFilterOption {
     name: 'size' | 'price' | 'sortby';
@@ -16,31 +16,15 @@ interface IFilterOption {
     options?: string[];
 }
 
-const filtersOptions: IFilterOption[] = [
-    {
-        name: 'size',
-        inputtype: 'checkbox',
-        options: clotheSizes.concat(shoesSizes),
-    },
-    {
-        name: 'price',
-        inputtype: 'range',
-    },
-    {
-        name: 'sortby',
-        inputtype: 'radio',
-        options: ['newest', 'popular', 'atoz', 'ztoa', 'pricehightolow', 'pricelowtohigh'],
-    },
-];
-
 interface IProductsFilter {
     filterValues: IFilterValues;
     handleChangeFilters: (e: React.ChangeEvent<HTMLInputElement>) => void;
     setPriceFilters: (minPrice: number, maxPrice: number) => void;
     clearFilters: (value?: 'size' | 'maxPrice' | 'minPrice' | 'sortby') => void;
+    category?: string;
 }
 
-const ProductsFilter = ({ filterValues, handleChangeFilters, setPriceFilters, clearFilters }: IProductsFilter) => {
+const ProductsFilter = ({ filterValues, handleChangeFilters, setPriceFilters, clearFilters, category }: IProductsFilter) => {
     const [isFiltersCartOpen, setIsFiltersCartOpen] = React.useState<boolean>(false);
     const [priceInputsError, setPriceInputsError] = React.useState<boolean>(false);
     const { currentLanguage, websiteTheme, setNotify } = useGlobalContext();
@@ -49,6 +33,28 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, setPriceFilters, cl
         price: false,
         sortby: false,
     });
+
+    const filtersOptions: IFilterOption[] = [
+        {
+            name: 'size',
+            inputtype: 'checkbox',
+            options:
+                category === 'shoes'
+                    ? shoesSizes
+                    : category === 'hoodies' || category === 'tshirts'
+                    ? clotheSizes
+                    : clotheSizes.concat(shoesSizes),
+        },
+        {
+            name: 'price',
+            inputtype: 'range',
+        },
+        {
+            name: 'sortby',
+            inputtype: 'radio',
+            options: ['newest', 'popular', 'atoz', 'ztoa', 'pricehightolow', 'pricelowtohigh'],
+        },
+    ];
 
     const minPriceRef = React.useRef<HTMLInputElement>(null);
     const maxPriceRef = React.useRef<HTMLInputElement>(null);
@@ -110,6 +116,11 @@ const ProductsFilter = ({ filterValues, handleChangeFilters, setPriceFilters, cl
         setPriceInputsError(false);
 
         if (minPrice && maxPrice) {
+            if (Number.isNaN(minPrice) || Number.isNaN(maxPrice)) {
+                setNotify(texts[currentLanguage].invalidformat);
+                return;
+            }
+
             if (Number(minPrice) > Number(maxPrice)) {
                 setNotify(texts[currentLanguage].minpricetohigh);
                 setPriceInputsError(true);

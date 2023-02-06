@@ -21,7 +21,8 @@ export default <ILangOptions> {
         wrongcurrentpassword: 'The old password is incorrect',
         samenewpassword: 'Old password used',
         unknowerror: 'Something went wrong...',
-        success: 'Account updated successfully'
+        success: 'Account updated successfully',
+        cantchangedetailsofthisaccount: 'You cannot modify the details for this account',
     },
     [langOptions.POLISH]: {
         save: 'Zapisz zmiany',
@@ -39,6 +40,7 @@ export default <ILangOptions> {
         wrongcurrentpassword: 'Stare hasło jest nieprawidłowe',
         samenewpassword: 'Użyto starego hasła',
         unknowerror: 'Coś poszło nie tak...',
-        success: 'Zaktualizowano konto pomyślnie'
+        success: 'Zaktualizowano konto pomyślnie',
+        cantchangedetailsofthisaccount: 'Nie możesz modyfikować danych dla tego konta',
     }
 }

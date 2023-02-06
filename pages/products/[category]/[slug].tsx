@@ -20,9 +20,9 @@ interface IParams extends ParsedUrlQuery {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { category, slug } = context.params as IParams;
 
-    const res = await getData(`/products/${category}/${slug}`);
+    const { messageid, product } = await getData(`/products/${category}/${slug}`);
 
-    if (!res) {
+    if (!product || messageid === 'notfound') {
         return {
             notFound: true,
         };
@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
         props: {
-            product: res.product,
+            product,
         },
     };
 };

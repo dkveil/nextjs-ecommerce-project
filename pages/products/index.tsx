@@ -6,10 +6,6 @@ import ProductsPageTemplate from '../../templates/ProductsPageTemplate';
 import { GetServerSideProps } from 'next';
 
 const ProductsPage = ({ products }: { products: IProduct[] }) => {
-    const router = useRouter();
-
-    console.log(router);
-
     return <ProductsPageTemplate header="All" products={products} />;
 };
 

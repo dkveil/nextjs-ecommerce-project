@@ -31,8 +31,6 @@ const ProductsPageTemplate = ({ header, products, categoryParam }: IProductsPage
 
     const router = useRouter();
 
-    console.log(router);
-
     const { currentLanguage } = useGlobalContext();
 
     const filterSearch = () => {
@@ -124,6 +122,7 @@ const ProductsPageTemplate = ({ header, products, categoryParam }: IProductsPage
                 handleChangeFilters={handleChangeFilters}
                 setPriceFilters={setPriceFilters}
                 clearFilters={clearFilters}
+                category={categoryParam}
             />
             <ProductsList products={products} />
         </>

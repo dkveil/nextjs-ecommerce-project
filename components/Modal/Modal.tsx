@@ -2,17 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ModalContainer } from './Modal.styles';
 import { IoIosClose } from 'react-icons/io';
+import { useGlobalContext } from '../../context/GlobalContext';
 
 interface IModal {
     children: React.ReactNode;
     show: boolean;
     closeModal: () => void;
-    websiteTheme: 'light theme' | 'dark theme';
 }
 
-const Modal = ({ show, children, closeModal, websiteTheme }: IModal) => {
+const Modal = ({ show, children, closeModal }: IModal) => {
     const [isBrowser, setIsBrowser] = React.useState<boolean>(false);
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
+
+    const { websiteTheme } = useGlobalContext();
 
     React.useEffect(() => {
         setIsBrowser(true);

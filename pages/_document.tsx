@@ -31,9 +31,9 @@ export default class MyDocument extends Document {
         return (
             <Html lang="en">
                 <Head>
-                    <link href="/fonts/ProximaNovaBold.woff2" as="font" type="font/woff2" crossOrigin="" />
-                    <link href="/fonts/ProximaNovaRegular.woff2" as="font" type="font/woff2" crossOrigin="" />
-                    <link href="/fonts/ProximaNovaThin.woff2" as="font" type="font/woff2" crossOrigin="" />
+                    <link rel="preload" href="/fonts/ProximaNovaBold.woff2" as="font" type="font/woff2" crossOrigin="" />
+                    <link rel="preload" href="/fonts/ProximaNovaRegular.woff2" as="font" type="font/woff2" crossOrigin="" />
+                    <link rel="preload" href="/fonts/ProximaNovaThin.woff2" as="font" type="font/woff2" crossOrigin="" />
                 </Head>
                 <body>
                     <Main />

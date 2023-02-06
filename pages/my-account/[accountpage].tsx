@@ -10,7 +10,6 @@ import AccountDetailsForm from '../../components/AccountDetailsForm/AccountDetai
 import LoadingSpinner from '../../components/Loading/Loading';
 import type { IWishlistItem } from '../../components/WishlistItem/WishlistItem';
 import WishlistItem from '../../components/WishlistItem/WishlistItem';
-import orders from '../api/user/orders';
 
 const userNavItems = [
     {
@@ -24,10 +23,6 @@ const userNavItems = [
     {
         name: 'wishlist',
         path: '/my-account/wishlist',
-    },
-    {
-        name: 'logout',
-        path: '#',
     },
 ];
 
@@ -139,6 +134,25 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
                                     )}
                                 </NavItem>
                             ))}
+                            {user?.data.role === 'admin' ? (
+                                <NavItem>
+                                    <Link
+                                        href={{
+                                            pathname: '/admin',
+                                            query: {
+                                                accessToken: user?.accessToken,
+                                            },
+                                        }}
+                                    >
+                                        Admin
+                                    </Link>
+                                </NavItem>
+                            ) : null}
+                            <NavItem>
+                                <a href="#" onClick={handleLogoutClick}>
+                                    {texts[currentLanguage].logout}
+                                </a>
+                            </NavItem>
                         </ul>
                     </nav>
                     <div className="my-account__items">

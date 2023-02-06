@@ -11,7 +11,9 @@ export default <ILangOptions> {
         tshirts: 'T-shirt',
         hoodies: 'Hoodie',
         size: 'Size',
-        quantity: 'Quantity'
+        quantity: 'Quantity',
+        edit: 'Edit product',
+        delete: 'Delete product',
     },
     [langOptions.POLISH]: {
         currency: 'PLN',
@@ -19,6 +21,8 @@ export default <ILangOptions> {
         tshirts: 'Koszulka',
         hoodies: 'Bluza',
         size: 'Rozmiar',
-        quantity: 'Ilość'
+        quantity: 'Ilość',
+        edit: 'Edytuj produkt',
+        delete: 'Usuń produkt',
     }
 }

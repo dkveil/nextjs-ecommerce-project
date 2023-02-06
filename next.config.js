@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    domains: ['res.cloudinary.com'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,6 +12,37 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true
+  },
+  async headers() {
+    return [
+      {
+        source: '/fonts/ProximaNovaBold.woff2',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=315360, immutable'
+          }
+        ]
+      },
+      {
+        source: '/fonts/ProximaNovaRegular.woff2',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=315360, immutable'
+          }
+        ]
+      },
+      {
+        source: '/fonts/ProximaNovaThin.woff2',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=315360, immutable'
+          }
+        ]
+      },
+    ]
   }
 }
 

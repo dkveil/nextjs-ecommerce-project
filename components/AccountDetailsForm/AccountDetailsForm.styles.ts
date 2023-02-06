@@ -19,6 +19,7 @@ export const AccountDetailsFormWrapper = styled.form<{isLoading: boolean}>`
         background-color: transparent;
         border: 1px solid ${({theme}) => theme.color.body.accent};
         outline: none;
+        color: ${({theme}) => theme.color.text.primary};
     }
 
     .inputs-group{
@@ -66,9 +67,8 @@ export const AccountDetailsFormWrapper = styled.form<{isLoading: boolean}>`
 
 export const InputWrapper = styled.div<{error: boolean}>`
     width: 100%;
-
-    input{
-        border: 1px solid ${({theme, error}) => error ? '#dc3545' : theme.color.body.accent};
+    input, textarea, select {
+        border: 1px solid ${({theme, error}) => error ? '#dc3545' : theme.color.body.accent}!important;
     }
 
     .error-message{

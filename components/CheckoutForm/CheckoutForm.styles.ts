@@ -4,6 +4,10 @@ export const CheckoutFormWrapper = styled.form<{isLoading: boolean}>`
     width: 100%;
     max-width: 640px;
 
+    input{
+        color: ${({theme}) => theme.color.text.primary};
+    }
+
     h2{
         font-size: 32px;
         margin-bottom: 30px;
@@ -20,6 +24,8 @@ export const CheckoutFormWrapper = styled.form<{isLoading: boolean}>`
         display: flex;
         gap: 10px;
         flex-direction: column;
+
+
 
         ${({theme}) => theme.mq.tablet}{
             flex-direction: row;

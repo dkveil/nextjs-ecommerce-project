@@ -5,6 +5,10 @@ export const LoginContainer = styled.form<{isLoading: boolean | undefined, check
     max-width: 512px;
     color: ${({theme}) => theme.color.text.primary};
 
+    input{
+        color: ${({theme}) => theme.color.text.primary};
+    }
+
     .inner-form{
         padding: 30px 15px;
 

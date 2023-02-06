@@ -20,7 +20,10 @@ export default <ILangOptions> {
         delivered: 'Delivered?',
         yes: "Yes",
         no: 'No',
-        details: 'Details'
+        details: 'Details',
+        adminmode: 'Admin mode',
+        usermode: 'User mode',
+        products: 'Products'
     },
     [langOptions.POLISH]: {
         header: 'Moje konto',
@@ -37,6 +40,9 @@ export default <ILangOptions> {
         delivered: 'Dostarczono?',
         yes: "Tak",
         no: 'Nie',
-        details: 'Szczegóły'
+        details: 'Szczegóły',
+        adminmode: 'Tryb Administratora',
+        usermode: 'Tryb Użytkownika',
+        products: 'Produkty'
     }
 }
