@@ -1,7 +1,17 @@
 import React from 'react';
 import langOptions from '../utils/languageOptions';
 import ACTIONS from './Actions';
-import reducers from './Reducers';
+import reducers, {
+    ActionTypes,
+    ChangeThemeActionTypes,
+    LanguageActionTypes,
+    LogoutActionTypes,
+    NotifyActionTypes,
+    ShoppingCartActionTypes,
+    UserActionTypes,
+    UserDetailsActionTypes,
+    WishlistActionTypes,
+} from './Reducers';
 import { languageList } from '../helpers/languageList';
 import { getData, patchData } from '../utils/fetchData';
 import texts from './texts';
@@ -17,12 +27,12 @@ export interface ILanguageListItem {
 
 interface IGlobalContext {
     currentLanguage: 'ENG' | 'PL';
-    setCurrentLanguage: (lang: string) => void;
+    setCurrentLanguage: (lang: 'ENG' | 'PL') => void;
     languageList: ILanguageListItem[];
     notify: string | null;
     setNotify: (message: string | null) => void;
     user: IUser | null;
-    handleLogin: (userdata: IUser) => void;
+    handleLogin: (refreshToken: string | undefined, userdata: IUser) => void;
     setUserDetails: (userdetails: IUserDetails) => void;
     handleLogout: () => void;
     websiteTheme: 'light theme' | 'dark theme';
@@ -46,48 +56,53 @@ export const useGlobalContext = () => React.useContext(GlobalContext);
 
 export interface IInitialState {
     websiteTheme: 'light theme' | 'dark theme';
-    currentLanguage: null | string;
+    currentLanguage: 'ENG' | 'PL';
     notify: string | null;
-    loading: boolean;
     user: IUser | null;
-    shoppingcart: [];
+    shoppingcart: IShoppingCartItem[];
 }
 
 const initialState: IInitialState = {
     websiteTheme: 'light theme',
-    currentLanguage: langOptions.ENGLISH,
+    currentLanguage: langOptions.ENGLISH as 'ENG',
     notify: null,
-    loading: false,
     user: null,
     shoppingcart: [],
 };
 
 export const GlobalContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [state, dispatch] = React.useReducer(reducers, initialState);
+    const [state, dispatch] = React.useReducer<(arg1: IInitialState, actions: ActionTypes) => IInitialState>(reducers, initialState);
     const [globalLoading, setGlobalLoading] = React.useState<boolean>(false);
     const totalShoppingCartItems = state.shoppingcart.reduce((total: number, item: IShoppingCartItem) => total + item?.quantity, 0);
 
-    const setCurrentLanguage = (lang: string) => {
-        dispatch({ type: ACTIONS.LANGUAGE, payload: lang });
+    const setCurrentLanguage = (lang: 'PL' | 'ENG') => {
+        dispatch({ type: ACTIONS.LANGUAGE, payload: lang } as LanguageActionTypes);
         localStorage.setItem('language', lang);
     };
 
     const setNotify = (message: string | null) => {
-        dispatch({ type: ACTIONS.NOTIFY, payload: message });
+        dispatch({ type: ACTIONS.NOTIFY, payload: message } as LanguageActionTypes);
     };
 
-    const handleLogin = (userdata: IUser) => {
-        dispatch({ type: ACTIONS.USER, payload: userdata });
+    const handleLogin = (refreshToken: string | undefined, userdata: IUser) => {
+        dispatch({ type: ACTIONS.USER, payload: userdata } as UserActionTypes);
+
+        if (refreshToken) {
+            Cookie.set('refreshToken', refreshToken, {
+                path: 'api/auth/accessToken',
+                expires: 7,
+            });
+        }
     };
 
     const setUserDetails = (userdetails: IUserDetails) => {
-        dispatch({ type: ACTIONS.SET_USER_DETAILS, payload: userdetails });
+        dispatch({ type: ACTIONS.SET_USER_DETAILS, payload: userdetails } as UserDetailsActionTypes);
     };
 
     const handleLogout = () => {
         Cookie.remove('refreshToken', { path: 'api/auth/accessToken' });
         localStorage.removeItem('firstLogin');
-        dispatch({ type: ACTIONS.LOGOUT_USER });
+        dispatch({ type: ACTIONS.LOGOUT_USER } as LogoutActionTypes);
         setNotify(texts[state.currentLanguage].logout);
     };
 
@@ -97,7 +112,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         dispatch({
             type: ACTIONS.CHANGE_THEME,
             payload,
-        });
+        } as ChangeThemeActionTypes);
 
         localStorage.setItem('theme', payload);
     };
@@ -143,7 +158,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                     }
                     return item;
                 });
-                dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate });
+                dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate } as ShoppingCartActionTypes);
                 if (!addingFromShoppingCart) setNotify(texts[state.currentLanguage].addtocart);
                 return;
             }
@@ -162,7 +177,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                         quantity: 1,
                     },
                 ],
-            });
+            } as ShoppingCartActionTypes);
             if (!addingFromShoppingCart) setNotify(texts[state.currentLanguage].addtocart);
         } catch (error) {
             setNotify(texts[state.currentLanguage].unknownerror);
@@ -175,7 +190,11 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
         const productInCart =
             state.shoppingcart.find((item: IShoppingCartItem) => item._id === product._id && item.size === product.size) || null;
 
-        if (productInCart.quantity === 1) {
+        if (!productInCart) {
+            return;
+        }
+
+        if (productInCart?.quantity === 1) {
             removeShoppingCartItem(product);
             return;
         }
@@ -214,7 +233,7 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
                 return item;
             });
 
-            dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate });
+            dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate } as ShoppingCartActionTypes);
             if (!decreasingFromShoppingCart) setNotify(texts[state.currentLanguage].removefromcart);
         } catch (error) {
             setNotify(texts[state.currentLanguage].unknownerror);
@@ -228,7 +247,10 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
             (item: IShoppingCartItem) => !(product._id === item._id && product.size === item.size)
         );
 
-        dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: newshoppingcartstate });
+        dispatch({
+            type: ACTIONS.SET_SHOPPING_CART,
+            payload: newshoppingcartstate,
+        } as ShoppingCartActionTypes);
     };
 
     const updateShoppingCartItems = async () => {
@@ -266,17 +288,20 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
             })
         );
 
-        dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: shoppingCartUpdate });
+        dispatch({
+            type: ACTIONS.SET_SHOPPING_CART,
+            payload: shoppingCartUpdate,
+        } as ShoppingCartActionTypes);
 
         return shoppingCartChanges;
     };
 
     const clearShoppingCart = () => {
-        dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: [] });
+        dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: [] } as ShoppingCartActionTypes);
     };
 
-    const setWishlistState = (newWishlistState: { productId: string; createdAt: string }) => {
-        dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState });
+    const setWishlistState = (newWishlistState: { productId: string; createdAt: string }[]) => {
+        dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState } as WishlistActionTypes);
     };
 
     const handleWishlist = async (id: string) => {
@@ -298,10 +323,13 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
             if (messageid === 'addedtowishlist') {
                 const newWishlistState = [...state.user.data.wishlist, wishlistitem];
 
-                dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState });
+                dispatch({ type: ACTIONS.SET_WISHLIST, payload: newWishlistState } as WishlistActionTypes);
             }
             if (messageid === 'removedfromwishlist') {
-                dispatch({ type: ACTIONS.SET_WISHLIST, payload: state.user.data.wishlist.filter((item) => item.productId !== id) });
+                dispatch({
+                    type: ACTIONS.SET_WISHLIST,
+                    payload: state.user.data.wishlist.filter((item) => item.productId !== id),
+                } as WishlistActionTypes);
             }
 
             setNotify(texts[state.currentLanguage][messageid]);
@@ -314,18 +342,21 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
     React.useEffect(() => {
         if (localStorage.getItem('language')) {
-            setCurrentLanguage(localStorage.getItem('language')!);
+            setCurrentLanguage(localStorage.getItem('language') as 'ENG' | 'PL');
             return;
         }
-        setCurrentLanguage(langOptions.ENGLISH);
+        setCurrentLanguage(langOptions.ENGLISH as 'ENG');
     }, []);
 
     React.useEffect(() => {
         if (localStorage.getItem('theme')) {
-            dispatch({ type: ACTIONS.CHANGE_THEME, payload: localStorage.getItem('theme')! });
+            dispatch({
+                type: ACTIONS.CHANGE_THEME,
+                payload: localStorage.getItem('theme') as 'light theme' | 'dark theme',
+            } as ChangeThemeActionTypes);
             return;
         }
-        dispatch({ type: ACTIONS.CHANGE_THEME, payload: 'light theme' });
+        dispatch({ type: ACTIONS.CHANGE_THEME, payload: 'light theme' } as ChangeThemeActionTypes);
         localStorage.setItem('theme', 'light theme');
     }, []);
 
@@ -340,14 +371,17 @@ export const GlobalContextProvider = ({ children }: { children: React.ReactNode 
 
                 const { accessToken, data } = res;
 
-                handleLogin({ accessToken, data });
+                handleLogin(undefined, { accessToken, data });
             });
         }
     }, []);
 
     React.useEffect(() => {
         if (localStorage.getItem('shopping_cart_items')) {
-            dispatch({ type: ACTIONS.SET_SHOPPING_CART, payload: JSON.parse(localStorage.getItem('shopping_cart_items')) });
+            dispatch({
+                type: ACTIONS.SET_SHOPPING_CART,
+                payload: JSON.parse(localStorage.getItem('shopping_cart_items')!),
+            } as ShoppingCartActionTypes);
         }
     }, []);
 

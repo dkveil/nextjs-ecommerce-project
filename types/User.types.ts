@@ -4,11 +4,11 @@ export interface IUser {
 }
 
 export interface IUserDetails {
-    email: string;
+    email?: string;
     wishlist: { productId: string, createdAt: string }[];
-    firstName: string;
-    lastName: string;
-    phone: string;
-    role: string;
-    root: boolean;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    role?: string;
+    root?: boolean;
 };

@@ -76,14 +76,9 @@ const Login = ({
                     return;
                 }
 
-                handleLogin({
+                handleLogin(refreshToken, {
                     accessToken,
                     data,
-                });
-
-                Cookie.set('refreshToken', refreshToken, {
-                    path: 'api/auth/accessToken',
-                    expires: 7,
                 });
 
                 localStorage.setItem('firstLogin', 'true');

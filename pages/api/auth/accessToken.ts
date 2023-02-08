@@ -1,8 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import connectDB from "../../../utils/connectDB";
-import jwt, {JwtPayload} from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import Users from "../../../models/userModel";
 import { createAccessToken } from "../../../utils/generateToken";
+
+interface JwtPayloadExtended extends JwtPayload {
+    id: string
+}
 
 connectDB()
 
@@ -14,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const result = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
         if(!result) return res.status(400).json({messageid: 'pleaselogin'})
 
-        const user = await Users.findById(result.id)
+        const user = await Users.findById((result as JwtPayloadExtended).id)
         if(!user) return res.status(400).json({message: 'userdoesntexists'})
 
         const accessToken = createAccessToken({id: user._id})

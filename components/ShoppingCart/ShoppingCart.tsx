@@ -11,15 +11,16 @@ import { useRouter } from 'next/router';
 
 interface IShoppingCart {
     open: boolean;
-    websiteTheme: 'light theme' | 'dark theme';
     closeCart: () => void;
 }
 
-const ShoppingCart = ({ open, websiteTheme, closeCart }: IShoppingCart) => {
+const ShoppingCart = ({ open, closeCart }: IShoppingCart) => {
     const [isBrowser, setIsBrowser] = React.useState<boolean>(false);
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
     const [checkoutLoading, setCheckoutLoading] = React.useState<boolean>(false);
     const { currentLanguage, shoppingcart, totalShoppingCartItems, updateShoppingCartItems, setNotify } = useGlobalContext();
+
+    const { websiteTheme } = useGlobalContext();
 
     const router = useRouter();
 

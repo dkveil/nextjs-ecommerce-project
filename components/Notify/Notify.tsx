@@ -3,29 +3,27 @@ import ReactDOM from 'react-dom';
 import { NotifyWrapper } from './Notify.styles';
 import { useGlobalContext } from '../../context/GlobalContext';
 
-const Notify = ({ websiteTheme }: { websiteTheme: 'light theme' | 'dark theme' }) => {
-    const { notify, setNotify } = useGlobalContext();
-
-    if (!notify) return null;
-
+const Notify = ({ notify }: { notify: string | null }) => {
     const [isBrowser, setBrowser] = React.useState(false);
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
 
+    const { setNotify, websiteTheme } = useGlobalContext();
+
     React.useEffect(() => {
-        setBrowser(true);
-        setTimeout(() => {
-            setCloseAnimation(true);
-        }, 4000);
+        if (notify) {
+            setBrowser(true);
+            setTimeout(() => {
+                setCloseAnimation(true);
+            }, 4000);
 
-        setTimeout(() => {
-            setNotify(null);
-        }, 4400);
+            setTimeout(() => {
+                setNotify(null);
+                setCloseAnimation(false);
+            }, 4400);
+        }
+    }, [notify]);
 
-        return () => {
-            setBrowser(false);
-            setCloseAnimation(false);
-        };
-    }, []);
+    if (!notify) return null;
 
     if (isBrowser) {
         return ReactDOM.createPortal(

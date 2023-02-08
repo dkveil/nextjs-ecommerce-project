@@ -1,5 +1,3 @@
-import { ActionTypes } from "./Reducers"
-
 const ACTIONS = {
     LANGUAGE: 'LANGUAGE',
     NOTIFY: 'NOTIFY',

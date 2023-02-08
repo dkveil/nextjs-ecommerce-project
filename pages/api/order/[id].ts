@@ -7,11 +7,17 @@ connectDB()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     try{
-        const { id } = req.query;
+        const { id: orderId } = req.query;
 
-        const authResult = await auth(req, res) as { id: string }
+        const authResult = await auth(req, res) as { id: string, role: string, root: boolean }
 
-        const order = await Orders.findOne({_id: id, user: authResult.id})
+        let order;
+
+        if(authResult.role === 'admin' && authResult.root){
+            order = await Orders.findOne({_id: orderId})
+        } else {
+            order = await Orders.findOne({_id: orderId, user: authResult.id})
+        }
 
         res.json({
             order

@@ -7,17 +7,21 @@ connectDB();
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
         case 'GET':
-            await getNewestProducts(req, res);
+            await getHomepageProducts(req, res);
             break;
     }
 };
 
-const getNewestProducts = async (req: NextApiRequest, res: NextApiResponse) => {
+const getHomepageProducts = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+        const newestproducts = await Products.find().sort({ _id: -1 }).limit(5);
         const featuredproducts = await Products.find().sort({sold: -1}).limit(5);
+        const lastweekproducts = await Products.find({timestamp: { $gte: new Date(new Date().getTime() - 7 * 60 * 69 * 24 * 1000)}})
 
         res.json({
+            newestproducts,
             featuredproducts,
+            lastweekproductslength: lastweekproducts.length
         });
 
     } catch (error) {

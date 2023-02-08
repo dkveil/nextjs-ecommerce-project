@@ -70,8 +70,7 @@ const WishlistItem = ({
                     <div className="wishlist-product-details__price">
                         <span>{texts[currentLanguage].price}</span>
                         <span>
-                            {texts[currentLanguage].currency}
-                            {price[currentLanguage]}
+                            {texts[currentLanguage].currency} {price[currentLanguage].toFixed(2)}
                         </span>
                     </div>
                 </div>

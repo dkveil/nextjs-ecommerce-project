@@ -11,17 +11,15 @@ import { MdOutlineArrowBackIos } from 'react-icons/md';
 import { getData } from '../../utils/fetchData';
 import useWindowDimensions from '../../hooks/useWindowDimensions.hook';
 import LoadingSpinner from '../Loading/Loading';
-import type { ISearchPanelItem } from '../SearchPanelItem/SearchPanelItem';
 import SearchPanelItem from '../SearchPanelItem/SearchPanelItem';
 import type { IProduct } from '../../types/Product.types';
 
 interface ISearchPanel {
     open: boolean;
-    websiteTheme: 'light theme' | 'dark theme';
     closePanel: () => void;
 }
 
-const SearchPanel = ({ open, websiteTheme, closePanel }: ISearchPanel) => {
+const SearchPanel = ({ open, closePanel }: ISearchPanel) => {
     const [isBrowser, setIsBrowser] = React.useState<boolean>(false);
     const [closeAnimation, setCloseAnimation] = React.useState<boolean>(false);
     const [searchValue, setSearchValue] = React.useState<string>('');
@@ -31,7 +29,7 @@ const SearchPanel = ({ open, websiteTheme, closePanel }: ISearchPanel) => {
 
     const { isDesktop } = useWindowDimensions();
 
-    const { currentLanguage } = useGlobalContext();
+    const { currentLanguage, websiteTheme } = useGlobalContext();
 
     React.useEffect(() => {
         setIsBrowser(true);

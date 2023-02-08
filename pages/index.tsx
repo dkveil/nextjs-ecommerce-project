@@ -9,10 +9,11 @@ import FeaturedProducts from '../containers/homepage/Featured/FeaturedProducts';
 interface HomeProps {
     newestproducts: IProduct[];
     featuredproducts: IProduct[];
+    lastweekproductslength: number;
 }
 
 const Home = (props: HomeProps) => {
-    const { newestproducts, featuredproducts } = props;
+    const { newestproducts, featuredproducts, lastweekproductslength } = props;
 
     return (
         <>
@@ -20,20 +21,20 @@ const Home = (props: HomeProps) => {
                 <title>Homepage</title>
             </Head>
             <Hero />
-            <NewestProducts products={newestproducts} />
+            <NewestProducts products={newestproducts} lastWeekProductsLength={lastweekproductslength} />
             <FeaturedProducts products={featuredproducts} />
         </>
     );
 };
 
 export const getServerSideProps = async () => {
-    const { newestproducts } = await getData(`/products/newest`);
-    const { featuredproducts } = await getData(`/products/mostpopular`);
+    const { newestproducts, featuredproducts, lastweekproductslength } = await getData(`/products/homepage`);
 
     return {
         props: {
             newestproducts,
             featuredproducts,
+            lastweekproductslength,
         },
     };
 };

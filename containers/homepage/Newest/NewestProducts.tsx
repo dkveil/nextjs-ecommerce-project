@@ -11,7 +11,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { media } from '../../../styles/theme';
 import Slider from 'react-slick';
 
-const NewestProducts = ({ products }: { products: IProduct[] }) => {
+const NewestProducts = ({ products, lastWeekProductsLength }: { products: IProduct[]; lastWeekProductsLength: number }) => {
     const { currentLanguage } = useGlobalContext();
     const slider = React.useRef<Slider>(null);
 
@@ -41,7 +41,11 @@ const NewestProducts = ({ products }: { products: IProduct[] }) => {
             <div className="container">
                 <div className="inner-newest-products">
                     <div className="newest-products__desc">
-                        <span>4 new items</span>
+                        {lastWeekProductsLength && (
+                            <span>
+                                {lastWeekProductsLength} {texts[currentLanguage].newitemsthisweek}
+                            </span>
+                        )}
                         <h2>{texts[currentLanguage].whatsnew}</h2>
                         <p>
                             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis perspiciatis maxime a? Eos culpa maxime, hic

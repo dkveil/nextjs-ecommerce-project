@@ -17,7 +17,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const [openShoppingCart, setOpenShoppingCart] = React.useState<boolean>(false);
     const [openSearchPanel, setOpenSearchPanel] = React.useState<boolean>(false);
 
-    const { websiteTheme, globalLoading } = useGlobalContext();
+    const { websiteTheme, notify, globalLoading } = useGlobalContext();
 
     React.useEffect(() => {
         if (websiteTheme === 'light theme') {
@@ -39,12 +39,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
             />
             <main>{children}</main>
             <Footer />
-            <Modal show={openLoginModal} closeModal={() => setOpenLoginModal(false)} websiteTheme={websiteTheme}>
+            <Modal show={openLoginModal} closeModal={() => setOpenLoginModal(false)}>
                 <Login type="login" closeLoginForm={() => setOpenLoginModal(false)} />
             </Modal>
-            <ShoppingCart open={openShoppingCart} websiteTheme={websiteTheme} closeCart={() => setOpenShoppingCart(false)} />
-            <SearchPanel open={openSearchPanel} websiteTheme={websiteTheme} closePanel={() => setOpenSearchPanel(false)} />
-            <Notify websiteTheme={websiteTheme} />
+            <ShoppingCart open={openShoppingCart} closeCart={() => setOpenShoppingCart(false)} />
+            <SearchPanel open={openSearchPanel} closePanel={() => setOpenSearchPanel(false)} />
+            <Notify notify={notify} />
             <LoadingContainer open={globalLoading} />
         </ThemeProvider>
     );

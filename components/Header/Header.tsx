@@ -21,7 +21,7 @@ const WebsiteMenu = () => {
                                 <LangItem key={lang.id}>
                                     <button
                                         className={currentLanguage === lang.id ? 'active' : undefined}
-                                        onClick={() => setCurrentLanguage(lang.id)}
+                                        onClick={() => setCurrentLanguage(lang.id as 'ENG' | 'PL')}
                                     >
                                         {lang.shortcut}
                                     </button>

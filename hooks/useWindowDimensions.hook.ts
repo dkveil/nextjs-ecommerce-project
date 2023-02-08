@@ -8,6 +8,7 @@ interface IWindowSize {
 
 const useWindowDimensions = () => {
     const [windowSize, setWindowSize] = React.useState<IWindowSize>({width: 0, height: 0})
+    const [isDesktop, setIsDesktop] = React.useState<boolean>(windowSize.width >= media.desktop)
 
     const handleResize = () => {
         setWindowSize({
@@ -22,9 +23,13 @@ const useWindowDimensions = () => {
         return () => window.removeEventListener('resize', handleResize)
     },[])
 
+    React.useEffect(() => {
+        setIsDesktop(windowSize.width >= media.desktop)
+    }, [windowSize])
+
     return {
         windowSize,
-        isDesktop: windowSize.width >= media.desktop,
+        isDesktop
     };
 }
 

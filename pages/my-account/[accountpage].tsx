@@ -112,7 +112,7 @@ const MyAccountPage = ({ params }: { params: { accountpage: string } }) => {
         if (accountpage === 'wishlist') {
             getWishlist();
         }
-    }, [params.accountpage, user]);
+    }, [accountpage, user]);
 
     return (
         <MyAccountSection>

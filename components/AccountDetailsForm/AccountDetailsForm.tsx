@@ -61,8 +61,6 @@ const AccountDetailsForm = () => {
             try {
                 const { messageid, data } = await patchData('user/patch', { ...values }, user?.accessToken);
 
-                console.log(data);
-
                 setNotify(texts[currentLanguage][messageid]);
             } catch (error) {
                 setNotify(texts[currentLanguage].unknowerror);

@@ -1,24 +1,26 @@
+import { IShoppingCartItem } from "../types/ShoppingCartItem.types";
+import { IUser, IUserDetails } from "../types/User.types";
 import ACTIONS from "./Actions";
 import type { IInitialState } from "./GlobalContext";
 
-const reducers = (state: IInitialState, action: ActionTypes) => {
+const reducers = (state: IInitialState, action: ActionTypes): IInitialState => {
     switch(action.type){
-        case ACTIONS.LANGUAGE:
+        case ACTIONS.LANGUAGE as LanguageActionTypes["type"]:
             return {
                 ...state,
                 currentLanguage: action.payload
             }
-        case ACTIONS.NOTIFY:
+        case ACTIONS.NOTIFY as NotifyActionTypes["type"]:
             return {
                 ...state,
                 notify: action.payload
             }
-        case ACTIONS.USER:
+        case ACTIONS.USER  as UserActionTypes["type"]:
             return {
                 ...state,
                 user: action.payload
             }
-        case ACTIONS.SET_USER_DETAILS:
+        case ACTIONS.SET_USER_DETAILS as UserDetailsActionTypes["type"]:
             return {
                 ...state,
                 user: {
@@ -26,22 +28,22 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
                     data: action.payload
                 }
             }
-        case ACTIONS.LOGOUT_USER:
+        case ACTIONS.LOGOUT_USER as LogoutActionTypes["type"]:
             return {
                 ...state,
                 user: null
             }
-        case ACTIONS.CHANGE_THEME:
+        case ACTIONS.CHANGE_THEME as ChangeThemeActionTypes["type"]:
             return{
                 ...state,
                 websiteTheme: action.payload
             }
-        case ACTIONS.SET_SHOPPING_CART:
+        case ACTIONS.SET_SHOPPING_CART as ShoppingCartActionTypes["type"]:
             return {
                 ...state,
                 shoppingcart: action.payload
             }
-        case ACTIONS.SET_WISHLIST:
+        case ACTIONS.SET_WISHLIST as WishlistActionTypes["type"]:
             return {
                 ...state,
                 user: {
@@ -59,28 +61,43 @@ const reducers = (state: IInitialState, action: ActionTypes) => {
 
 export default reducers
 
-type LanguageActionTypes = {
+export type LanguageActionTypes = {
     type: 'LANGUAGE',
-    payload: string
+    payload: 'ENG' | 'PL'
 }
 
-type NotifyActionTypes = {
+export type NotifyActionTypes = {
     type: 'NOTIFY',
-    payload: string
+    payload: string | null
 }
 
-type UserActionTypes = {
+export type UserActionTypes = {
     type: 'USER',
-    payload: null
+    payload: IUser
 }
 
-type LogoutActionTypes = {
+export type UserDetailsActionTypes = {
+    type: 'SET USER DETAILS',
+    payload: IUserDetails
+}
+
+export type LogoutActionTypes = {
     type: 'LOGOUT USER';
-    payload?: string
 }
 
-type ChangeThemeActionTypes = {
+export type ChangeThemeActionTypes = {
     type: 'CHANGE THEME',
-    payload?: 'light theme' | 'change theme'
+    payload: 'light theme' | 'dark theme'
 }
-export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes | LogoutActionTypes | ChangeThemeActionTypes;
+
+export type ShoppingCartActionTypes = {
+    type: 'SET SHOPPING CART',
+    payload: IShoppingCartItem[]
+}
+
+export type WishlistActionTypes = {
+    type: 'SET WISHLIST',
+    payload: { productId: string, createdAt: string }[]
+}
+
+export type ActionTypes = LanguageActionTypes | NotifyActionTypes | UserActionTypes | UserDetailsActionTypes |  LogoutActionTypes | ChangeThemeActionTypes | ShoppingCartActionTypes | WishlistActionTypes
