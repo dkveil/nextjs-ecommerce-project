@@ -11,7 +11,7 @@ const ProductsPage = ({ products }: { products: IProduct[] }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     const { products } = await getData(
-        `/products?${query.sortby ? `sortby=${query.sortby}&` : ''}${query.size ? `size=${query.size}&` : ''}${
+        `products?${query.sortby ? `sortby=${query.sortby}&` : ''}${query.size ? `size=${query.size}&` : ''}${
             query.minPrice ? `minPrice=${query.minPrice}&` : ''
         }${query.maxPrice ? `maxPrice=${query.maxPrice}&` : ''}${query.lang ? `lang=${query.lang}` : ''}`
     );

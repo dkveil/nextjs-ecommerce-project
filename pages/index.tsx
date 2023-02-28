@@ -28,7 +28,9 @@ const Home = (props: HomeProps) => {
 };
 
 export const getServerSideProps = async () => {
-    const { newestproducts, featuredproducts, lastweekproductslength } = await getData(`/products/homepage`);
+    const res = await getData(`products/homepage`);
+
+    const { newestproducts, featuredproducts, lastweekproductslength } = res;
 
     return {
         props: {

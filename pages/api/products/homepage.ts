@@ -25,6 +25,7 @@ const getHomepageProducts = async (req: NextApiRequest, res: NextApiResponse) =>
         });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ messageid: 'unknowerror' });
     }
 };

@@ -11,10 +11,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query }) 
     const { category } = params as { category: string };
 
     const res = await getData(
-        `/products/${category}/?${query.sortby ? `sortby=${query.sortby}&` : ''}${query.size ? `size=${query.size}&` : ''}${
+        `products/${category}?${query.sortby ? `sortby=${query.sortby}&` : ''}${query.size ? `size=${query.size}&` : ''}${
             query.minPrice ? `minPrice=${query.minPrice}&` : ''
         }${query.maxPrice ? `maxPrice=${query.maxPrice}&` : ''}${query.lang ? `lang=${query.lang}` : ''}`
-    );
+    ).catch((error) => {
+        console.log(error);
+    });
 
     return {
         props: {

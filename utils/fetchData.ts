@@ -1,4 +1,3 @@
-import { string } from 'yup';
 import { server } from '../config';
 
 const headersConfig = {
